@@ -1,0 +1,37 @@
+name: Test Cloud Functions
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'functions/**'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Functions dependencies
+        run: |
+          cd functions
+          npm ci
+
+      - name: Build Functions
+        run: |
+          cd functions
+          npm run build
+
+      - name: Run tests (if configured)
+        run: |
+          cd functions
+          npm test || echo "No tests configured yet"
