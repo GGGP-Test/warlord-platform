@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <title>Warlord — Login</title>
+
+  <!-- Plus Jakarta Sans for headings -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
+  
+  <!-- Inter for body text -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      /* === WARLORD WHITE THEME === */
+      --content-w: min(960px, 92vw);
+      --title-fs: clamp(28px, 5.6vw, 48px);
+      --safe-top: env(safe-area-inset-top);
+      --safe-bottom: env(safe-area-inset-bottom);
+      
+      /* Colors - Premium Light Theme */
+      --color-bg: #FAFAFA;
+      --color-surface: #FFFFFF;
+      --color-text: #0A0A0A;
+      --color-text-muted: #6B7280;
+      --color-text-light: #9CA3AF;
+      --color-primary: #3B82F6;
+      --color-primary-hover: #2563EB;
+      --color-primary-light: #DBEAFE;
+      --color-border: #E5E7EB;
+      --color-error: #EF4444;
+      
+      /* Glass Morphism */
+      --glass-bg: rgba(255, 255, 255, 0.8);
+      --glass-border: rgba(0, 0, 0, 0.08);
+      --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      
+      /* Animation */
+      --transition-base: 280ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; }
+    
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: var(--color-bg);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--color-text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      
+      /* Subtle gradient background */
+      background: linear-gradient(180deg, #FAFAFA 0%, #F5F5F5 100%);
+    }
+
+    .wrap {
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: calc(20px + var(--safe-top)) 16px calc(20px + var(--safe-bottom));
+    }
+
+    .stage {
+      width: var(--content-w);
+      transition: opacity var(--transition-base), transform var(--transition-base);
+    }
+
+    /* Topbar */
+    .topbar {
+      position: fixed;
+      top: calc(var(--safe-top) + 16px);
+      left: 0;
+      right: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--color-text);
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      transition: all var(--transition-fast);
+    }
+
+    .brand:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .brand-icon {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(135deg, var(--color-primary) 0%, #2563EB 100%);
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .brand-text {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    /* Typography */
+    h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: var(--title-fs);
+      line-height: 1.1;
+      margin: 0 0 16px 0;
+      text-align: center;
+      letter-spacing: -0.02em;
+      color: var(--color-text);
+    }
+
+    .subtitle {
+      color: var(--color-text-muted);
+      font-size: 16px;
+      margin: 0 0 32px 0;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* OAuth Buttons */
+    .chip-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      color: var(--color-text);
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      transition: all var(--transition-base);
+      box-shadow: var(--glass-shadow);
+    }
+
+    .chip:hover {
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .chip svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Divider */
+    .hr {
+      width: 100%;
+      max-width: 560px;
+      height: 1px;
+      margin: 24px auto;
+      background: linear-gradient(90deg, transparent, var(--color-border), transparent);
+    }
+
+    .muted {
+      color: var(--color-text-muted);
+      font-size: 14px;
+      text-align: center;
+      margin: 0 0 24px 0;
+    }
+
+    /* Form Fields */
+    .field-wrap {
+      width: min(420px, 100%);
+      margin: 0 auto 16px;
+      position: relative;
+    }
+
+    .pressed {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 16px;
+      height: 52px;
+      background: var(--color-surface);
+      border: 1.5px solid var(--color-border);
+      border-radius: 12px;
+      transition: all var(--transition-fast);
+    }
+
+    .pressed:focus-within {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .left-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--color-text-muted);
+      flex-shrink: 0;
+    }
+
+    input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 15px;
+      color: var(--color-text);
+      font-family: 'Inter', sans-serif;
+    }
+
+    input::placeholder {
+      color: var(--color-text-light);
+    }
+
+    .field-cta {
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%) scale(0.9);
+      opacity: 0;
+      pointer-events: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, var(--color-primary) 0%, #2563EB 100%);
+      color: white;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: all var(--transition-base);
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
+    }
+
+    .pressed.show-cta .field-cta {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(-50%) scale(1);
+    }
+
+    .field-cta:hover {
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+    }
+
+    .field-cta svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Status Messages */
+    .inline-error {
+      width: min(420px, 100%);
+      margin: 0 auto 16px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: #DC2626;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .inline-error a {
+      color: #DC2626;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    .inline-note {
+      width: min(420px, 100%);
+      margin: 0 auto 16px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: var(--color-primary-light);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      color: var(--color-primary-hover);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .small-row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 16px;
+      font-size: 14px;
+      color: var(--color-text-muted);
+    }
+
+    .small-row a {
+      color: var(--color-primary);
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .small-row a:hover {
+      text-decoration: underline;
+    }
+
+    .single-action {
+      display: grid;
+      place-items: center;
+      margin-top: 14px;
+    }
+
+    .btn-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, var(--color-primary) 0%, #2563EB 100%);
+      color: white;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: all var(--transition-base);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+    }
+
+    .btn-icon:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.35);
+    }
+
+    .btn-icon:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    body.leaving .stage {
+      opacity: 0;
+      transform: translateY(10px) scale(0.98);
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    /* Responsive */
+    @media (max-width: 720px) {
+      .topbar {
+        padding: 0 16px;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
+    }
+  </style>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <!-- Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+  <div class="topbar">
+    <a class="brand" href="/" aria-label="Warlord Platform">
+      <div class="brand-icon">W</div>
+      <span class="brand-text">Warlord</span>
+    </a>
+  </div>
+
+  <main class="wrap">
+    <div class="stage">
+
+      <h1>Login</h1>
+      <p class="subtitle">Sign in with</p>
+
+      <div class="chip-row">
+        <a class="chip" id="googleBtn" href="#" aria-label="Sign in with Google">
+          <svg width="20" height="20" viewBox="0 0 533.5 544.3" role="img">
+            <path fill="#4285F4" d="M533.5 278.4c0-18.4-1.7-36-4.9-53.1H272v100.5h146.9c-6.3 34-25 62.8-53.1 82v68h85.7c50.1-46.2 81.9-114.1 81.9-197.4z"/>
+            <path fill="#34A853" d="M272 544.3c72.2 0 132.8-23.9 177.1-64.9l-85.7-68c-23.8 16-54.2 25.5-91.4 25.5-70 0-129.4-47.2-150.6-110.8H33.1v69.6c44.2 87.8 135.2 148.6 238.9 148.6z"/>
+            <path fill="#FBBC04" d="M121.4 326.1c-11.2-33.5-11.2-69.6 0-103.1V153.4H33.1c-40.1 79.9-40.1 175.2 0 255.1l88.3-69.6z"/>
+            <path fill="#EA4335" d="M272 107.7c39.2-.6 76.7 14 104.8 41.2l78.3-78.3C411.7 18.1 344.2-5.3 272 0 168.3 0 77.3 60.8 33.1 148.6l88.3 69.6C142.7 154.6 202 107.7 272 107.7z"/>
+          </svg>
+          <span>Google</span>
+        </a>
+      </div>
+
+      <div class="hr" aria-hidden="true"></div>
+
+      <div id="inlineStatus" class="inline-error" role="alert" hidden></div>
+
+      <div id="verifyPanel" class="inline-note" hidden>
+        We sent a verification link to <strong id="vEmail">-</strong>. 
+        Open it to verify, then <a id="loginLinkInline" href="/auth/login/">log in</a>.
+        <div class="small-row">
+          <a id="resendLink">Resend</a><span>·</span><a id="changeEmail">Use different email</a>
+        </div>
+      </div>
+
+      <div class="muted">OR</div>
+
+      <div class="field-wrap">
+        <div class="pressed" id="emailBox">
+          <span class="left-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 7l9 6 9-6"/>
+            </svg>
+          </span>
+          <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="Work email"/>
+          <button id="emailNext" class="field-cta" type="button" aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18l6-6-6-6"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="field-wrap" id="pwdWrap" hidden>
+        <div class="pressed" id="pwdBox">
+          <span class="left-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="10" rx="3"/><path d="M7 11V8a5 5 0 0 1 10 0v3"/>
+            </svg>
+          </span>
+          <input id="password" type="password" autocomplete="current-password" placeholder="Password"/>
+          <button id="pwdNext" class="field-cta" type="button" aria-label="Sign in">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18l6-6-6-6"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="small-row">
+          <a id="forgotLink" href="#" role="button">Forgot password?</a>
+        </div>
+      </div>
+
+      <div class="single-action">
+        <button type="button" id="backBtn" class="btn-icon" aria-label="Back" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 18l-6-6 6-6"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="small-row" id="signupRow">
+        <span>Don't have an account?</span>
+        <a id="goSignup" href="/auth/signup/">Create one</a>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Firebase Config - Warlord Platform
+    const FIREBASE_CONFIG = {
+      apiKey: "AIzaSyC7kVZXf-Vp8cOZGEOYhIKU0Dli7cS2Iwc",
+      authDomain: "warlord-1cbe3.firebaseapp.com",
+      projectId: "warlord-1cbe3",
+      storageBucket: "warlord-1cbe3.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdef"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(FIREBASE_CONFIG);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // DOM Elements
+    const emailInput = document.getElementById('email');
+    const emailNext = document.getElementById('emailNext');
+    const emailBox = document.getElementById('emailBox');
+    const pwdWrap = document.getElementById('pwdWrap');
+    const pwdBox = document.getElementById('pwdBox');
+    const pwdInput = document.getElementById('password');
+    const pwdNext = document.getElementById('pwdNext');
+    const backBtn = document.getElementById('backBtn');
+    const googleBtn = document.getElementById('googleBtn');
+    const statusEl = document.getElementById('inlineStatus');
+    const verifyPanel = document.getElementById('verifyPanel');
+    const forgotLink = document.getElementById('forgotLink');
+
+    let busy = false;
+
+    function showError(msg) {
+      statusEl.textContent = msg;
+      statusEl.hidden = false;
+    }
+
+    function hideError() {
+      statusEl.hidden = true;
+      statusEl.textContent = '';
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email.trim());
+    }
+
+    function updateEmailCTA() {
+      const valid = isValidEmail(emailInput.value) && pwdWrap.hidden;
+      emailBox.classList.toggle('show-cta', valid);
+    }
+
+    function updatePwdCTA() {
+      const valid = pwdInput.value.length >= 6;
+      pwdBox.classList.toggle('show-cta', valid);
+    }
+
+    function setEmailStage() {
+      pwdWrap.hidden = true;
+      backBtn.hidden = true;
+      verifyPanel.hidden = true;
+      hideError();
+      updateEmailCTA();
+    }
+
+    function setPasswordStage() {
+      pwdWrap.hidden = false;
+      backBtn.hidden = false;
+      verifyPanel.hidden = true;
+      hideError();
+      updatePwdCTA();
+      pwdInput.focus();
+    }
+
+    // Email handlers
+    emailInput.addEventListener('input', updateEmailCTA);
+    emailInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && isValidEmail(emailInput.value)) {
+        e.preventDefault();
+        emailNext.click();
+      }
+    });
+
+    // Password handlers
+    pwdInput.addEventListener('input', updatePwdCTA);
+    pwdInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && pwdInput.value.length >= 6) {
+        e.preventDefault();
+        pwdNext.click();
+      }
+    });
+
+    // Email validation
+    emailNext.addEventListener('click', async () => {
+      if (busy) return;
+      hideError();
+
+      const email = emailInput.value.trim();
+      if (!isValidEmail(email)) {
+        showError('Please enter a valid email address.');
+        return;
+      }
+
+      busy = true;
+      showError('Checking email...');
+
+      try {
+        const methods = await auth.fetchSignInMethodsForEmail(email);
+        hideError();
+
+        if (methods && methods.length > 0) {
+          if (methods.includes('password')) {
+            setPasswordStage();
+          } else if (methods.includes('google.com')) {
+            showError('Use Google sign-in for this email.');
+          } else {
+            showError('Use your configured sign-in method.');
+          }
+        } else {
+          showError('No account found. Create one instead.');
+        }
+        busy = false;
+      } catch (err) {
+        showError('Network error. Please try again.');
+        busy = false;
+      }
+    });
+
+    // Back button
+    backBtn.addEventListener('click', setEmailStage);
+
+    // Password login
+    pwdNext.addEventListener('click', async () => {
+      if (busy) return;
+      hideError();
+
+      const email = emailInput.value.trim();
+      const password = pwdInput.value;
+
+      if (!isValidEmail(email)) {
+        showError('Enter a valid email first.');
+        return;
+      }
+      if (password.length < 6) {
+        showError('Password is too short.');
+        return;
+      }
+
+      busy = true;
+      showError('Signing in...');
+
+      try {
+        const cred = await auth.signInWithEmailAndPassword(email, password);
+        const user = cred.user;
+
+        try { await user.reload(); } catch (_) {}
+        try { localStorage.setItem('gg_pending_email', email); } catch (_) {}
+
+        if (user.emailVerified) {
+          // Redirect to bridge
+          window.location.href = '/auth/bridge/';
+        } else {
+          // Show verification notice
+          document.getElementById('vEmail').textContent = user.email || email;
+          verifyPanel.hidden = false;
+          busy = false;
+        }
+      } catch (err) {
+        console.error('Login error:', err);
+        if (err.code === 'auth/wrong-password') {
+          showError('Wrong password. Try again or reset.');
+        } else if (err.code === 'auth/user-disabled') {
+          showError('This account is disabled.');
+        } else if (err.code === 'auth/user-not-found') {
+          showError('No account found. Create one instead.');
+        } else {
+          showError('Could not sign in. Please try again.');
+        }
+        busy = false;
+      }
+    });
+
+    // Google Sign-in
+    googleBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      if (busy) return;
+
+      busy = true;
+      hideError();
+
+      try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
+
+        const result = await auth.signInWithPopup(provider);
+        const user = result.user;
+
+        try { localStorage.setItem('gg_pending_email', user.email); } catch (_) {}
+
+        if (user.emailVerified) {
+          window.location.href = '/auth/bridge/';
+        } else {
+          document.getElementById('vEmail').textContent = user.email;
+          verifyPanel.hidden = false;
+        }
+
+      } catch (err) {
+        console.error('Google sign-in error:', err);
+        if (err.code !== 'auth/popup-closed-by-user') {
+          showError('Could not sign in with Google. Please try again.');
+        }
+        busy = false;
+      }
+    });
+
+    // Forgot password
+    forgotLink.addEventListener('click', async (e) => {
+      e.preventDefault();
+      hideError();
+
+      const email = emailInput.value.trim();
+      if (!isValidEmail(email)) {
+        showError('Enter your email above, then tap reset.');
+        return;
+      }
+
+      try {
+        await auth.sendPasswordResetEmail(email);
+        showError('Password reset link sent.');
+      } catch (err) {
+        if (err.code === 'auth/user-not-found') {
+          showError('No account found for that email.');
+        } else {
+          showError('Could not send reset email. Try again.');
+        }
+      }
+    });
+
+    // Prefill email from URL
+    (function prefill() {
+      const params = new URLSearchParams(location.search);
+      const em = params.get('email') || localStorage.getItem('gg_pending_email') || '';
+      if (em) {
+        emailInput.value = em;
+      }
+      updateEmailCTA();
+    })();
+  </script>
+
+</body>
+</html>
