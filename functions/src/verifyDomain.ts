@@ -24,12 +24,13 @@ export const verifyDomain = functions.firestore
     const db = admin.firestore();
     const startTime = Date.now();
 
+    // Declare variables in outer scope so they're accessible in catch block
+    let companyData = null;
+    let method: 'FREE' | 'CHEAP' | 'EXPENSIVE' = 'FREE';
+    let cost = 0;
+
     try {
       // TIER 1: FREE - Google Custom Search (100 queries/day free)
-      let companyData = null;
-      let method: 'FREE' | 'CHEAP' | 'EXPENSIVE' = 'FREE';
-      let cost = 0;
-
       try {
         companyData = await extractCompanyProfile(domain, 'FREE');
         if (companyData && companyData.confidence >= 0.7) {
