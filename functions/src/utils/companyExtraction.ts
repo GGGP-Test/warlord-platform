@@ -57,7 +57,6 @@ async function extractWithGoogleSearch(domain: string): Promise<CompanyProfile |
 
     // Extract basic info from search results
     const firstResult = data.items[0];
-    const snippet = firstResult.snippet || '';
     const title = firstResult.title || '';
 
     // Simple extraction logic (production would be more sophisticated)
