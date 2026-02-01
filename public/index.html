@@ -346,6 +346,7 @@
       font-size: 14px;
       border: none;
       cursor: pointer;
+      text-decoration: none;
       transition: all var(--transition-base);
       box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
     }
@@ -443,7 +444,7 @@
           <span>Dashboard</span>
         </a>
 
-        <a href="#" class="nav-item">
+        <a href="/search/" class="nav-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="11" cy="11" r="8"/>
             <path d="M21 21l-4.35-4.35"/>
@@ -510,8 +511,8 @@
               </svg>
             </div>
           </div>
-          <div class="stat-value">0</div>
-          <div class="stat-change neutral">Ready to discover</div>
+          <div class="stat-value">8</div>
+          <div class="stat-change neutral">Sample data</div>
         </div>
 
         <div class="stat-card">
@@ -546,13 +547,13 @@
       <div class="content-section">
         <div class="section-header">
           <h2 class="section-title">Recent Activity</h2>
-          <button class="btn-primary">
+          <a href="/search/" class="btn-primary">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="11" cy="11" r="8"/>
               <path d="M21 21l-4.35-4.35"/>
             </svg>
             <span>Search Suppliers</span>
-          </button>
+          </a>
         </div>
 
         <div class="empty-state">
@@ -567,12 +568,12 @@
             Start by searching for suppliers in your industry or region.<br>
             Build your network and discover new business opportunities.
           </p>
-          <button class="btn-primary">
+          <a href="/search/" class="btn-primary">
             <span>Get Started</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M5 12h14m-7-7l7 7-7 7"/>
             </svg>
-          </button>
+          </a>
         </div>
       </div>
     </main>
