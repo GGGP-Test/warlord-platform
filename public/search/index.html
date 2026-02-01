@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Warlord — Search Suppliers</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --color-bg: #FAFAFA;
+      --color-surface: #FFFFFF;
+      --color-text: #0A0A0A;
+      --color-text-muted: #6B7280;
+      --color-text-light: #9CA3AF;
+      --color-primary: #3B82F6;
+      --color-primary-hover: #2563EB;
+      --color-success: #10B981;
+      --color-warning: #F59E0B;
+      --glass-bg: rgba(255, 255, 255, 0.8);
+      --glass-border: rgba(0, 0, 0, 0.08);
+      --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      --transition-base: 280ms cubic-bezier(0.4, 0, 0.2, 1);
+      --sidebar-width: 280px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--color-text);
+      background: linear-gradient(180deg, #FAFAFA 0%, #F5F5F5 100%);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: var(--sidebar-width) 1fr;
+      height: 100vh;
+    }
+
+    /* Sidebar Filters */
+    .filters {
+      background: var(--color-surface);
+      border-right: 1px solid var(--glass-border);
+      padding: 24px;
+      overflow-y: auto;
+    }
+
+    .filters-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .filters-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      margin: 0;
+    }
+
+    .clear-btn {
+      background: none;
+      border: none;
+      color: var(--color-primary);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+
+    .clear-btn:hover {
+      text-decoration: underline;
+    }
+
+    .filter-group {
+      margin-bottom: 24px;
+    }
+
+    .filter-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .filter-input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      transition: border-color var(--transition-base);
+    }
+
+    .filter-input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .filter-select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      background: var(--color-surface);
+      cursor: pointer;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .checkbox-item label {
+      font-size: 14px;
+      color: var(--color-text);
+      cursor: pointer;
+    }
+
+    /* Main Content */
+    .main {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Header */
+    .header {
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 20px 32px;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--color-text);
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+
+    .back-btn:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .back-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .search-bar {
+      position: relative;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-text-muted);
+      width: 20px;
+      height: 20px;
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 14px 16px 14px 48px;
+      border: 1.5px solid var(--glass-border);
+      border-radius: 12px;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      transition: all var(--transition-base);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    /* Results */
+    .results {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px;
+    }
+
+    .results-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .results-count {
+      font-size: 14px;
+      color: var(--color-text-muted);
+    }
+
+    .view-toggle {
+      display: flex;
+      gap: 4px;
+      background: var(--glass-bg);
+      padding: 4px;
+      border-radius: 8px;
+      border: 1px solid var(--glass-border);
+    }
+
+    .view-btn {
+      padding: 6px 12px;
+      border: none;
+      background: transparent;
+      color: var(--color-text-muted);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+
+    .view-btn.active {
+      background: var(--color-surface);
+      color: var(--color-primary);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Grid */
+    .suppliers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .supplier-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all var(--transition-base);
+      cursor: pointer;
+    }
+
+    .supplier-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+      border-color: var(--color-primary);
+    }
+
+    .supplier-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .supplier-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--color-primary) 0%, #2563EB 100%);
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 700;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .supplier-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .supplier-name {
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--color-text);
+      margin: 0 0 4px 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .supplier-location {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .supplier-location svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .supplier-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .tag {
+      padding: 4px 10px;
+      background: rgba(59, 130, 246, 0.08);
+      color: var(--color-primary);
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .supplier-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      padding-top: 16px;
+      border-top: 1px solid var(--glass-border);
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--color-text);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 80px 24px;
+      color: var(--color-text-muted);
+    }
+
+    .empty-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.08);
+      display: grid;
+      place-items: center;
+      color: var(--color-primary);
+    }
+
+    .empty-icon svg {
+      width: 40px;
+      height: 40px;
+    }
+
+    .empty-title {
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--color-text);
+      margin: 0 0 8px 0;
+    }
+
+    .empty-description {
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 40px;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto;
+      border: 3px solid rgba(59, 130, 246, 0.2);
+      border-top-color: var(--color-primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .filters {
+        display: none;
+      }
+
+      .results {
+        padding: 20px;
+      }
+    }
+  </style>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+  <div class="app">
+    
+    <!-- Sidebar Filters -->
+    <aside class="filters">
+      <div class="filters-header">
+        <h2 class="filters-title">Filters</h2>
+        <button class="clear-btn" id="clearBtn">Clear all</button>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Location</label>
+        <input type="text" class="filter-input" id="locationFilter" placeholder="City, state, or country">
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Category</label>
+        <select class="filter-select" id="categoryFilter">
+          <option value="">All categories</option>
+          <option value="packaging">Packaging</option>
+          <option value="textiles">Textiles</option>
+          <option value="electronics">Electronics</option>
+          <option value="machinery">Machinery</option>
+          <option value="chemicals">Chemicals</option>
+          <option value="food">Food & Beverage</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Min Order Quantity</label>
+        <select class="filter-select" id="moqFilter">
+          <option value="">Any MOQ</option>
+          <option value="100">< 100 units</option>
+          <option value="500">< 500 units</option>
+          <option value="1000">< 1,000 units</option>
+          <option value="5000">< 5,000 units</option>
+          <option value="10000">10,000+ units</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Certifications</label>
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <input type="checkbox" id="cert-iso" value="ISO 9001">
+            <label for="cert-iso">ISO 9001</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="cert-fda" value="FDA">
+            <label for="cert-fda">FDA Approved</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="cert-gmp" value="GMP">
+            <label for="cert-gmp">GMP Certified</label>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+      <div class="header">
+        <div class="header-top">
+          <a href="/" class="back-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 18l-6-6 6-6"/>
+            </svg>
+          </a>
+          <h1>Search Suppliers</h1>
+        </div>
+        <div class="search-bar">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="M21 21l-4.35-4.35"/>
+          </svg>
+          <input type="text" class="search-input" id="searchInput" placeholder="Search by company name, products, or keywords...">
+        </div>
+      </div>
+
+      <div class="results" id="results">
+        <div class="results-header">
+          <div class="results-count" id="resultsCount">Loading suppliers...</div>
+          <div class="view-toggle">
+            <button class="view-btn active">Grid</button>
+            <button class="view-btn">List</button>
+          </div>
+        </div>
+
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+        </div>
+
+        <div class="suppliers-grid" id="suppliersGrid" style="display: none;"></div>
+
+        <div class="empty-state" id="emptyState" style="display: none;">
+          <div class="empty-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="M21 21l-4.35-4.35"/>
+            </svg>
+          </div>
+          <h3 class="empty-title">No suppliers found</h3>
+          <p class="empty-description">
+            Try adjusting your filters or search terms.<br>
+            We're constantly adding new suppliers to our database.
+          </p>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <script>
+    // Firebase Config
+    const FIREBASE_CONFIG = {
+      apiKey: "AIzaSyC7kVZXf-Vp8cOZGEOYhIKU0Dli7cS2Iwc",
+      authDomain: "warlord-1cbe3.firebaseapp.com",
+      projectId: "warlord-1cbe3",
+      storageBucket: "warlord-1cbe3.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdef"
+    };
+
+    firebase.initializeApp(FIREBASE_CONFIG);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Auth check
+    auth.onAuthStateChanged(user => {
+      if (!user || !user.emailVerified) {
+        location.href = '/auth/login/';
+      } else {
+        loadSuppliers();
+      }
+    });
+
+    // DOM Elements
+    const searchInput = document.getElementById('searchInput');
+    const suppliersGrid = document.getElementById('suppliersGrid');
+    const loading = document.getElementById('loading');
+    const emptyState = document.getElementById('emptyState');
+    const resultsCount = document.getElementById('resultsCount');
+    const clearBtn = document.getElementById('clearBtn');
+    const locationFilter = document.getElementById('locationFilter');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const moqFilter = document.getElementById('moqFilter');
+
+    let allSuppliers = [];
+
+    // Load suppliers from Firestore
+    async function loadSuppliers() {
+      try {
+        const snapshot = await db.collection('suppliers').limit(50).get();
+        
+        if (snapshot.empty) {
+          // No suppliers yet - show sample data
+          allSuppliers = generateSampleData();
+        } else {
+          allSuppliers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        }
+
+        displaySuppliers(allSuppliers);
+      } catch (err) {
+        console.error('Error loading suppliers:', err);
+        // Show sample data on error
+        allSuppliers = generateSampleData();
+        displaySuppliers(allSuppliers);
+      }
+    }
+
+    // Generate sample data
+    function generateSampleData() {
+      const samples = [
+        { name: 'Pacific Packaging Co', location: 'Los Angeles, CA', category: 'Packaging', moq: 500, employees: 250 },
+        { name: 'Global Textiles Ltd', location: 'New York, NY', category: 'Textiles', moq: 1000, employees: 480 },
+        { name: 'TechSource Manufacturing', location: 'Austin, TX', category: 'Electronics', moq: 100, employees: 120 },
+        { name: 'Industrial Solutions Inc', location: 'Chicago, IL', category: 'Machinery', moq: 50, employees: 85 },
+        { name: 'ChemWorks Industries', location: 'Houston, TX', category: 'Chemicals', moq: 2000, employees: 340 },
+        { name: 'Premium Food Suppliers', location: 'Seattle, WA', category: 'Food', moq: 500, employees: 180 },
+        { name: 'Eco Packaging Solutions', location: 'Portland, OR', category: 'Packaging', moq: 300, employees: 95 },
+        { name: 'Advanced Materials Corp', location: 'Boston, MA', category: 'Textiles', moq: 1500, employees: 420 }
+      ];
+
+      return samples.map((s, i) => ({
+        id: `sample-${i}`,
+        name: s.name,
+        location: s.location,
+        category: s.category,
+        moq: s.moq,
+        employees: s.employees,
+        verified: true
+      }));
+    }
+
+    // Display suppliers
+    function displaySuppliers(suppliers) {
+      loading.style.display = 'none';
+
+      if (suppliers.length === 0) {
+        suppliersGrid.style.display = 'none';
+        emptyState.style.display = 'block';
+        resultsCount.textContent = 'No results';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      suppliersGrid.style.display = 'grid';
+      resultsCount.textContent = `${suppliers.length} supplier${suppliers.length !== 1 ? 's' : ''} found`;
+
+      suppliersGrid.innerHTML = suppliers.map(s => `
+        <div class="supplier-card">
+          <div class="supplier-header">
+            <div class="supplier-logo">${s.name.charAt(0)}</div>
+            <div class="supplier-info">
+              <h3 class="supplier-name">${s.name}</h3>
+              <div class="supplier-location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                <span>${s.location}</span>
+              </div>
+            </div>
+          </div>
+          <div class="supplier-tags">
+            <span class="tag">${s.category}</span>
+            ${s.verified ? '<span class="tag">✓ Verified</span>' : ''}
+          </div>
+          <div class="supplier-stats">
+            <div class="stat-item">
+              <span class="stat-value">${s.moq}</span>
+              <span class="stat-label">MOQ</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">${s.employees}</span>
+              <span class="stat-label">Employees</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Search and filter
+    function filterSuppliers() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const location = locationFilter.value.toLowerCase();
+      const category = categoryFilter.value.toLowerCase();
+      const moq = moqFilter.value;
+
+      const filtered = allSuppliers.filter(s => {
+        const matchesSearch = !searchTerm || 
+          s.name.toLowerCase().includes(searchTerm) ||
+          s.category.toLowerCase().includes(searchTerm);
+        
+        const matchesLocation = !location || s.location.toLowerCase().includes(location);
+        const matchesCategory = !category || s.category.toLowerCase() === category;
+        const matchesMOQ = !moq || s.moq <= parseInt(moq);
+
+        return matchesSearch && matchesLocation && matchesCategory && matchesMOQ;
+      });
+
+      displaySuppliers(filtered);
+    }
+
+    // Event listeners
+    searchInput.addEventListener('input', filterSuppliers);
+    locationFilter.addEventListener('input', filterSuppliers);
+    categoryFilter.addEventListener('change', filterSuppliers);
+    moqFilter.addEventListener('change', filterSuppliers);
+
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      locationFilter.value = '';
+      categoryFilter.value = '';
+      moqFilter.value = '';
+      document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+      displaySuppliers(allSuppliers);
+    });
+  </script>
+
+</body>
+</html>
