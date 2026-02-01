@@ -682,6 +682,7 @@
 
     let role = null;
     let busy = false;
+    let validatedEmail = null; // Track which email has been validated
 
     // Helper functions
     function showError(msg) {
@@ -704,8 +705,23 @@
     }
 
     function updateEmailCTA() {
-      const valid = isValidEmail(emailInput.value) && !pwdWrap.hidden === false;
+      const currentEmail = emailInput.value.trim();
+      const valid = isValidEmail(currentEmail) && pwdWrap.hidden;
       emailBox.classList.toggle('show-cta', valid);
+      
+      // If email changed and password field is visible, hide password field
+      if (!pwdWrap.hidden && currentEmail !== validatedEmail) {
+        // Email was changed after password field shown - reset to email validation
+        s2TopPass.hidden = true;
+        s2TopStart.hidden = false;
+        pwdWrap.hidden = true;
+        pwdInput.value = '';
+        verifyPanel.hidden = true;
+        validatedEmail = null;
+        hideError();
+        // Show the email next button if email is valid
+        emailBox.classList.toggle('show-cta', isValidEmail(currentEmail));
+      }
     }
 
     function updatePwdCTA() {
@@ -751,6 +767,7 @@
         pwdWrap.hidden = true;
         pwdInput.value = '';
         verifyPanel.hidden = true;
+        validatedEmail = null;
         hideError();
       }
     });
@@ -793,6 +810,7 @@
         }
 
         // Proceed to password step
+        validatedEmail = email; // Store validated email
         hideError();
         s2TopStart.hidden = true;
         s2TopPass.hidden = false;
@@ -822,6 +840,16 @@
 
       const email = emailInput.value.trim();
       const password = pwdInput.value;
+
+      // Re-validate email in case user changed it
+      if (!isValidEmail(email)) {
+        showError('Please enter a valid email address.');
+        return;
+      }
+      if (!isBusinessEmail(email)) {
+        showError('Please use a work email (not Gmail, Yahoo, etc.).');
+        return;
+      }
 
       if (password.length < 6) {
         showError('Password must be at least 6 characters.');
