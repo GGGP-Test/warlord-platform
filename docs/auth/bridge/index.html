@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Galactly — Setting up</title>
+
+  <style>
+    :root{
+      --bg: #f8f9fa;
+      --fg: #1a1a1a;
+      --muted: #6b7280;
+      --accent: #10b981;
+      --accent-bg: #d1fae5;
+      --card-bg: #ffffff;
+      --border: rgba(0,0,0,.08);
+      --radius: 12px;
+    }
+
+    html,body{height:100%;margin:0}
+    body{
+      color:var(--fg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      overflow:hidden;
+    }
+
+    .wrap{
+      min-height:100svh;
+      display:grid;
+      place-items:center;
+      padding: 48px 16px;
+    }
+
+    .head{
+      width:min(560px, 92vw);
+      margin: 0 auto 24px;
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      background: var(--card-bg);
+      border:1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,.04);
+      display:flex; 
+      align-items:center; 
+      justify-content:space-between; 
+      gap:12px;
+    }
+    
+    .head .who{ 
+      font-size:14px; 
+      color:var(--fg);
+      font-weight: 500;
+    }
+    
+    .head strong{ 
+      font-weight:700;
+    }
+    
+    .ok{ 
+      width:10px; 
+      height:10px; 
+      border-radius:999px; 
+      background:var(--accent);
+      box-shadow:0 0 0 4px var(--accent-bg);
+    }
+
+    .stack{ 
+      width:min(560px, 92vw); 
+      display:grid; 
+      gap: 16px;
+    }
+    
+    .card{
+      position:relative;
+      display:grid;
+      grid-template-columns: 40px 1fr;
+      align-items:center; 
+      gap:14px;
+      padding: 16px 18px;
+      border-radius: var(--radius);
+      background: var(--card-bg);
+      border:1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,.04);
+      transition: all .3s ease;
+    }
+    
+    .card .title{ 
+      font-weight:600; 
+      font-size:15px;
+      color: var(--fg);
+    }
+    
+    .card .meta{ 
+      color:var(--muted); 
+      font-size:13px; 
+      margin-top:4px;
+    }
+    
+    .ic{ 
+      width:24px; 
+      height:24px; 
+      display:grid; 
+      place-items:center; 
+      color:var(--fg);
+    }
+    
+    .ic svg{ 
+      width:20px; 
+      height:20px; 
+      display:block;
+    }
+
+    .bar{ 
+      height:6px; 
+      border-radius:999px; 
+      background: rgba(0,0,0,.06); 
+      overflow:hidden; 
+      margin-top:8px;
+    }
+    
+    .fill{
+      width:30%; 
+      height:100%;
+      background: var(--accent);
+      animation: slide 1.4s linear infinite;
+    }
+    
+    @keyframes slide{ 
+      from{transform:translateX(-120%)} 
+      to{transform:translateX(220%)} 
+    }
+
+    .is-pending .bar{ display:none }
+    .is-done .bar{ display:none }
+    .is-active{ opacity:1; }
+    .is-pending{ opacity:.5; }
+    .is-done{ opacity:.7; }
+
+    .actions{ 
+      margin-top: 20px; 
+      display:flex; 
+      justify-content:center; 
+      gap:12px;
+    }
+    
+    .link{
+      appearance:none; 
+      background:var(--card-bg); 
+      color:var(--fg);
+      border:1px solid var(--border); 
+      border-radius:10px;
+      padding:10px 16px; 
+      cursor:pointer; 
+      font-weight:600; 
+      font-size:14px;
+      transition: all .2s ease;
+    }
+    
+    .link:hover{ 
+      background: var(--bg);
+      border-color: var(--muted);
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ animation-duration:1ms !important; transition:none !important }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="head" id="head">
+      <div class="who">
+        Setting up workspace for <strong id="h-email">—</strong>
+      </div>
+      <div class="ok"></div>
+    </div>
+
+    <div class="stack" id="stack">
+      <div class="card is-done" id="card-1"></div>
+      <div class="card is-active" id="card-2"></div>
+      <div class="card is-pending" id="card-3"></div>
+    </div>
+
+    <div class="actions">
+      <button class="link" id="backBtn" type="button">Back</button>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const email = params.get('email') || 'user';
+    const role = params.get('role') || 'supplier';
+
+    document.getElementById('h-email').textContent = email;
+
+    function renderCard(el, title, meta, state){
+      el.className = `card is-${state}`;
+      el.innerHTML = `
+        <div class="ic">
+          ${state === 'done'
+            ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                 <circle cx="12" cy="12" r="10"></circle>
+                 <path d="M8 12l3 3 5-6"></path>
+               </svg>`
+            : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                 <circle cx="12" cy="12" r="10" opacity=".6"></circle>
+                 <path d="M12 6v6l4 2" opacity=".6"></path>
+               </svg>`
+          }
+        </div>
+        <div>
+          <div class="title">${title}</div>
+          <div class="meta">${meta}</div>
+          ${state === 'active' ? `<div class="bar"><div class="fill"></div></div>` : ``}
+        </div>
+      `;
+    }
+
+    const steps = [
+      ['Verifying details', email],
+      ['Matching your domain', 'Detecting website'],
+      ['Scanning website', 'Public pages'],
+      ['Finding buyers', 'Recent signals'],
+      ['Creating workspace', 'Final setup'],
+    ];
+
+    let currentStep = 0;
+    const cards = [document.getElementById('card-1'), document.getElementById('card-2'), document.getElementById('card-3')];
+
+    function updateCards(){
+      if(currentStep > 0){
+        renderCard(cards[0], steps[currentStep-1][0], steps[currentStep-1][1], 'done');
+      }
+      renderCard(cards[1], steps[currentStep][0], steps[currentStep][1], 'active');
+      if(currentStep < steps.length - 1){
+        renderCard(cards[2], steps[currentStep+1][0], steps[currentStep+1][1], 'pending');
+      }
+    }
+
+    updateCards();
+
+    async function runFlow(){
+      for(let i = 0; i < steps.length; i++){
+        currentStep = i;
+        updateCards();
+        await new Promise(r => setTimeout(r, 1500 + Math.random()*1000));
+      }
+      // Redirect after completion
+      window.location.href = '/dashboard/';
+    }
+
+    runFlow();
+
+    document.getElementById('backBtn').addEventListener('click', () => {
+      history.back();
+    });
+  </script>
+</body>
+</html>
