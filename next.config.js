@@ -1,11 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Removed 'output: export' for server-side deployment
+  // Use 'standalone' for optimized Docker deployment
+  output: 'standalone',
+  
   images: {
     unoptimized: true,
   },
-  trailingSlash: true,
-  distDir: 'out',
+  
+  // Default .next directory for server deployment
+  // distDir: 'out' is only for static exports
 };
 
 module.exports = nextConfig;
