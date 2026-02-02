@@ -1,0 +1,11 @@
+{
+  "build": {
+    "type": "docker",
+    "dockerfile": "Dockerfile",
+    "context": ".",
+    "buildArguments": {}
+  },
+  "runtime": {
+    "port": 3000
+  }
+}
