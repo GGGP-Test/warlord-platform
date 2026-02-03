@@ -70,6 +70,16 @@
 
       --topbar-pad-x: 20px;
       --topbar-pad-y: 10px;
+
+      /* === SIGNUP SECTION ANIMATION VARIABLES (from 21st.dev style) === */
+      --ease-hero: cubic-bezier(.22, 1, .36, 1);
+      --ease-soft: cubic-bezier(.25, .95, .35, 1);
+      --ease-snap: cubic-bezier(.16, .84, .44, 1);
+
+      --anim-title-d: 0.8s;
+      --anim-sub-d: 0.9s;
+      --anim-div-d: 0.7s;
+      --anim-below-d: 0.85s;
     }
 
     /* === DARK MODE COLORS === */
@@ -397,6 +407,331 @@
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 14px 32px rgba(59, 130, 246, .3);
     }
 
+    /* === SIGNUP SECTION (STEP 2) LIGHT BACKGROUND + ANIMATIONS === */
+    #signup {
+      margin-top: 56px;
+      padding: 32px 24px 40px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 28px;
+      background:
+        radial-gradient(160% 130% at 5% 95%, rgba(59, 130, 246, .08), transparent 60%),
+        radial-gradient(150% 120% at 90% 0%, rgba(249, 115, 22, .08), transparent 60%),
+        linear-gradient(180deg, rgba(255, 255, 255, .9), rgba(255, 255, 255, .8));
+      box-shadow:
+        0 22px 65px rgba(15, 23, 42, .18),
+        0 0 0 1px rgba(15, 23, 42, .06);
+      border: 1px solid rgba(15, 23, 42, .06);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    [data-color-scheme="dark"] #signup {
+      background:
+        radial-gradient(160% 130% at 5% 95%, rgba(59, 130, 246, .16), transparent 60%),
+        radial-gradient(150% 120% at 90% 0%, rgba(249, 115, 22, .16), transparent 60%),
+        linear-gradient(180deg, rgba(15, 23, 42, .96), rgba(15, 23, 42, .9));
+      box-shadow:
+        0 22px 80px rgba(0, 0, 0, .7),
+        0 0 0 1px rgba(148, 163, 184, .18);
+      border-color: rgba(148, 163, 184, .35);
+    }
+
+    #signup h2 {
+      font-family: 'Plus Jakarta Sans', 'Inter', system-ui;
+      font-weight: 800;
+      font-size: clamp(26px, 4vw, 38px);
+      margin: 0 0 10px 0;
+      text-align: center;
+      color: var(--fg);
+    }
+
+    #signup .subtitle {
+      margin-bottom: 24px;
+      font-size: 15px;
+    }
+
+    .signup-or {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 16px 0 18px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .signup-or::before,
+    .signup-or::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(15, 23, 42, .16), transparent);
+    }
+
+    .chip-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .chip-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(15, 23, 42, .1);
+      background: linear-gradient(180deg, rgba(255, 255, 255, .95), rgba(255, 255, 255, .8));
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .8),
+        0 8px 22px rgba(15, 23, 42, .15);
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--fg);
+      min-width: 150px;
+      justify-content: center;
+      transition: transform .16s var(--ease-soft), box-shadow .16s var(--ease-soft), border-color .16s var(--ease-soft);
+    }
+
+    .chip-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .chip-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(37, 99, 235, .6);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .9),
+        0 12px 32px rgba(37, 99, 235, .32);
+    }
+
+    [data-color-scheme="dark"] .chip-btn {
+      background: linear-gradient(180deg, rgba(15, 23, 42, .98), rgba(15, 23, 42, .9));
+      border-color: rgba(148, 163, 184, .35);
+      box-shadow:
+        inset 0 1px 0 rgba(148, 163, 184, .35),
+        0 8px 22px rgba(0, 0, 0, .75);
+    }
+
+    [data-color-scheme="dark"] .chip-btn:hover {
+      border-color: rgba(96, 165, 250, .9);
+      box-shadow:
+        inset 0 1px 0 rgba(191, 219, 254, .55),
+        0 14px 40px rgba(37, 99, 235, .65);
+    }
+
+    .field-wrap {
+      margin-top: 16px;
+    }
+
+    .pressed {
+      position: relative;
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      align-items: center;
+      height: var(--ctl-h);
+      border-radius: var(--ctl-r);
+      padding: 0 14px;
+      background: rgba(255, 255, 255, .92);
+      border: 1px solid rgba(15, 23, 42, .14);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .7),
+        inset 0 -3px 6px rgba(15, 23, 42, .08),
+        inset 0 12px 26px rgba(15, 23, 42, .03);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: box-shadow .18s var(--ease-soft), border-color .18s var(--ease-soft), transform .18s var(--ease-soft);
+    }
+
+    [data-color-scheme="dark"] .pressed {
+      background: rgba(15, 23, 42, .96);
+      border-color: rgba(148, 163, 184, .45);
+      box-shadow:
+        inset 0 1px 0 rgba(148, 163, 184, .45),
+        inset 0 -3px 6px rgba(15, 23, 42, .9),
+        inset 0 12px 28px rgba(15, 23, 42, .9);
+    }
+
+    .pressed:has(input:focus) {
+      border-color: rgba(37, 99, 235, .8);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .9),
+        inset 0 -3px 6px rgba(15, 23, 42, .1),
+        inset 0 12px 28px rgba(15, 23, 42, .06),
+        0 8px 22px rgba(37, 99, 235, .28);
+      transform: translateY(-1px);
+    }
+
+    .left-icon {
+      display: inline-grid;
+      place-items: center;
+      width: 24px;
+      color: #9CA3AF;
+      opacity: .9;
+    }
+
+    input {
+      min-width: 0;
+      background: transparent;
+      border: 0;
+      outline: 0;
+      color: var(--fg);
+      font-size: 14px;
+      padding: 0 8px;
+      height: calc(var(--ctl-h) - 2px);
+      padding-right: 40px;
+    }
+
+    input::placeholder {
+      color: rgba(148, 163, 184, .9);
+    }
+
+    .field-cta {
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      width: 32px;
+      height: 32px;
+      transform: translate(10px, -50%) scale(.9);
+      opacity: 0;
+      pointer-events: none;
+      border-radius: 999px;
+      border: 1px solid rgba(37, 99, 235, .2);
+      background:
+        radial-gradient(140% 90% at 50% -20%, rgba(59, 130, 246, .3) 0%, rgba(59, 130, 246, .1) 28%, rgba(59, 130, 246, 0) 60%),
+        radial-gradient(120% 120% at 50% 40%, rgba(255, 255, 255, .2), rgba(15, 23, 42, .3));
+      background-blend-mode: screen, normal;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .7),
+        inset 0 -3px 6px rgba(15, 23, 42, .5),
+        0 4px 14px rgba(37, 99, 235, .3);
+      color: #1D4ED8;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: transform .32s var(--ease-hero), opacity .26s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+
+    .pressed.show-cta .field-cta {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(0, -50%) scale(1);
+    }
+
+    .field-cta svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .single-action {
+      display: grid;
+      place-items: center;
+      margin-top: 18px;
+    }
+
+    .inline-error {
+      width: 100%;
+      margin: 10px auto 0;
+      font-size: 13px;
+      line-height: 1.4;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(239, 68, 68, .35);
+      background: rgba(239, 68, 68, .08);
+      color: #B91C1C;
+    }
+
+    /* === ANIMATIONS FOR SIGNUP SECTION === */
+    @keyframes titleRise {
+      0% {
+        opacity: 0;
+        transform: translateY(24px) scale(.985);
+        filter: blur(3px);
+      }
+      60% {
+        filter: blur(0);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .anim-title {
+      animation: titleRise var(--anim-title-d) var(--ease-hero) both;
+    }
+
+    @keyframes subDrift {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .anim-sub {
+      animation: subDrift var(--anim-sub-d) var(--ease-soft) both;
+      animation-delay: .12s;
+    }
+
+    @keyframes dividerGrow {
+      0% {
+        opacity: 0;
+        transform: scaleX(.6);
+      }
+      100% {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+    }
+
+    .anim-divider {
+      transform-origin: 50% 50%;
+      animation: dividerGrow var(--anim-div-d) cubic-bezier(.2, .8, .2, 1) both;
+      animation-delay: .10s;
+    }
+
+    @keyframes fieldDrop {
+      0% {
+        opacity: 0;
+        transform: translateY(-24px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .anim-or {
+      animation: fieldDrop var(--anim-below-d) var(--ease-hero) both;
+      animation-delay: .18s;
+    }
+
+    .anim-field {
+      animation: fieldDrop var(--anim-below-d) var(--ease-hero) both;
+      animation-delay: .26s;
+    }
+
+    .anim-back {
+      animation: fieldDrop var(--anim-below-d) var(--ease-soft) both;
+      animation-delay: .36s;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        transition: none !important;
+      }
+    }
+
   </style>
 
 </head>
@@ -434,45 +769,114 @@
 
   <main class="wrap">
     <div class="stage">
-      <h1>What brings you to Warlord?</h1>
-      <p class="subtitle">Pick one to tailor your setup.</p>
+      <!-- STEP 1: supplier/buyer stays IDENTICAL visually/structure -->
+      <section id="step1">
+        <h1>What brings you to Warlord?</h1>
+        <p class="subtitle">Pick one to tailor your setup.</p>
 
-      <div class="choices">
-        <div class="choice" data-role="supplier">
-          <div class="icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 7h18v10H3z"/>
-              <path d="M16 7V3H8v4"/>
-            </svg>
+        <div class="choices">
+          <div class="choice" data-role="supplier">
+            <div class="icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 7h18v10H3z"/>
+                <path d="M16 7V3H8v4"/>
+              </svg>
+            </div>
+            <div>
+              <h3>Supplier — I sell packaging</h3>
+              <p>Capture buyers already signaling intent and let smart outreach run on autopilot.</p>
+            </div>
           </div>
-          <div>
-            <h3>Supplier — I sell packaging</h3>
-            <p>Capture buyers already signaling intent and let smart outreach run on autopilot.</p>
+
+          <div class="choice" data-role="buyer">
+            <div class="icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="9" cy="21" r="1"/>
+                <circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 12.39a2 2 0 0 0 2 1.61h8.72a2 2 0 0 0 2-1.58L23 6H6"/>
+              </svg>
+            </div>
+            <div>
+              <h3>Buyer — I buy packaging</h3>
+              <p>Get matched to vetted suppliers fast with clear timelines and quotes.</p>
+            </div>
           </div>
         </div>
 
-        <div class="choice" data-role="buyer">
-          <div class="icon">
+        <div class="row-actions">
+          <button type="button" id="nextBtn" class="btn-icon" disabled>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="9" cy="21" r="1"/>
-              <circle cx="20" cy="21" r="1"/>
-              <path d="M1 1h4l2.68 12.39a2 2 0 0 0 2 1.61h8.72a2 2 0 0 0 2-1.58L23 6H6"/>
+              <path d="M9 18l6-6-6-6"/>
             </svg>
-          </div>
-          <div>
-            <h3>Buyer — I buy packaging</h3>
-            <p>Get matched to vetted suppliers fast with clear timelines and quotes.</p>
+          </button>
+        </div>
+      </section>
+
+      <!-- STEP 2: signup panel with light background + animations -->
+      <section id="signup" aria-label="Sign up" hidden>
+        <header class="title-row">
+          <h2 class="anim-title">Get started with Us</h2>
+          <p class="subtitle anim-sub">Continue with</p>
+        </header>
+
+        <div class="chip-row anim-sub">
+          <button type="button" class="chip-btn" id="googleBtn">
+            <svg width="20" height="20" viewBox="0 0 533.5 544.3" aria-hidden="true">
+              <path fill="#4285F4" d="M533.5 278.4c0-18.4-1.7-36-4.9-53.1H272v100.5h146.9c-6.3 34-25 62.8-53.1 82v68h85.7c50.1-46.2 81.9-114.1 81.9-197.4z"/>
+              <path fill="#34A853" d="M272 544.3c72.2 0 132.8-23.9 177.1-64.9l-85.7-68c-23.8 16-54.2 25.5-91.4 25.5-70 0-129.4-47.2-150.6-110.8H33.1v69.6c44.2 87.8 135.2 148.6 238.9 148.6z"/>
+              <path fill="#FBBC04" d="M121.4 326.1c-11.2-33.5-11.2-69.6 0-103.1V153.4H33.1c-40.1 79.9-40.1 175.2 0 255.1l88.3-69.6z"/>
+              <path fill="#EA4335" d="M272 107.7c39.2-.6 76.7 14 104.8 41.2l78.3-78.3C411.7 18.1 344.2-5.3 272 0 168.3 0 77.3 60.8 33.1 148.6l88.3 69.6C142.7 154.6 202 107.7 272 107.7z"/>
+            </svg>
+            <span>Google</span>
+          </button>
+        </div>
+
+        <div class="signup-or anim-divider">OR</div>
+
+        <div class="inline-error" id="inlineStatus" role="alert" hidden></div>
+
+        <div class="field-wrap anim-field">
+          <div class="pressed" id="emailBox">
+            <span class="left-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="5" width="18" height="14" rx="3"/>
+                <path d="M3 7l9 6 9-6"/>
+              </svg>
+            </span>
+            <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="Work email"/>
+            <button id="emailNext" class="field-cta" type="button" aria-label="Next">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </button>
           </div>
         </div>
-      </div>
 
-      <div class="row-actions">
-        <button type="button" id="nextBtn" class="btn-icon" disabled>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9 18l6-6-6-6"/>
-          </svg>
-        </button>
-      </div>
+        <div class="field-wrap anim-field" id="pwdWrap" hidden>
+          <div class="pressed" id="pwdBox">
+            <span class="left-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="10" rx="3"/>
+                <path d="M7 11V8a5 5 0 0 1 10 0v3"/>
+              </svg>
+            </span>
+            <input id="password" type="password" autocomplete="new-password" placeholder="Password (min 6 characters)"/>
+            <button id="pwdNext" class="field-cta" type="button" aria-label="Create account">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="single-action anim-back">
+          <button type="button" id="backToStep1" class="btn-icon" aria-label="Back to role selection">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 18l-6-6 6-6"/>
+            </svg>
+          </button>
+        </div>
+      </section>
     </div>
   </main>
 
@@ -482,10 +886,10 @@
 
   // Theme Toggle
   const themeToggle = document.getElementById('themeToggle');
-  
+
   function setTheme(theme) {
     document.documentElement.setAttribute('data-color-scheme', theme);
-    localStorage.setItem('theme', theme);
+    try { localStorage.setItem('theme', theme); } catch(_){}
   }
 
   function toggleTheme() {
@@ -497,10 +901,33 @@
     themeToggle.addEventListener('click', toggleTheme);
   }
 
-  // Choice selection
+  // STEP FLOW
+  const step1 = document.getElementById('step1');
+  const signup = document.getElementById('signup');
   const choices = document.querySelectorAll('.choice');
   const nextBtn = document.getElementById('nextBtn');
+  const backBtn = document.getElementById('backToStep1');
+
+  const emailBox = document.getElementById('emailBox');
+  const pwdWrap = document.getElementById('pwdWrap');
+  const pwdBox = document.getElementById('pwdBox');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const emailNext = document.getElementById('emailNext');
+  const pwdNext = document.getElementById('pwdNext');
+  const inlineStatus = document.getElementById('inlineStatus');
+
   let selectedRole = null;
+
+  function showStatus(msg) {
+    inlineStatus.textContent = msg;
+    inlineStatus.hidden = false;
+  }
+
+  function hideStatus() {
+    inlineStatus.hidden = true;
+    inlineStatus.textContent = '';
+  }
 
   choices.forEach(choice => {
     choice.addEventListener('click', () => {
@@ -511,9 +938,49 @@
   });
 
   nextBtn.addEventListener('click', () => {
-    if (selectedRole) {
-      alert(`Selected: ${selectedRole}\n\nThis is a complete demo with theme toggle!`);
+    if (!selectedRole) return;
+    step1.hidden = true;
+    signup.hidden = false;
+    hideStatus();
+    setTimeout(() => emailInput && emailInput.focus(), 20);
+  });
+
+  if (backBtn) {
+    backBtn.addEventListener('click', () => {
+      signup.hidden = true;
+      step1.hidden = false;
+      hideStatus();
+      nextBtn.disabled = !selectedRole;
+    });
+  }
+
+  function looksValidEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  }
+
+  emailNext.addEventListener('click', () => {
+    hideStatus();
+    const email = (emailInput.value || '').trim();
+    if (!looksValidEmail(email)) {
+      showStatus('Use a valid work email to continue.');
+      emailBox.classList.add('shake');
+      setTimeout(() => emailBox.classList.remove('shake'), 350);
+      return;
     }
+    pwdWrap.hidden = false;
+    passwordInput.focus();
+  });
+
+  pwdNext.addEventListener('click', () => {
+    hideStatus();
+    const pwd = passwordInput.value || '';
+    if (pwd.length < 6) {
+      showStatus('Password must be at least 6 characters.');
+      pwdBox.classList.add('shake');
+      setTimeout(() => pwdBox.classList.remove('shake'), 350);
+      return;
+    }
+    showStatus('This is a front-end demo. Hook up Firebase to actually create the account.');
   });
 })();
 </script>
