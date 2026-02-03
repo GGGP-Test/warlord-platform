@@ -196,10 +196,6 @@
         .relative { position: relative; }
         .absolute { position: absolute; }
         .overflow-hidden { overflow: hidden; }
-        .bg-gradient-to-br { background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)); }
-        .from-blue-50 { --tw-gradient-from: #eff6ff; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, transparent); }
-        .via-orange-50 { --tw-gradient-via: #fff7ed; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to, transparent); }
-        .to-rose-50 { --tw-gradient-to: #fff1f2; }
         .inset-0 { inset: 0; }
         .z-0 { z-index: 0; }
         .z-10 { z-index: 10; }
@@ -281,6 +277,107 @@
             --border: oklch(92.2% 0 0);
             --input: oklch(92.2% 0 0);
             --ring: oklch(70.8% 0 0);
+        }
+
+        /* Foggy Glass Window Background */
+        body {
+            background: linear-gradient(135deg, 
+                #f8f9fa 0%,     /* Very light grey */
+                #f0f2f4 25%,    /* Soft grey-white */
+                #e8eaed 50%,    /* Medium grey */
+                #f0f2f4 75%,    /* Soft grey-white */
+                #f8f9fa 100%    /* Very light grey */
+            );
+        }
+
+        /* Subtle cloudy/foggy shapes in background */
+        .foggy-bg {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            opacity: 0.35;
+        }
+
+        .cloud-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+        }
+
+        .cloud-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(220, 224, 228, 0.8) 0%, transparent 70%);
+            top: -200px;
+            left: -100px;
+            animation: cloudFloat1 30s ease-in-out infinite;
+        }
+
+        .cloud-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(210, 215, 220, 0.7) 0%, transparent 70%);
+            bottom: -150px;
+            right: -80px;
+            animation: cloudFloat2 35s ease-in-out infinite;
+        }
+
+        .cloud-3 {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(225, 228, 232, 0.6) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: cloudFloat3 40s ease-in-out infinite;
+        }
+
+        .cloud-4 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(215, 220, 225, 0.5) 0%, transparent 70%);
+            top: 20%;
+            right: 15%;
+            animation: cloudFloat4 32s ease-in-out infinite;
+        }
+
+        .cloud-5 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(205, 210, 215, 0.5) 0%, transparent 70%);
+            bottom: 25%;
+            left: 20%;
+            animation: cloudFloat5 38s ease-in-out infinite;
+        }
+
+        /* Subtle cloud-like floating animations */
+        @keyframes cloudFloat1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -20px) scale(1.05); }
+            66% { transform: translate(-20px, 15px) scale(0.95); }
+        }
+
+        @keyframes cloudFloat2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-25px, 20px) scale(1.08); }
+            66% { transform: translate(20px, -15px) scale(0.92); }
+        }
+
+        @keyframes cloudFloat3 {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            33% { transform: translate(calc(-50% + 20px), calc(-50% - 25px)) scale(1.03); }
+            66% { transform: translate(calc(-50% - 15px), calc(-50% + 20px)) scale(0.97); }
+        }
+
+        @keyframes cloudFloat4 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-15px, 25px) scale(1.06); }
+        }
+
+        @keyframes cloudFloat5 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(20px, -20px) scale(1.04); }
         }
 
         /* Glass Effect Styles */
@@ -528,19 +625,6 @@
             background-position: 25% 50%;
         }
 
-        /* Floating animations */
-        @keyframes float1 {
-            0% { transform: translate(0, 0); }
-            50% { transform: translate(-10px, 10px); }
-            100% { transform: translate(0, 0); }
-        }
-
-        @keyframes float2 {
-            0% { transform: translate(0, 0); }
-            50% { transform: translate(10px, -10px); }
-            100% { transform: translate(0, 0); }
-        }
-
         /* Autofill styling fixes */
         input[type="password"]::-webkit-credentials-auto-fill-button,
         input[type="password"]::-webkit-strong-password-auto-fill-button {
@@ -595,18 +679,17 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-blue-50 via-orange-50 to-rose-50">
-    <!-- Animated Background Blobs -->
-    <div class="absolute inset-0 z-0">
-        <div class="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-blue-200 to-transparent rounded-full blur opacity-60" 
-             style="animation: float1 15s ease-in-out infinite"></div>
-        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-br from-orange-200 to-transparent rounded-full blur opacity-60" 
-             style="animation: float2 20s ease-in-out infinite; animation-delay: 2s"></div>
-        <div class="absolute top-1/2 left-1/2 w-80 h-80 bg-gradient-to-br from-rose-200 to-transparent rounded-full blur opacity-40" 
-             style="animation: float1 18s ease-in-out infinite; animation-delay: 4s"></div>
+<body class="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <!-- Foggy/Cloudy Background Layer -->
+    <div class="foggy-bg">
+        <div class="cloud-shape cloud-1"></div>
+        <div class="cloud-shape cloud-2"></div>
+        <div class="cloud-shape cloud-3"></div>
+        <div class="cloud-shape cloud-4"></div>
+        <div class="cloud-shape cloud-5"></div>
     </div>
 
-    <!-- Sign Up Content (No Card Background, No Logo) -->
+    <!-- Sign Up Content -->
     <div class="relative z-10 w-full max-w-sm mx-2 flex flex-col items-center">
         <!-- Heading -->
         <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground text-center tracking-tighter mb-2 font-serif">
