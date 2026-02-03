@@ -233,7 +233,8 @@
         .flex-1 { flex: 1 1 0%; }
         .rounded-full { border-radius: 9999px; }
         .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
-        .py-3\\.5 { padding-top: 0.875rem; padding-bottom: 0.875rem; }
+        .px-8 { padding-left: 2rem; padding-right: 2rem; }
+        .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
         .font-medium { font-weight: var(--font-weight-medium); }
         .h-px { height: 1px; }
         .bg-border { background-color: var(--border); }
@@ -605,20 +606,8 @@
              style="animation: float1 18s ease-in-out infinite; animation-delay: 4s"></div>
     </div>
 
-    <!-- Sign Up Content (No Card Background) -->
+    <!-- Sign Up Content (No Card Background, No Logo) -->
     <div class="relative z-10 w-full max-w-sm mx-2 flex flex-col items-center">
-        <!-- Logo and Brand -->
-        <div class="flex items-center justify-center gap-2 mb-8">
-            <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
-                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                    <path d="M2 17l10 5 10-5"></path>
-                    <path d="M2 12l10 5 10-5"></path>
-                </svg>
-            </div>
-            <span class="text-lg font-semibold text-foreground">MyWebApp</span>
-        </div>
-
         <!-- Heading -->
         <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground text-center tracking-tighter mb-2 font-serif">
             Get started with Us
@@ -632,7 +621,7 @@
                 <!-- Google Button -->
                 <div class="glass-button-wrap flex-1">
                     <div class="glass-button-shadow"></div>
-                    <button type="button" class="glass-button rounded-full px-6 py-3.5 w-full flex items-center justify-center gap-2 relative" id="google-login">
+                    <button type="button" class="glass-button rounded-full px-8 py-4 w-full flex items-center justify-center gap-2 relative" id="google-login">
                         <span class="glass-button-text flex items-center justify-center gap-2 font-medium text-sm relative z-10">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <path d="M19.8055 10.2292C19.8055 9.55155 19.7499 8.86667 19.6305 8.19629H10.2002V11.9492H15.6016C15.3775 13.1493 14.6642 14.2098 13.6381 14.8763V17.2154H16.8526C18.7171 15.5034 19.8055 13.058 19.8055 10.2292Z" fill="#4285F4"/>
@@ -648,7 +637,7 @@
                 <!-- GitHub Button -->
                 <div class="glass-button-wrap flex-1">
                     <div class="glass-button-shadow"></div>
-                    <button type="button" class="glass-button rounded-full px-6 py-3.5 w-full flex items-center justify-center gap-2 relative" id="github-login">
+                    <button type="button" class="glass-button rounded-full px-8 py-4 w-full flex items-center justify-center gap-2 relative" id="github-login">
                         <span class="glass-button-text flex items-center justify-center gap-2 font-medium text-sm relative z-10">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
