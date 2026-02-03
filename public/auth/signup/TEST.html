@@ -207,12 +207,8 @@
         .w-full { width: 100%; }
         .max-w-sm { max-width: var(--container-sm); }
         .mx-2 { margin-left: 0.5rem; margin-right: 0.5rem; }
-        .bg-card\/80 { background-color: rgba(255, 255, 255, 0.8); }
-        .backdrop-blur-sm { backdrop-filter: blur(var(--blur-sm)); }
         .rounded-2xl { border-radius: var(--radius-2xl); }
         .p-8 { padding: 2rem; }
-        .border { border-width: 1px; }
-        .border-border { border-color: var(--border); }
         .mb-8 { margin-bottom: 2rem; }
         .gap-2 { gap: 0.5rem; }
         .gap-4 { gap: 1rem; }
@@ -237,7 +233,7 @@
         .flex-1 { flex: 1 1 0%; }
         .rounded-full { border-radius: 9999px; }
         .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
-        .py-3\.5 { padding-top: 0.875rem; padding-bottom: 0.875rem; }
+        .py-3\\.5 { padding-top: 0.875rem; padding-bottom: 0.875rem; }
         .font-medium { font-weight: var(--font-weight-medium); }
         .h-px { height: 1px; }
         .bg-border { background-color: var(--border); }
@@ -260,6 +256,8 @@
         .text-base { font-size: var(--text-base); line-height: var(--text-base--line-height); }
         .focus\:outline-none:focus { outline: 2px solid transparent; outline-offset: 2px; }
         .focus\:ring-0:focus { --tw-ring-shadow: 0 0 #0000; }
+        .flex-col { flex-direction: column; }
+        .font-bold { font-weight: var(--font-weight-bold); }
 
         /* Theme Colors */
         :root {
@@ -607,94 +605,92 @@
              style="animation: float1 18s ease-in-out infinite; animation-delay: 4s"></div>
     </div>
 
-    <!-- Sign Up Card -->
-    <div class="relative z-10 w-full max-w-sm mx-2">
-        <div class="bg-card/80 backdrop-blur-sm rounded-2xl p-8 border border-border">
-            <!-- Logo and Brand -->
-            <div class="flex items-center justify-center gap-2 mb-8">
-                <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                        <path d="M2 17l10 5 10-5"></path>
-                        <path d="M2 12l10 5 10-5"></path>
+    <!-- Sign Up Content (No Card Background) -->
+    <div class="relative z-10 w-full max-w-sm mx-2 flex flex-col items-center">
+        <!-- Logo and Brand -->
+        <div class="flex items-center justify-center gap-2 mb-8">
+            <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                    <path d="M2 17l10 5 10-5"></path>
+                    <path d="M2 12l10 5 10-5"></path>
+                </svg>
+            </div>
+            <span class="text-lg font-semibold text-foreground">MyWebApp</span>
+        </div>
+
+        <!-- Heading -->
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground text-center tracking-tighter mb-2 font-serif">
+            Get started with Us
+        </h1>
+        <p class="text-sm text-muted-foreground text-center mb-8">Continue with</p>
+
+        <!-- Form Content -->
+        <div class="space-y-6 w-full">
+            <!-- Social Login Buttons -->
+            <div class="flex gap-4">
+                <!-- Google Button -->
+                <div class="glass-button-wrap flex-1">
+                    <div class="glass-button-shadow"></div>
+                    <button type="button" class="glass-button rounded-full px-6 py-3.5 w-full flex items-center justify-center gap-2 relative" id="google-login">
+                        <span class="glass-button-text flex items-center justify-center gap-2 font-medium text-sm relative z-10">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M19.8055 10.2292C19.8055 9.55155 19.7499 8.86667 19.6305 8.19629H10.2002V11.9492H15.6016C15.3775 13.1493 14.6642 14.2098 13.6381 14.8763V17.2154H16.8526C18.7171 15.5034 19.8055 13.058 19.8055 10.2292Z" fill="#4285F4"/>
+                                <path d="M10.2002 19.4972C12.7199 19.4972 14.8266 18.666 16.856 17.2153L13.6415 14.8762C12.7643 15.4537 11.6148 15.7811 10.2036 15.7811C7.77565 15.7811 5.72955 14.0515 4.95815 11.7969H1.63672V14.2006C3.70115 18.2934 6.83375 19.4972 10.2002 19.4972Z" fill="#34A853"/>
+                                <path d="M4.95473 11.797C4.54173 10.5969 4.54173 9.30755 4.95473 8.10742V5.70374H1.6367C0.274369 8.40755 0.274369 11.4969 1.6367 14.2007L4.95473 11.797Z" fill="#FBBC04"/>
+                                <path d="M10.2002 4.1184C11.6837 4.09562 13.113 4.66589 14.1804 5.69783L17.0276 2.85058C14.7375 0.687211 11.719 -0.490766 8.58638 -0.444094C5.83375 -0.444094 2.70115 1.60448 1.63672 5.7038L4.95473 8.10748C5.72272 5.8494 7.77565 4.1184 10.2002 4.1184Z" fill="#EA4335"/>
+                            </svg>
+                            Google
+                        </span>
+                    </button>
+                </div>
+
+                <!-- GitHub Button -->
+                <div class="glass-button-wrap flex-1">
+                    <div class="glass-button-shadow"></div>
+                    <button type="button" class="glass-button rounded-full px-6 py-3.5 w-full flex items-center justify-center gap-2 relative" id="github-login">
+                        <span class="glass-button-text flex items-center justify-center gap-2 font-medium text-sm relative z-10">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                            GitHub
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="flex items-center gap-4 text-xs text-muted-foreground">
+                <div class="flex-1 h-px bg-border"></div>
+                <span>OR</span>
+                <div class="flex-1 h-px bg-border"></div>
+            </div>
+
+            <!-- Email Input -->
+            <div class="glass-input-wrap">
+                <div class="glass-input">
+                    <div class="glass-input-text-area"></div>
+                    <svg class="w-5 h-5 text-muted-foreground absolute left-4 pointer-events-none z-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                        <path d="m2 7 10 5 10-5"></path>
                     </svg>
+                    <input 
+                        type="email" 
+                        id="email-input"
+                        placeholder="Email" 
+                        class="flex-1 bg-transparent border-0 px-0 pl-12 pr-4 py-2 text-base text-foreground placeholder:text-foreground/60 focus:outline-none focus:ring-0 relative z-20"
+                        autocomplete="email"
+                    />
                 </div>
-                <span class="text-lg font-semibold text-foreground">MyWebApp</span>
             </div>
 
-            <!-- Heading -->
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground text-center tracking-tighter mb-2 font-serif">
-                Get started with Us
-            </h1>
-            <p class="text-sm text-muted-foreground text-center mb-8">Continue with</p>
-
-            <!-- Form Content -->
-            <div class="space-y-6">
-                <!-- Social Login Buttons -->
-                <div class="flex gap-4">
-                    <!-- Google Button -->
-                    <div class="glass-button-wrap flex-1">
-                        <div class="glass-button-shadow"></div>
-                        <button type="button" class="glass-button rounded-full px-6 py-3.5 w-full flex items-center justify-center gap-2 relative" id="google-login">
-                            <span class="glass-button-text flex items-center justify-center gap-2 font-medium text-sm relative z-10">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <path d="M19.8055 10.2292C19.8055 9.55155 19.7499 8.86667 19.6305 8.19629H10.2002V11.9492H15.6016C15.3775 13.1493 14.6642 14.2098 13.6381 14.8763V17.2154H16.8526C18.7171 15.5034 19.8055 13.058 19.8055 10.2292Z" fill="#4285F4"/>
-                                    <path d="M10.2002 19.4972C12.7199 19.4972 14.8266 18.666 16.856 17.2153L13.6415 14.8762C12.7643 15.4537 11.6148 15.7811 10.2036 15.7811C7.77565 15.7811 5.72955 14.0515 4.95815 11.7969H1.63672V14.2006C3.70115 18.2934 6.83375 19.4972 10.2002 19.4972Z" fill="#34A853"/>
-                                    <path d="M4.95473 11.797C4.54173 10.5969 4.54173 9.30755 4.95473 8.10742V5.70374H1.6367C0.274369 8.40755 0.274369 11.4969 1.6367 14.2007L4.95473 11.797Z" fill="#FBBC04"/>
-                                    <path d="M10.2002 4.1184C11.6837 4.09562 13.113 4.66589 14.1804 5.69783L17.0276 2.85058C14.7375 0.687211 11.719 -0.490766 8.58638 -0.444094C5.83375 -0.444094 2.70115 1.60448 1.63672 5.7038L4.95473 8.10748C5.72272 5.8494 7.77565 4.1184 10.2002 4.1184Z" fill="#EA4335"/>
-                                </svg>
-                                Google
-                            </span>
-                        </button>
-                    </div>
-
-                    <!-- GitHub Button -->
-                    <div class="glass-button-wrap flex-1">
-                        <div class="glass-button-shadow"></div>
-                        <button type="button" class="glass-button rounded-full px-6 py-3.5 w-full flex items-center justify-center gap-2 relative" id="github-login">
-                            <span class="glass-button-text flex items-center justify-center gap-2 font-medium text-sm relative z-10">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                                </svg>
-                                GitHub
-                            </span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Divider -->
-                <div class="flex items-center gap-4 text-xs text-muted-foreground">
-                    <div class="flex-1 h-px bg-border"></div>
-                    <span>OR</span>
-                    <div class="flex-1 h-px bg-border"></div>
-                </div>
-
-                <!-- Email Input -->
-                <div class="glass-input-wrap">
-                    <div class="glass-input">
-                        <div class="glass-input-text-area"></div>
-                        <svg class="w-5 h-5 text-muted-foreground absolute left-4 pointer-events-none z-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                            <path d="m2 7 10 5 10-5"></path>
-                        </svg>
-                        <input 
-                            type="email" 
-                            id="email-input"
-                            placeholder="Email" 
-                            class="flex-1 bg-transparent border-0 px-0 pl-12 pr-4 py-2 text-base text-foreground placeholder:text-foreground/60 focus:outline-none focus:ring-0 relative z-20"
-                            autocomplete="email"
-                        />
-                    </div>
-                </div>
-
-                <!-- Terms Text -->
-                <p class="text-xs text-muted-foreground text-center mt-4">
-                    By clicking continue, you agree to our 
-                    <a href="#" class="text-primary hover:text-foreground transition-colors">Terms of Service</a> 
-                    and 
-                    <a href="#" class="text-primary hover:text-foreground transition-colors">Privacy Policy</a>.
-                </p>
-            </div>
+            <!-- Terms Text -->
+            <p class="text-xs text-muted-foreground text-center mt-4">
+                By clicking continue, you agree to our 
+                <a href="#" class="text-primary hover:text-foreground transition-colors">Terms of Service</a> 
+                and 
+                <a href="#" class="text-primary hover:text-foreground transition-colors">Privacy Policy</a>.
+            </p>
         </div>
     </div>
 
