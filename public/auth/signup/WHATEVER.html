@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Background Replica</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+
+  <style>
+    :root {
+      --bg-light: #f5f5f7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Helvetica Neue", Arial, sans-serif;
+      background: radial-gradient(120% 160% at 50% -20%, #ffffff, #f5f5f7);
+      color: #111827;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .frame {
+      position: relative;
+      width: min(1100px, 100vw);
+      height: min(650px, 100vh);
+      border-radius: 40px;
+      overflow: hidden;
+      background: #f7f7f9;
+      box-shadow:
+        0 40px 120px rgba(15, 23, 42, 0.35),
+        0 0 0 1px rgba(148, 163, 184, 0.25);
+    }
+
+    /* base subtle vignette */
+    .frame::before {
+      content: "";
+      position: absolute;
+      inset: -20%;
+      background:
+        radial-gradient(120% 180% at 50% -40%, #ffffff, #f5f5f7 50%, #e5e7eb 85%, #d4d4d8 100%);
+      mix-blend-mode: normal;
+      z-index: 0;
+    }
+
+    /* left cool blob */
+    .blob-left {
+      position: absolute;
+      width: 140%;
+      height: 140%;
+      left: -25%;
+      bottom: -25%;
+      background:
+        radial-gradient(ellipse at 40% 20%, rgba(255,255,255,0.9), transparent 55%),
+        radial-gradient(ellipse at 40% 80%, rgba(96,165,250,0.9), rgba(30,64,175,0.3) 45%, transparent 75%);
+      filter: blur(40px);
+      opacity: 0.95;
+      transform: translate3d(0,0,0);
+    }
+
+    /* right warm blob */
+    .blob-right {
+      position: absolute;
+      width: 130%;
+      height: 130%;
+      right: -25%;
+      top: -10%;
+      background:
+        radial-gradient(ellipse at 30% 0%, rgba(255,255,255,0.85), transparent 55%),
+        radial-gradient(ellipse at 60% 60%, rgba(253,186,116,0.95), rgba(248,113,113,0.4) 45%, transparent 80%);
+      filter: blur(40px);
+      opacity: 0.96;
+      transform: translate3d(0,0,0);
+    }
+
+    /* subtle noise on top to kill banding */
+    .noise {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      mix-blend-mode: soft-light;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='4' stitchTiles='noStitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.65'/%3E%3C/svg%3E");
+    }
+
+    /* center area just to visualize where content would be */
+    .content-guide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .content-guide::before {
+      content: "";
+      width: 70%;
+      height: 42%;
+      border-radius: 32px;
+      border: 1px solid rgba(148,163,184,0.4);
+      background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.75), rgba(248,250,252,0.2));
+      box-shadow:
+        0 24px 60px rgba(15,23,42,0.20),
+        inset 0 1px 0 rgba(255,255,255,0.9);
+      backdrop-filter: blur(24px);
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <div class="blob-left"></div>
+    <div class="blob-right"></div>
+    <div class="noise"></div>
+    <div class="content-guide"></div>
+  </div>
+</body>
+</html>
