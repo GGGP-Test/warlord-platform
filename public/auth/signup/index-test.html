@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Warlord — Sign Up (Theme Test)</title>
+
+  <!-- === Theme Toggle Script (runs before body) === -->
+  <script>
+    (function() {
+      const theme = localStorage.getItem('theme') || 
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-color-scheme', theme);
+    })();
+  </script>
+
+  <script>
+  (function () {
+    if (/\/index\.html$/i.test(location.pathname)) {
+      var q = location.search || '', h = location.hash || '';
+      var p = location.pathname.replace(/index\.html$/i, '');
+      if (!/\/$/.test(p)) p += '/';
+      history.replaceState(null, '', p + q + h);
+    }
+  })()
+  </script>
+
+  <link rel="canonical" href="https://warlord.com/auth/signup/"/>
+
+  <!-- Jakarta for headings -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
+
+  <!-- Primary SVG favicon -->
+  <link rel="icon" href="/favicon.ico"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+  <link rel="manifest" href="/site.webmanifest"/>
+  <link rel="shortcut icon" href="/favicon.ico"/>
+
+  <!-- Config: Firebase + Security + adaptive challenge knobs -->
+  <script>
+    window.__FIREBASE_CONFIG__ = {
+      apiKey: "AIzaSyCBf7LHL4PfxD2rH7-HdYSE2dXIGfb3Vz4",
+      authDomain: "artemiss-42e40.firebaseapp.com",
+      projectId: "artemiss-42e40",
+      appId: "1:384891834378:web:53624662894e0650a74ff3"
+    };
+  </script>
+
+  <script>
+    window.__SECURITY__ = {
+      turnstileSiteKey: "",
+      hcaptchaSiteKey: "",
+      humanVerifyEndpoint: "",
+      policy: {
+        windowMs: 10 * 60 * 1000,
+        warmupTries: 999999999,
+        maxTriesBeforeChallenge: 999999999,
+        distinctEmailsBeforeChallenge: 999999999,
+        throttleMs: 1200,
+        humanPassTtlMs: 24 * 60 * 60 * 1000
+      }
+    };
+  </script>
+
+  <style>
+    :root {
+      /* === WARLORD LIGHT THEME === */
+      --content-w: min(960px, 92vw);
+      --title-fs: clamp(28px, 5.6vw, 58px);
+      --safe-top: env(safe-area-inset-top);
+      --safe-bottom: env(safe-area-inset-bottom);
+
+      --ctl-h: 46px;
+      --ctl-r: 16px;
+      --rim-w: 1.5px;
+
+      /* Light theme colors */
+      --bevel-light: rgba(255, 255, 255, .6);
+      --bevel-dark: rgba(0, 0, 0, .08);
+      --pane-bg-2: rgba(0, 0, 0, .04);
+      --outer-shadow: 0 4px 14px rgba(0, 0, 0, .08);
+      --ring-alpha: .25;
+      --ring-speed: 900ms;
+      --ring-size: 110%;
+
+      --fg: #0A0A0A;
+      --muted: #6B7280;
+      --error: #EF4444;
+
+      --bg-1: #FAFAFA;
+      --bg-2: #FFFFFF;
+
+      /* Foreground RGB for theme toggle */
+      --foreground-rgb: 10, 10, 10;
+
+      /* Step 2 spacing */
+      --s2-gap-edge-title: 48px;
+      --s2-gap-title-subtitle: 8px;
+      --s2-gap-subtitle-chips: 12px;
+      --s2-gap-chips-hr: 16px;
+      --s2-gap-hr-or: 8px;
+      --s2-gap-or-field: 16px;
+      --s2-gap-field-arrow: 10px;
+      --s2-gap-bottom-edge: 48px;
+
+      --topbar-pad-x: 20px;
+      --topbar-pad-y: 10px;
+
+      --cta-d: 36px;
+      --stage-lift-m: 0px;
+      --stage-lift-d: 0px;
+
+      /* Chip sheen */
+      --chip-sheen-ang: -70deg;
+      --chip-sheen-ang-hover: -110deg;
+      --chip-glare-alpha: .15;
+      --chip-glare-soften: .7px;
+
+      /* Field rim */
+      --field-rim-w: 0.1px;
+      --field-rim-top: rgba(0, 0, 0, .05);
+      --field-rim-bottom: rgba(0, 0, 0, .12);
+      --field-inset-top: rgba(255, 255, 255, .4);
+      --field-inset-bottom: rgba(0, 0, 0, .06);
+      --field-inset-ambient: rgba(0, 0, 0, .03);
+
+      @property --chip-sheen-ang {
+        syntax: "<angle>";
+        inherits: true;
+        initial-value: -70deg;
+      }
+    }
+
+    /* === DARK MODE COLORS === */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bevel-light: rgba(255, 255, 255, .1);
+        --bevel-dark: rgba(0, 0, 0, .25);
+        --pane-bg-2: rgba(0, 0, 0, .15);
+        --outer-shadow: 0 4px 14px rgba(0, 0, 0, .4);
+
+        --fg: #F5F5F5;
+        --muted: #9CA3AF;
+        --error: #FF5459;
+
+        --bg-1: #1F2121;
+        --bg-2: #262828;
+
+        --foreground-rgb: 245, 245, 245;
+
+        --field-rim-top: rgba(255, 255, 255, .08);
+        --field-rim-bottom: rgba(0, 0, 0, .3);
+        --field-inset-top: rgba(255, 255, 255, .08);
+        --field-inset-bottom: rgba(0, 0, 0, .15);
+        --field-inset-ambient: rgba(0, 0, 0, .1);
+      }
+    }
+
+    /* Manual dark mode override */
+    [data-color-scheme="dark"] {
+      --bevel-light: rgba(255, 255, 255, .1);
+      --bevel-dark: rgba(0, 0, 0, .25);
+      --pane-bg-2: rgba(0, 0, 0, .15);
+      --outer-shadow: 0 4px 14px rgba(0, 0, 0, .4);
+
+      --fg: #F5F5F5;
+      --muted: #9CA3AF;
+      --error: #FF5459;
+
+      --bg-1: #1F2121;
+      --bg-2: #262828;
+
+      --foreground-rgb: 245, 245, 245;
+
+      --field-rim-top: rgba(255, 255, 255, .08);
+      --field-rim-bottom: rgba(0, 0, 0, .3);
+      --field-inset-top: rgba(255, 255, 255, .08);
+      --field-inset-bottom: rgba(0, 0, 0, .15);
+      --field-inset-ambient: rgba(0, 0, 0, .1);
+    }
+
+    /* Manual light mode override */
+    [data-color-scheme="light"] {
+      --bevel-light: rgba(255, 255, 255, .6);
+      --bevel-dark: rgba(0, 0, 0, .08);
+      --pane-bg-2: rgba(0, 0, 0, .04);
+      --outer-shadow: 0 4px 14px rgba(0, 0, 0, .08);
+
+      --fg: #0A0A0A;
+      --muted: #6B7280;
+      --error: #EF4444;
+
+      --bg-1: #FAFAFA;
+      --bg-2: #FFFFFF;
+
+      --foreground-rgb: 10, 10, 10;
+
+      --field-rim-top: rgba(0, 0, 0, .05);
+      --field-rim-bottom: rgba(0, 0, 0, .12);
+      --field-inset-top: rgba(255, 255, 255, .4);
+      --field-inset-bottom: rgba(0, 0, 0, .06);
+      --field-inset-ambient: rgba(0, 0, 0, .03);
+    }
+
+    /* === THEME TOGGLE BUTTON === */
+    .theme-toggle {
+      position: fixed;
+      top: calc(var(--safe-top) + var(--topbar-pad-y) + 4px);
+      right: calc(var(--topbar-pad-x) + 50px);
+      z-index: 50;
+      width: 40px;
+      height: 40px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(var(--foreground-rgb), 0.08), rgba(var(--foreground-rgb), 0.05));
+      border: 1px solid rgba(var(--foreground-rgb), 0.12);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 1px 0 var(--bevel-light), 0 4px 12px rgba(0, 0, 0, .1);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .theme-toggle:hover {
+      background: linear-gradient(180deg, rgba(var(--foreground-rgb), 0.12), rgba(var(--foreground-rgb), 0.08));
+      transform: translateY(-1px);
+      box-shadow: inset 0 1px 0 var(--bevel-light), 0 6px 16px rgba(0, 0, 0, .15);
+    }
+
+    .theme-toggle svg {
+      width: 20px;
+      height: 20px;
+      color: var(--fg);
+      transition: all 0.3s ease;
+    }
+
+    .theme-icon {
+      position: absolute;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .theme-icon-sun {
+      opacity: 0;
+      transform: rotate(-90deg) scale(0);
+    }
+
+    .theme-icon-moon {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
+
+    [data-color-scheme="dark"] .theme-icon-sun {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
+
+    [data-color-scheme="dark"] .theme-icon-moon {
+      opacity: 0;
+      transform: rotate(90deg) scale(0);
+    }
+
+    @media (min-width: 768px) {
+      :root {
+        --cta-d: 40px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      :root {
+        --s2-gap-edge-title: 72px;
+        --s2-gap-title-subtitle: 10px;
+        --s2-gap-subtitle-chips: 14px;
+        --s2-gap-chips-hr: 20px;
+        --s2-gap-hr-or: 10px;
+        --s2-gap-or-field: 20px;
+        --s2-gap-field-arrow: 12px;
+        --s2-gap-bottom-edge: 72px;
+      }
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      background-color: var(--bg-1);
+    }
+
+    body {
+      color: var(--fg);
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+      background: 
+        radial-gradient(1200px 800px at 76% 26%, rgba(59, 130, 246, .06) 0%, transparent 58%),
+        radial-gradient(1200px 800px at 24% 78%, rgba(147, 51, 234, .05) 0%, transparent 52%),
+        radial-gradient(700px 500px at 50% -8%, rgba(255, 255, 255, .3) 0%, transparent 70%),
+        linear-gradient(180deg, var(--bg-1), var(--bg-2));
+      background-blend-mode: screen, screen, normal, normal;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    [data-color-scheme="dark"] body {
+      background: 
+        radial-gradient(1200px 800px at 76% 26%, rgba(59, 130, 246, .12) 0%, transparent 58%),
+        radial-gradient(1200px 800px at 24% 78%, rgba(147, 51, 234, .1) 0%, transparent 52%),
+        radial-gradient(700px 500px at 50% -8%, rgba(0, 0, 0, .3) 0%, transparent 70%),
+        linear-gradient(180deg, var(--bg-1), var(--bg-2));
+    }
+
+    /* NOTE: Rest of the CSS remains the same - only theme variables change */
+    /* Keeping the file shorter for the test version */
+
+    .wrap {
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: calc(0px + var(--safe-top) + 16px) 16px calc(0px + var(--safe-bottom));
+    }
+
+    .stage {
+      width: var(--content-w);
+      transform: translateY(var(--stage-lift-m));
+      transition: transform .2s ease;
+    }
+
+    @media (min-width: 768px) {
+      .stage {
+        transform: translateY(var(--stage-lift-d));
+      }
+    }
+
+    .topbar {
+      position: fixed;
+      top: calc(var(--safe-top) + var(--topbar-pad-y));
+      left: 0;
+      right: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--topbar-pad-x);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--fg);
+      text-decoration: none;
+      padding: 6px 8px;
+      border-radius: 12px;
+    }
+
+    .brand img {
+      height: 22px;
+      width: auto;
+    }
+
+    .brand span {
+      font: 800 14px/1 'Plus Jakarta Sans', 'Inter', system-ui;
+      letter-spacing: 0.2px;
+    }
+
+    h1 {
+      font: 800 var(--title-fs)/1.05 'Plus Jakarta Sans', 'Inter', system-ui;
+      margin: 0 0 18px 0;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
+      text-align: center;
+      color: var(--fg);
+    }
+
+    [data-color-scheme="dark"] h1 {
+      text-shadow: 0 2px 4px rgba(0, 0, 0, .4);
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin: 0 0 18px 0;
+      text-align: center;
+    }
+
+    .demo-notice {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 20px;
+      background: linear-gradient(180deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.1));
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 12px;
+      color: var(--fg);
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .15);
+    }
+
+    .demo-notice a {
+      color: #3B82F6;
+      text-decoration: underline;
+      font-weight: 700;
+    }
+
+  </style>
+
+</head>
+<body>
+
+  <!-- Theme Toggle Button -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+    <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"/>
+      <line x1="12" y1="1" x2="12" y2="3"/>
+      <line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/>
+      <line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </svg>
+    <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+  </button>
+
+  <div class="topbar">
+    <a class="brand" href="/" aria-label="Warlord">
+      <img alt="Warlord" src="/logo.svg" id="brandLogo"/>
+      <span class="brand-word">Warlord</span>
+    </a>
+  </div>
+
+  <main class="wrap">
+    <div class="stage">
+      <h1>Theme Toggle Test</h1>
+      <p class="subtitle">Click the button in the top-right to switch between light and dark modes</p>
+    </div>
+  </main>
+
+  <div class="demo-notice">
+    🎨 <strong>Test Page:</strong> Click the theme toggle button (top-right) to see dark/light mode
+  </div>
+
+<script>
+(function() {
+  'use strict';
+
+  // Theme Toggle Logic
+  const themeToggle = document.getElementById('themeToggle');
+  
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-color-scheme', theme);
+    localStorage.setItem('theme', theme);
+  }
+
+  function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-color-scheme') || 'light';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+  }
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', toggleTheme);
+  }
+
+  // Logo fallback
+  function tryLogo() {
+    const candidates = [
+      'assets/logo/warlord-logo.svg','assets/logo/logo.svg','logo.svg','images/logo.svg'
+    ];
+    const el = document.getElementById('brandLogo');
+    let i = 0;
+    function next() {
+      if(i>=candidates.length) { try{el.remove()}catch(_){} return; }
+      const src = candidates[i++], img = new Image();
+      img.onload = () => { el.src = src; };
+      img.onerror = next;
+      img.src = src;
+    }
+    next();
+  }
+  tryLogo();
+})();
+</script>
+
+</body>
+</html>
