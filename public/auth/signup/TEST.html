@@ -233,6 +233,7 @@
         .w-full { width: 100%; }
         .max-w-sm { max-width: var(--container-sm); }
         .mx-2 { margin-left: 0.5rem; margin-right: 0.5rem; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
         .rounded-2xl { border-radius: var(--radius-2xl); }
         .p-8 { padding: 2rem; }
         .mb-8 { margin-bottom: 2rem; }
@@ -636,10 +637,11 @@
 
         /* CUSTOM SIZING - Match Reference Page */
         
-        /* Heading reduced by 25% to fit on one line */
+        /* Heading - FORCE ONE LINE with white-space: nowrap */
         .heading-custom {
             font-size: 1.6875rem; /* 2.25rem * 0.75 = 1.6875rem (27px) */
             line-height: 1.2;
+            white-space: nowrap; /* Force single line - no wrapping! */
         }
 
         @media (min-width: 40rem) {
@@ -654,7 +656,11 @@
             }
         }
 
-        /* Button sizing to match reference (40px height) */
+        /* Button sizing - 40px height, 50% width reduction */
+        .glass-button-wrap {
+            width: 50%; /* Each button takes 50% of container minus gap */
+        }
+
         .glass-button {
             height: 40px;
             padding-top: 0;
@@ -662,12 +668,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 100%;
         }
 
-        /* Email field wrapper sizing (48px height, 300px width max, 4px padding, 8px gap) */
+        /* Email field wrapper - centered and sized properly */
         .glass-input-wrap {
             max-width: 300px;
             width: 100%;
+            margin-left: auto;
+            margin-right: auto; /* Center horizontally */
         }
 
         .glass-input {
@@ -991,7 +1000,7 @@
 
     <!-- Sign Up Content with Entrance Animations -->
     <div class="relative z-10 w-full max-w-sm mx-2 flex flex-col items-center content-container">
-        <!-- Heading - Reduced by 25% -->
+        <!-- Heading - FORCED TO ONE LINE -->
         <h1 class="heading-custom font-bold text-foreground text-center tracking-tighter mb-2 font-serif animate-entrance-heading">
             Get started with Us
         </h1>
@@ -999,12 +1008,12 @@
 
         <!-- Form Content -->
         <div class="space-y-6 w-full">
-            <!-- Social Login Buttons -->
+            <!-- Social Login Buttons - 50% WIDTH EACH -->
             <div class="flex gap-4 animate-entrance-buttons">
                 <!-- Google Button -->
-                <div class="glass-button-wrap flex-1">
+                <div class="glass-button-wrap">
                     <div class="glass-button-shadow"></div>
-                    <button type="button" class="glass-button rounded-full px-8 w-full flex items-center justify-center gap-2 relative" id="google-login">
+                    <button type="button" class="glass-button rounded-full px-8 flex items-center justify-center gap-2 relative" id="google-login">
                         <span class="glass-button-text flex items-center justify-center gap-2 font-medium text-sm relative z-10">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <path d="M19.8055 10.2292C19.8055 9.55155 19.7499 8.86667 19.6305 8.19629H10.2002V11.9492H15.6016C15.3775 13.1493 14.6642 14.2098 13.6381 14.8763V17.2154H16.8526C18.7171 15.5034 19.8055 13.058 19.8055 10.2292Z" fill="#4285F4"/>
@@ -1018,9 +1027,9 @@
                 </div>
 
                 <!-- Microsoft Button -->
-                <div class="glass-button-wrap flex-1">
+                <div class="glass-button-wrap">
                     <div class="glass-button-shadow"></div>
-                    <button type="button" class="glass-button rounded-full px-8 w-full flex items-center justify-center gap-2 relative" id="microsoft-login">
+                    <button type="button" class="glass-button rounded-full px-8 flex items-center justify-center gap-2 relative" id="microsoft-login">
                         <span class="glass-button-text flex items-center justify-center gap-2 font-medium text-sm relative z-10">
                             <svg width="20" height="20" viewBox="0 0 23 23" fill="none">
                                 <path d="M0 0H10.9091V10.9091H0V0Z" fill="#F25022"/>
@@ -1041,7 +1050,7 @@
                 <div class="flex-1 h-px bg-border"></div>
             </div>
 
-            <!-- Email Input -->
+            <!-- Email Input - CENTERED -->
             <div class="glass-input-wrap animate-entrance-input">
                 <div class="glass-input">
                     <div class="glass-input-text-area"></div>
