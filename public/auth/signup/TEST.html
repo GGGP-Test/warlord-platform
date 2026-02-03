@@ -351,85 +351,130 @@
             animation: cloudFloat5 38s ease-in-out infinite;
         }
 
-        /* Light sources layer - shimmering through foggy glass */
+        /* Light sources layer - glowing bulbs through foggy glass */
         .light-sources {
             position: absolute;
             inset: 0;
             overflow: hidden;
-            opacity: 0.25;
+            opacity: 0.7;
             z-index: 1;
         }
 
-        .light-source {
+        .light-bulb {
+            position: absolute;
+        }
+
+        /* Each light bulb has a bright core and soft glow */
+        .light-core {
             position: absolute;
             border-radius: 50%;
-            filter: blur(100px);
-            mix-blend-mode: soft-light;
+            filter: blur(40px);
         }
 
-        /* Light 1 - Darker grey (large) */
+        .light-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+        }
+
+        /* Light 1 - Darker grey light bulb (large) */
         .light-1 {
-            width: 700px;
-            height: 700px;
-            background: radial-gradient(circle, rgba(180, 188, 195, 0.8) 0%, rgba(180, 188, 195, 0.4) 40%, transparent 70%);
-            top: -150px;
-            right: -200px;
-            animation: shimmer1 12s ease-in-out infinite, lightFloat1 25s ease-in-out infinite;
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            right: 15%;
         }
 
-        /* Light 2 - Lighter white-grey (medium) */
+        .light-1 .light-core {
+            width: 180px;
+            height: 180px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(160, 170, 180, 1) 0%, rgba(140, 150, 160, 0.8) 30%, transparent 70%);
+            animation: glowPulse1 4s ease-in-out infinite;
+        }
+
+        .light-1 .light-glow {
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(180, 188, 195, 0.6) 0%, rgba(160, 170, 180, 0.3) 40%, transparent 70%);
+            animation: glowPulse1 4s ease-in-out infinite;
+        }
+
+        /* Light 2 - Bright white-grey light bulb (medium) */
         .light-2 {
-            width: 550px;
-            height: 550px;
-            background: radial-gradient(circle, rgba(252, 253, 254, 0.9) 0%, rgba(245, 247, 250, 0.5) 40%, transparent 70%);
-            bottom: -100px;
-            left: -150px;
-            animation: shimmer2 15s ease-in-out infinite, lightFloat2 28s ease-in-out infinite;
+            width: 240px;
+            height: 240px;
+            bottom: 15%;
+            left: 10%;
         }
 
-        /* Light 3 - Warm beige-grey (small) */
+        .light-2 .light-core {
+            width: 140px;
+            height: 140px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(248, 250, 252, 0.9) 30%, transparent 70%);
+            animation: glowPulse2 5s ease-in-out infinite;
+        }
+
+        .light-2 .light-glow {
+            width: 240px;
+            height: 240px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(252, 253, 254, 0.7) 0%, rgba(245, 247, 250, 0.4) 40%, transparent 70%);
+            animation: glowPulse2 5s ease-in-out infinite;
+        }
+
+        /* Light 3 - Warm beige light bulb (small) */
         .light-3 {
-            width: 450px;
-            height: 450px;
-            background: radial-gradient(circle, rgba(235, 230, 220, 0.85) 0%, rgba(225, 218, 208, 0.45) 40%, transparent 70%);
-            top: 30%;
-            left: 40%;
-            animation: shimmer3 18s ease-in-out infinite, lightFloat3 30s ease-in-out infinite;
+            width: 200px;
+            height: 200px;
+            top: 45%;
+            right: 25%;
         }
 
-        /* Shimmer/pulsing animations for lights */
-        @keyframes shimmer1 {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(1.15); }
+        .light-3 .light-core {
+            width: 120px;
+            height: 120px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(245, 235, 215, 1) 0%, rgba(235, 225, 205, 0.85) 30%, transparent 70%);
+            animation: glowPulse3 4.5s ease-in-out infinite;
         }
 
-        @keyframes shimmer2 {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.1); }
+        .light-3 .light-glow {
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(235, 230, 220, 0.65) 0%, rgba(225, 218, 208, 0.35) 40%, transparent 70%);
+            animation: glowPulse3 4.5s ease-in-out infinite;
         }
 
-        @keyframes shimmer3 {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.65; transform: scale(1.12); }
+        /* Glowing pulse animations - like breathing light bulbs */
+        @keyframes glowPulse1 {
+            0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.75; transform: translate(-50%, -50%) scale(1.08); }
         }
 
-        /* Floating movements for lights */
-        @keyframes lightFloat1 {
-            0%, 100% { transform: translate(0, 0); }
-            33% { transform: translate(-40px, 30px); }
-            66% { transform: translate(20px, -25px); }
+        @keyframes glowPulse2 {
+            0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.06); }
         }
 
-        @keyframes lightFloat2 {
-            0%, 100% { transform: translate(0, 0); }
-            33% { transform: translate(35px, -30px); }
-            66% { transform: translate(-25px, 20px); }
-        }
-
-        @keyframes lightFloat3 {
-            0%, 100% { transform: translate(0, 0); }
-            33% { transform: translate(-30px, -20px); }
-            66% { transform: translate(30px, 25px); }
+        @keyframes glowPulse3 {
+            0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.78; transform: translate(-50%, -50%) scale(1.07); }
         }
 
         /* Subtle cloud-like floating animations */
@@ -770,11 +815,25 @@
         <div class="cloud-shape cloud-5"></div>
     </div>
 
-    <!-- Shimmering Light Sources Layer -->
+    <!-- Glowing Light Bulbs Layer -->
     <div class="light-sources">
-        <div class="light-source light-1"></div>
-        <div class="light-source light-2"></div>
-        <div class="light-source light-3"></div>
+        <!-- Light Bulb 1 - Darker grey -->
+        <div class="light-bulb light-1">
+            <div class="light-core"></div>
+            <div class="light-glow"></div>
+        </div>
+        
+        <!-- Light Bulb 2 - Bright white -->
+        <div class="light-bulb light-2">
+            <div class="light-core"></div>
+            <div class="light-glow"></div>
+        </div>
+        
+        <!-- Light Bulb 3 - Warm beige -->
+        <div class="light-bulb light-3">
+            <div class="light-core"></div>
+            <div class="light-glow"></div>
+        </div>
     </div>
 
     <!-- Sign Up Content -->
