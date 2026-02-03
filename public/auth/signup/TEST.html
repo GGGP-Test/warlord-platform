@@ -351,6 +351,87 @@
             animation: cloudFloat5 38s ease-in-out infinite;
         }
 
+        /* Light sources layer - shimmering through foggy glass */
+        .light-sources {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            opacity: 0.25;
+            z-index: 1;
+        }
+
+        .light-source {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            mix-blend-mode: soft-light;
+        }
+
+        /* Light 1 - Darker grey (large) */
+        .light-1 {
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(180, 188, 195, 0.8) 0%, rgba(180, 188, 195, 0.4) 40%, transparent 70%);
+            top: -150px;
+            right: -200px;
+            animation: shimmer1 12s ease-in-out infinite, lightFloat1 25s ease-in-out infinite;
+        }
+
+        /* Light 2 - Lighter white-grey (medium) */
+        .light-2 {
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, rgba(252, 253, 254, 0.9) 0%, rgba(245, 247, 250, 0.5) 40%, transparent 70%);
+            bottom: -100px;
+            left: -150px;
+            animation: shimmer2 15s ease-in-out infinite, lightFloat2 28s ease-in-out infinite;
+        }
+
+        /* Light 3 - Warm beige-grey (small) */
+        .light-3 {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(235, 230, 220, 0.85) 0%, rgba(225, 218, 208, 0.45) 40%, transparent 70%);
+            top: 30%;
+            left: 40%;
+            animation: shimmer3 18s ease-in-out infinite, lightFloat3 30s ease-in-out infinite;
+        }
+
+        /* Shimmer/pulsing animations for lights */
+        @keyframes shimmer1 {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.15); }
+        }
+
+        @keyframes shimmer2 {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+
+        @keyframes shimmer3 {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.65; transform: scale(1.12); }
+        }
+
+        /* Floating movements for lights */
+        @keyframes lightFloat1 {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(-40px, 30px); }
+            66% { transform: translate(20px, -25px); }
+        }
+
+        @keyframes lightFloat2 {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(35px, -30px); }
+            66% { transform: translate(-25px, 20px); }
+        }
+
+        @keyframes lightFloat3 {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(-30px, -20px); }
+            66% { transform: translate(30px, 25px); }
+        }
+
         /* Subtle cloud-like floating animations */
         @keyframes cloudFloat1 {
             0%, 100% { transform: translate(0, 0) scale(1); }
@@ -687,6 +768,13 @@
         <div class="cloud-shape cloud-3"></div>
         <div class="cloud-shape cloud-4"></div>
         <div class="cloud-shape cloud-5"></div>
+    </div>
+
+    <!-- Shimmering Light Sources Layer -->
+    <div class="light-sources">
+        <div class="light-source light-1"></div>
+        <div class="light-source light-2"></div>
+        <div class="light-source light-3"></div>
     </div>
 
     <!-- Sign Up Content -->
