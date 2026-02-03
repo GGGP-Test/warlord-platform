@@ -188,6 +188,36 @@
             }
         }
 
+        /* Animation Property Definitions */
+        @property --tw-animation-delay {
+            syntax: "*";
+            inherits: false;
+            initial-value: 0s;
+        }
+
+        @property --tw-animation-direction {
+            syntax: "*";
+            inherits: false;
+            initial-value: normal;
+        }
+
+        @property --tw-animation-duration {
+            syntax: "*";
+            inherits: false;
+        }
+
+        @property --tw-animation-fill-mode {
+            syntax: "*";
+            inherits: false;
+            initial-value: none;
+        }
+
+        @property --tw-animation-iteration-count {
+            syntax: "*";
+            inherits: false;
+            initial-value: 1;
+        }
+
         /* Utility Classes */
         .min-h-screen { min-height: 100vh; }
         .flex { display: flex; }
@@ -238,7 +268,11 @@
         .mt-4 { margin-top: 1rem; }
         .text-primary { color: var(--primary); }
         .hover\:text-foreground:hover { color: var(--foreground); }
-        .transition-colors { transition-property: color, background-color, border-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+        .transition-colors { 
+            transition-property: color, background-color, border-color; 
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); 
+            transition-duration: 150ms; 
+        }
         .w-5 { width: 1.25rem; }
         .h-5 { height: 1.25rem; }
         .left-4 { left: 1rem; }
@@ -255,6 +289,20 @@
         .focus\:ring-0:focus { --tw-ring-shadow: 0 0 #0000; }
         .flex-col { flex-direction: column; }
         .font-bold { font-weight: var(--font-weight-bold); }
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: var(--ease-in-out);
+            transition-duration: 0.3s;
+        }
+        .duration-300 {
+            transition-duration: 0.3s;
+        }
+        .delay-300 {
+            transition-delay: 0.3s;
+        }
+        .ease-in-out {
+            transition-timing-function: var(--ease-in-out);
+        }
 
         /* Theme Colors */
         :root {
@@ -504,6 +552,86 @@
         @keyframes cloudFloat5 {
             0%, 100% { transform: translate(0, 0) scale(1); }
             50% { transform: translate(20px, -20px) scale(1.04); }
+        }
+
+        /* Float animations from the reference page */
+        @keyframes float1 {
+            0% { transform: translate(0px, 0px); }
+            50% { transform: translate(-10px, 10px); }
+            100% { transform: translate(0px, 0px); }
+        }
+
+        @keyframes float2 {
+            0% { transform: translate(0px, 0px); }
+            50% { transform: translate(10px, -10px); }
+            100% { transform: translate(0px, 0px); }
+        }
+
+        /* Spin animation */
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* PAGE LOAD ENTRANCE ANIMATIONS */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Apply entrance animations to content elements */
+        .content-container {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .animate-entrance-heading {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+            animation-delay: 0.1s;
+        }
+
+        .animate-entrance-description {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+            animation-delay: 0.2s;
+        }
+
+        .animate-entrance-buttons {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+            animation-delay: 0.3s;
+        }
+
+        .animate-entrance-divider {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+            animation-delay: 0.4s;
+        }
+
+        .animate-entrance-input {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        .animate-entrance-terms {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+            animation-delay: 0.6s;
         }
 
         /* Glass Effect Styles */
@@ -836,18 +964,18 @@
         </div>
     </div>
 
-    <!-- Sign Up Content -->
-    <div class="relative z-10 w-full max-w-sm mx-2 flex flex-col items-center">
+    <!-- Sign Up Content with Entrance Animations -->
+    <div class="relative z-10 w-full max-w-sm mx-2 flex flex-col items-center content-container">
         <!-- Heading -->
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground text-center tracking-tighter mb-2 font-serif">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground text-center tracking-tighter mb-2 font-serif animate-entrance-heading">
             Get started with Us
         </h1>
-        <p class="text-sm text-muted-foreground text-center mb-8">Continue with</p>
+        <p class="text-sm text-muted-foreground text-center mb-8 animate-entrance-description">Continue with</p>
 
         <!-- Form Content -->
         <div class="space-y-6 w-full">
             <!-- Social Login Buttons -->
-            <div class="flex gap-4">
+            <div class="flex gap-4 animate-entrance-buttons">
                 <!-- Google Button -->
                 <div class="glass-button-wrap flex-1">
                     <div class="glass-button-shadow"></div>
@@ -882,14 +1010,14 @@
             </div>
 
             <!-- Divider -->
-            <div class="flex items-center gap-4 text-xs text-muted-foreground">
+            <div class="flex items-center gap-4 text-xs text-muted-foreground animate-entrance-divider">
                 <div class="flex-1 h-px bg-border"></div>
                 <span>OR</span>
                 <div class="flex-1 h-px bg-border"></div>
             </div>
 
             <!-- Email Input -->
-            <div class="glass-input-wrap">
+            <div class="glass-input-wrap animate-entrance-input">
                 <div class="glass-input">
                     <div class="glass-input-text-area"></div>
                     <svg class="w-5 h-5 text-muted-foreground absolute left-4 pointer-events-none z-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -907,7 +1035,7 @@
             </div>
 
             <!-- Terms Text -->
-            <p class="text-xs text-muted-foreground text-center mt-4">
+            <p class="text-xs text-muted-foreground text-center mt-4 animate-entrance-terms">
                 By clicking continue, you agree to our 
                 <a href="#" class="text-primary hover:text-foreground transition-colors">Terms of Service</a> 
                 and 
@@ -972,7 +1100,7 @@
             }
 
             // Log page load
-            console.log('Sign up page loaded successfully');
+            console.log('Sign up page loaded successfully with entrance animations');
         })();
     </script>
 </body>
