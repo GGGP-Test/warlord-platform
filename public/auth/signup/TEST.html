@@ -420,11 +420,11 @@
         /* Foggy Glass Window Background */
         body {
             background: linear-gradient(135deg, 
-                #f8f9fa 0%,
-                #f0f2f4 25%,
-                #e8eaed 50%,
-                #f0f2f4 75%,
-                #f8f9fa 100%
+                #f8f9fa 0%,     /* Very light grey */
+                #f0f2f4 25%,    /* Soft grey-white */
+                #e8eaed 50%,    /* Medium grey */
+                #f0f2f4 75%,    /* Soft grey-white */
+                #f8f9fa 100%    /* Very light grey */
             );
         }
 
@@ -489,7 +489,7 @@
             animation: cloudFloat5 38s ease-in-out infinite;
         }
 
-        /* Light sources layer */
+        /* Light sources layer - glowing bulbs through foggy glass */
         .light-sources {
             position: absolute;
             inset: 0;
@@ -502,6 +502,7 @@
             position: absolute;
         }
 
+        /* Each light bulb has a bright core and soft glow */
         .light-core {
             position: absolute;
             border-radius: 50%;
@@ -514,6 +515,7 @@
             filter: blur(80px);
         }
 
+        /* Light 1 - Darker grey light bulb (large) - INCREASED INTENSITY */
         .light-1 {
             width: 300px;
             height: 300px;
@@ -541,6 +543,7 @@
             animation: glowPulse1 4s ease-in-out infinite;
         }
 
+        /* Light 2 - Bright white-grey light bulb (medium) */
         .light-2 {
             width: 240px;
             height: 240px;
@@ -568,6 +571,7 @@
             animation: glowPulse2 5s ease-in-out infinite;
         }
 
+        /* Light 3 - Warm beige light bulb (small) */
         .light-3 {
             width: 200px;
             height: 200px;
@@ -595,6 +599,7 @@
             animation: glowPulse3 4.5s ease-in-out infinite;
         }
 
+        /* Glowing pulse animations - like breathing light bulbs */
         @keyframes glowPulse1 {
             0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
             50% { opacity: 0.75; transform: translate(-50%, -50%) scale(1.08); }
@@ -610,6 +615,7 @@
             50% { opacity: 0.78; transform: translate(-50%, -50%) scale(1.07); }
         }
 
+        /* Subtle cloud-like floating animations */
         @keyframes cloudFloat1 {
             0%, 100% { transform: translate(0, 0) scale(1); }
             33% { transform: translate(30px, -20px) scale(1.05); }
@@ -638,11 +644,25 @@
             50% { transform: translate(20px, -20px) scale(1.04); }
         }
 
+        /* Float animations from the reference page */
+        @keyframes float1 {
+            0% { transform: translate(0px, 0px); }
+            50% { transform: translate(-10px, 10px); }
+            100% { transform: translate(0px, 0px); }
+        }
+
+        @keyframes float2 {
+            0% { transform: translate(0px, 0px); }
+            50% { transform: translate(10px, -10px); }
+            100% { transform: translate(0px, 0px); }
+        }
+
+        /* Spin animation */
         @keyframes spin {
             100% { transform: rotate(360deg); }
         }
 
-        /* PAGE LOAD ENTRANCE ANIMATIONS */
+        /* PAGE LOAD ENTRANCE ANIMATIONS - STAGGERED */
         @keyframes fadeInUpBlur {
             from {
                 opacity: 0;
@@ -667,6 +687,7 @@
             }
         }
 
+        /* Apply entrance animations to content elements - STAGGERED */
         .content-container {
             animation: fadeInBlur 0.3s ease-out forwards;
         }
@@ -731,6 +752,10 @@
             gap: 1rem;
             justify-content: center;
             align-items: center;
+        }
+
+        .glass-button-wrap {
+            /* No fixed width */
         }
 
         .glass-button {
@@ -1000,41 +1025,6 @@
             background-position: 25% 50%;
         }
 
-        /* CIRCULAR NEXT BUTTON INSIDE INPUT */
-        .next-button-container {
-            width: 0;
-            opacity: 0;
-            margin-left: 0;
-            overflow: hidden;
-            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                        opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                        margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .next-button-container.show {
-            width: 32px;
-            opacity: 1;
-            margin-left: 8px;
-        }
-
-        .next-button-circle {
-            width: 32px;
-            height: 32px;
-            min-width: 32px;
-            min-height: 32px;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 9999px;
-            cursor: pointer;
-        }
-
-        .next-button-circle svg {
-            width: 16px;
-            height: 16px;
-        }
-
         /* PASSWORD FIELD SLIDE-IN ANIMATION */
         .password-field-container {
             opacity: 0;
@@ -1179,7 +1169,7 @@
         </div>
     </div>
 
-    <!-- Sign Up Content -->
+    <!-- Sign Up Content with Entrance Animations -->
     <div class="relative z-10 w-full max-w-sm mx-2 flex flex-col items-center content-container">
         <h1 class="heading-custom font-bold text-foreground text-center tracking-tighter mb-2 font-serif animate-entrance-heading">
             Get started with Us
@@ -1190,7 +1180,6 @@
         <form class="w-[300px] space-y-6" id="signup-form">
             <!-- Social Login Buttons -->
             <div class="buttons-container animate-entrance-buttons">
-                <!-- Google Button -->
                 <div class="glass-button-wrap cursor-pointer rounded-full relative">
                     <div class="glass-button-shadow"></div>
                     <button type="button" class="glass-button z-10 relative isolate all-unset cursor-pointer rounded-full transition-all text-sm font-medium" id="google-login">
@@ -1209,22 +1198,6 @@
                         </span>
                     </button>
                 </div>
-
-                <!-- Microsoft Button -->
-                <div class="glass-button-wrap cursor-pointer rounded-full relative">
-                    <div class="glass-button-shadow"></div>
-                    <button type="button" class="glass-button z-10 relative isolate all-unset cursor-pointer rounded-full transition-all text-sm font-medium" id="microsoft-login">
-                        <span class="glass-button-text relative select-none tracking-tighter px-4 py-2 flex items-center justify-center gap-2">
-                            <svg width="20" height="20" viewBox="0 0 23 23" fill="none">
-                                <path d="M0 0H10.9091V10.9091H0V0Z" fill="#F25022"/>
-                                <path d="M12.0908 0H22.9999V10.9091H12.0908V0Z" fill="#7FBA00"/>
-                                <path d="M0 12.0908H10.9091V22.9999H0V12.0908Z" fill="#00A4EF"/>
-                                <path d="M12.0908 12.0908H22.9999V22.9999H12.0908V12.0908Z" fill="#FFB900"/>
-                            </svg>
-                            Microsoft
-                        </span>
-                    </button>
-                </div>
             </div>
 
             <!-- Divider -->
@@ -1235,33 +1208,38 @@
             </div>
 
             <!-- Email Input Field -->
-            <div class="w-full animate-entrance-input">
-                <div class="glass-input-wrap w-full">
-                    <div class="glass-input">
-                        <span class="glass-input-text-area"></span>
-                        <div class="relative z-10 flex-shrink-0 flex items-center justify-center overflow-hidden transition-all duration-300 ease-in-out w-10 pl-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail h-5 w-5 text-foreground/80 flex-shrink-0" aria-hidden="true">
-                                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                            </svg>
-                        </div>
-                        <input 
-                            placeholder="Email" 
-                            class="relative z-10 h-full w-0 flex-grow bg-transparent text-foreground placeholder:text-foreground/60 focus:outline-none" 
-                            type="email" 
-                            value=""
-                            id="email-input"
-                        >
-                        <div class="relative z-10 flex-shrink-0 next-button-container" id="email-next-btn-container">
-                            <div class="glass-button-wrap cursor-pointer rounded-full relative">
-                                <button type="button" class="glass-button next-button-circle z-10 relative isolate all-unset cursor-pointer rounded-full transition-all" id="email-next-btn">
-                                    <span class="glass-button-text relative select-none flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M5 12h14"></path>
-                                            <path d="m12 5 7 7-7 7"></path>
-                                        </svg>
-                                    </span>
-                                </button>
+            <div class="w-full" style="opacity: 1; filter: blur(0px); transform: translateY(-6px);">
+                <div class="relative w-full">
+                    <div class="absolute -top-6 left-4 z-10" style="opacity: 0; transform: translateY(-10px);">
+                        <label class="text-xs text-muted-foreground font-semibold">Email</label>
+                    </div>
+                    <div class="glass-input-wrap w-full">
+                        <div class="glass-input">
+                            <span class="glass-input-text-area"></span>
+                            <div class="relative z-10 flex-shrink-0 flex items-center justify-center overflow-hidden transition-all duration-300 ease-in-out w-10 pl-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail h-5 w-5 text-foreground/80 flex-shrink-0" aria-hidden="true">
+                                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                </svg>
+                            </div>
+                            <input 
+                                placeholder="Email" 
+                                class="relative z-10 h-full w-0 flex-grow bg-transparent text-foreground placeholder:text-foreground/60 focus:outline-none transition-[padding-right] duration-300 ease-in-out delay-300 pr-0" 
+                                type="email" 
+                                value=""
+                                id="email-input"
+                            >
+                            <div class="relative z-10 flex-shrink-0 overflow-hidden transition-all duration-300 ease-in-out w-0" id="email-button-container">
+                                <div class="glass-button-wrap cursor-pointer rounded-full relative">
+                                    <button type="button" class="glass-button z-10 relative isolate all-unset cursor-pointer rounded-full transition-all text-sm font-medium">
+                                        <span class="glass-button-text relative select-none tracking-tighter px-4 py-2 flex items-center justify-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                                                <path d="M5 12h14"></path>
+                                                <path d="m12 5 7 7-7 7"></path>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1270,33 +1248,24 @@
 
             <!-- Password Input Field (Initially Hidden) -->
             <div class="password-field-container" id="password-container">
-                <div class="glass-input-wrap w-full">
-                    <div class="glass-input">
-                        <span class="glass-input-text-area"></span>
-                        <div class="relative z-10 flex-shrink-0 flex items-center justify-center w-10 pl-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lock h-5 w-5 text-foreground/80 flex-shrink-0" aria-hidden="true">
-                                <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                            </svg>
-                        </div>
-                        <input 
-                            placeholder="Password" 
-                            class="relative z-10 h-full w-0 flex-grow bg-transparent text-foreground placeholder:text-foreground/60 focus:outline-none" 
-                            type="password" 
-                            value=""
-                            id="password-input"
-                        >
-                        <div class="relative z-10 flex-shrink-0 next-button-container" id="password-next-btn-container">
-                            <div class="glass-button-wrap cursor-pointer rounded-full relative">
-                                <button type="button" class="glass-button next-button-circle z-10 relative isolate all-unset cursor-pointer rounded-full transition-all" id="password-next-btn">
-                                    <span class="glass-button-text relative select-none flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M5 12h14"></path>
-                                            <path d="m12 5 7 7-7 7"></path>
-                                        </svg>
-                                    </span>
-                                </button>
+                <div class="relative w-full">
+                    <div class="glass-input-wrap w-full">
+                        <div class="glass-input">
+                            <span class="glass-input-text-area"></span>
+                            <div class="relative z-10 flex-shrink-0 flex items-center justify-center w-10 pl-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lock h-5 w-5 text-foreground/80 flex-shrink-0" aria-hidden="true">
+                                    <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
                             </div>
+                            <input 
+                                placeholder="Password" 
+                                class="relative z-10 h-full w-0 flex-grow bg-transparent text-foreground placeholder:text-foreground/60 focus:outline-none" 
+                                type="password" 
+                                value=""
+                                id="password-input"
+                            >
+                            <div class="relative z-10 flex-shrink-0 overflow-hidden transition-all duration-300 ease-in-out w-0"></div>
                         </div>
                     </div>
                 </div>
@@ -1313,104 +1282,87 @@
     </div>
 
     <script>
-        // Complete Email → Password Workflow
+        // Email Workflow Logic
         (function() {
             'use strict';
 
-            // Elements
             const emailInput = document.getElementById('email-input');
-            const emailNextBtn = document.getElementById('email-next-btn');
-            const emailNextBtnContainer = document.getElementById('email-next-btn-container');
             const passwordContainer = document.getElementById('password-container');
             const passwordInput = document.getElementById('password-input');
-            const passwordNextBtn = document.getElementById('password-next-btn');
-            const passwordNextBtnContainer = document.getElementById('password-next-btn-container');
+            const emailButtonContainer = document.getElementById('email-button-container');
             
-            // State
             let emailValid = false;
-            let passwordValid = false;
 
             // Email validation regex
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            // 1. EMAIL INPUT - Show next button when valid
+            // Validate email on input
             emailInput.addEventListener('input', function() {
                 const value = this.value.trim();
                 const isValid = emailRegex.test(value);
 
                 if (isValid && !emailValid) {
                     emailValid = true;
-                    emailNextBtnContainer.classList.add('show');
+                    
+                    // Show next button with animation
+                    emailButtonContainer.style.width = '40px';
+                    emailButtonContainer.style.marginLeft = '8px';
+                    this.style.paddingRight = '8px';
+                    
                     console.log('✅ Valid email entered:', value);
+                    
+                    // Show password field after short delay
+                    setTimeout(() => {
+                        passwordContainer.classList.add('show');
+                        console.log('🔒 Password field revealed');
+                    }, 400);
+                    
                 } else if (!isValid && emailValid) {
                     emailValid = false;
-                    emailNextBtnContainer.classList.remove('show');
+                    
+                    // Hide next button
+                    emailButtonContainer.style.width = '0';
+                    emailButtonContainer.style.marginLeft = '0';
+                    this.style.paddingRight = '0';
+                    
+                    // Hide password field
+                    passwordContainer.classList.remove('show');
                 }
             });
 
-            // 2. EMAIL NEXT BUTTON - Reveal password field
-            emailNextBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                if (emailValid) {
-                    passwordContainer.classList.add('show');
-                    console.log('🔒 Password field revealed');
-                    setTimeout(() => {
-                        passwordInput.focus();
-                    }, 400);
-                }
-            });
-
-            // 3. PASSWORD INPUT - Show next button when 6+ chars
-            passwordInput.addEventListener('input', function() {
-                const password = this.value;
-                const isValid = password.length >= 6;
-
-                if (isValid && !passwordValid) {
-                    passwordValid = true;
-                    passwordNextBtnContainer.classList.add('show');
-                    console.log('✅ Password valid (6+ characters)');
-                } else if (!isValid && passwordValid) {
-                    passwordValid = false;
-                    passwordNextBtnContainer.classList.remove('show');
-                }
-            });
-
-            // 4. PASSWORD NEXT BUTTON - Submit form
-            passwordNextBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                if (passwordValid) {
-                    console.log('🚀 Form submitted!');
-                    console.log('Email:', emailInput.value);
-                    console.log('Password length:', passwordInput.value.length);
-                    // TODO: Submit to backend
-                }
-            });
-
-            // Enter key handlers
+            // Handle Enter key on email input
             emailInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter' && emailValid) {
                     e.preventDefault();
-                    emailNextBtn.click();
+                    passwordInput.focus();
                 }
             });
 
+            // Handle password input
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                
+                if (password.length >= 6) {
+                    console.log('✅ Password entered (6+ characters)');
+                }
+            });
+
+            // Handle Enter key on password input
             passwordInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter' && passwordValid) {
+                if (e.key === 'Enter' && this.value.length >= 6) {
                     e.preventDefault();
-                    passwordNextBtn.click();
+                    console.log('🚀 Form submitted!');
+                    // TODO: Submit form
                 }
             });
 
-            // Social login buttons
+            // Social login button
             document.getElementById('google-login').addEventListener('click', function() {
                 console.log('Google login initiated');
+                // TODO: Implement OAuth flow
             });
 
-            document.getElementById('microsoft-login').addEventListener('click', function() {
-                console.log('Microsoft login initiated');
-            });
-
-            console.log('✅ Complete workflow initialized!');
+            console.log('✅ Email workflow initialized');
         })();
     </script>
 </body>
