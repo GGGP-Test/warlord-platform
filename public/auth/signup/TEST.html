@@ -1013,29 +1013,29 @@
             background-position: 25% 50%;
         }
 
-        /* CIRCULAR NEXT BUTTON INSIDE INPUT - positioned at end with 2px gap */
+        /* CIRCULAR NEXT BUTTON INSIDE INPUT - FIXED AT END */
         .next-button-container {
+            position: absolute;
+            right: 6px;
+            top: 50%;
+            transform: translateY(-50%);
             width: 0;
             opacity: 0;
-            margin-left: 0;
             overflow: hidden;
             transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                        opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                        margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                        opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .next-button-container.show {
-            width: 32px;
+            width: 36px;
             opacity: 1;
-            margin-left: 2px;
-            margin-right: 2px;
         }
 
         .next-button-circle {
-            width: 32px;
-            height: 32px;
-            min-width: 32px;
-            min-height: 32px;
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            min-height: 36px;
             padding: 0;
             display: flex;
             align-items: center;
@@ -1047,6 +1047,24 @@
         .next-button-circle svg {
             width: 16px;
             height: 16px;
+        }
+
+        /* EMAIL FIELD CONTAINER */
+        .email-field-container {
+            opacity: 1;
+            filter: blur(0px);
+            transform: translateY(0);
+            transition: opacity 0.4s ease-out, filter 0.4s ease-out, transform 0.4s ease-out, max-height 0.4s ease-out;
+            max-height: 200px;
+        }
+
+        .email-field-container.hide {
+            opacity: 0;
+            filter: blur(6px);
+            transform: translateY(-5px);
+            max-height: 0;
+            margin-top: 0 !important;
+            overflow: hidden;
         }
 
         /* PASSWORD FIELD SLIDE-IN ANIMATION */
@@ -1094,6 +1112,32 @@
 
         .hide {
             display: none !important;
+        }
+
+        /* GO BACK BUTTON */
+        .go-back-button {
+            margin-top: 1rem;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(5px);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+
+        .go-back-button.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .go-back-link {
+            color: var(--muted-foreground);
+            font-size: var(--text-xs);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .go-back-link:hover {
+            color: var(--foreground);
         }
 
         /* Autofill styling fixes */
@@ -1277,8 +1321,8 @@
             </div>
 
             <!-- Email Input Field -->
-            <div class="w-full animate-entrance-input">
-                <div class="glass-input-wrap w-full">
+            <div class="w-full animate-entrance-input email-field-container" id="email-field-container">
+                <div class="glass-input-wrap w-full" style="position: relative;">
                     <div class="glass-input">
                         <span class="glass-input-text-area"></span>
                         <div class="relative z-10 flex-shrink-0 flex items-center justify-center overflow-hidden transition-all duration-300 ease-in-out w-10 pl-2">
@@ -1293,18 +1337,19 @@
                             type="email" 
                             value=""
                             id="email-input"
+                            style="padding-right: 50px;"
                         >
-                        <div class="relative z-10 flex-shrink-0 next-button-container" id="email-next-btn-container">
-                            <div class="glass-button-wrap cursor-pointer rounded-full relative">
-                                <button type="button" class="glass-button next-button-circle z-10 relative isolate all-unset cursor-pointer rounded-full transition-all" id="email-next-btn">
-                                    <span class="glass-button-text relative select-none flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M5 12h14"></path>
-                                            <path d="m12 5 7 7-7 7"></path>
-                                        </svg>
-                                    </span>
-                                </button>
-                            </div>
+                    </div>
+                    <div class="next-button-container" id="email-next-btn-container">
+                        <div class="glass-button-wrap cursor-pointer rounded-full relative">
+                            <button type="button" class="glass-button next-button-circle z-10 relative isolate all-unset cursor-pointer rounded-full transition-all" id="email-next-btn">
+                                <span class="glass-button-text relative select-none flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 12h14"></path>
+                                        <path d="m12 5 7 7-7 7"></path>
+                                    </svg>
+                                </span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1312,7 +1357,7 @@
 
             <!-- Password Input Field (Initially Hidden) -->
             <div class="password-field-container" id="password-container">
-                <div class="glass-input-wrap w-full">
+                <div class="glass-input-wrap w-full" style="position: relative;">
                     <div class="glass-input">
                         <span class="glass-input-text-area"></span>
                         <div class="relative z-10 flex-shrink-0 flex items-center justify-center w-10 pl-2">
@@ -1327,26 +1372,31 @@
                             type="password" 
                             value=""
                             id="password-input"
+                            style="padding-right: 50px;"
                         >
-                        <div class="relative z-10 flex-shrink-0 next-button-container" id="password-next-btn-container">
-                            <div class="glass-button-wrap cursor-pointer rounded-full relative">
-                                <button type="button" class="glass-button next-button-circle z-10 relative isolate all-unset cursor-pointer rounded-full transition-all" id="password-next-btn">
-                                    <span class="glass-button-text relative select-none flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M5 12h14"></path>
-                                            <path d="m12 5 7 7-7 7"></path>
-                                        </svg>
-                                    </span>
-                                </button>
-                            </div>
+                    </div>
+                    <div class="next-button-container" id="password-next-btn-container">
+                        <div class="glass-button-wrap cursor-pointer rounded-full relative">
+                            <button type="button" class="glass-button next-button-circle z-10 relative isolate all-unset cursor-pointer rounded-full transition-all" id="password-next-btn">
+                                <span class="glass-button-text relative select-none flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 12h14"></path>
+                                        <path d="m12 5 7 7-7 7"></path>
+                                    </svg>
+                                </span>
+                            </button>
                         </div>
                     </div>
+                </div>
+                <!-- Go Back Button for Password -->
+                <div class="go-back-button" id="password-go-back">
+                    <a class="go-back-link">← Go back</a>
                 </div>
             </div>
 
             <!-- Confirm Password Input Field (Initially Hidden) -->
             <div class="confirm-password-field-container" id="confirm-password-container">
-                <div class="glass-input-wrap w-full">
+                <div class="glass-input-wrap w-full" style="position: relative;">
                     <div class="glass-input">
                         <span class="glass-input-text-area"></span>
                         <div class="relative z-10 flex-shrink-0 flex items-center justify-center w-10 pl-2">
@@ -1361,20 +1411,25 @@
                             type="password" 
                             value=""
                             id="confirm-password-input"
+                            style="padding-right: 50px;"
                         >
-                        <div class="relative z-10 flex-shrink-0 next-button-container" id="confirm-password-next-btn-container">
-                            <div class="glass-button-wrap cursor-pointer rounded-full relative">
-                                <button type="button" class="glass-button next-button-circle z-10 relative isolate all-unset cursor-pointer rounded-full transition-all" id="confirm-password-next-btn">
-                                    <span class="glass-button-text relative select-none flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M5 12h14"></path>
-                                            <path d="m12 5 7 7-7 7"></path>
-                                        </svg>
-                                    </span>
-                                </button>
-                            </div>
+                    </div>
+                    <div class="next-button-container" id="confirm-password-next-btn-container">
+                        <div class="glass-button-wrap cursor-pointer rounded-full relative">
+                            <button type="button" class="glass-button next-button-circle z-10 relative isolate all-unset cursor-pointer rounded-full transition-all" id="confirm-password-next-btn">
+                                <span class="glass-button-text relative select-none flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 12h14"></path>
+                                        <path d="m12 5 7 7-7 7"></path>
+                                    </svg>
+                                </span>
+                            </button>
                         </div>
                     </div>
+                </div>
+                <!-- Go Back Button for Confirm Password -->
+                <div class="go-back-button" id="confirm-password-go-back">
+                    <a class="go-back-link">← Go back</a>
                 </div>
             </div>
 
@@ -1389,7 +1444,7 @@
     </div>
 
     <script>
-        // Complete Email → Password → Confirm Password Workflow
+        // Complete Email → Password → Confirm Password Workflow with Go Back
         (function() {
             'use strict';
 
@@ -1399,6 +1454,7 @@
             const socialButtons = document.getElementById('social-buttons');
             const divider = document.getElementById('divider');
             
+            const emailFieldContainer = document.getElementById('email-field-container');
             const emailInput = document.getElementById('email-input');
             const emailNextBtn = document.getElementById('email-next-btn');
             const emailNextBtnContainer = document.getElementById('email-next-btn-container');
@@ -1407,16 +1463,19 @@
             const passwordInput = document.getElementById('password-input');
             const passwordNextBtn = document.getElementById('password-next-btn');
             const passwordNextBtnContainer = document.getElementById('password-next-btn-container');
+            const passwordGoBack = document.getElementById('password-go-back');
             
             const confirmPasswordContainer = document.getElementById('confirm-password-container');
             const confirmPasswordInput = document.getElementById('confirm-password-input');
             const confirmPasswordNextBtn = document.getElementById('confirm-password-next-btn');
             const confirmPasswordNextBtnContainer = document.getElementById('confirm-password-next-btn-container');
+            const confirmPasswordGoBack = document.getElementById('confirm-password-go-back');
             
             // State
             let emailValid = false;
             let passwordValid = false;
             let confirmPasswordValid = false;
+            let currentStep = 'email'; // 'email', 'password', 'confirm'
 
             // Email validation regex
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -1436,16 +1495,20 @@
                 }
             });
 
-            // 2. EMAIL NEXT BUTTON - Fade out buttons/divider and reveal password field
+            // 2. EMAIL NEXT BUTTON - Transition to password
             emailNextBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 if (emailValid) {
                     console.log('🔒 Email next clicked - transitioning to password');
+                    currentStep = 'password';
                     
                     // Hide email next button
                     emailNextBtnContainer.classList.remove('show');
                     
-                    // Fade out social buttons, divider, and subtitle
+                    // Hide email field
+                    emailFieldContainer.classList.add('hide');
+                    
+                    // Fade out social buttons and divider
                     socialButtons.classList.add('fade-out');
                     divider.classList.add('fade-out');
                     
@@ -1458,7 +1521,7 @@
                         mainHeading.textContent = 'Create your password';
                         subtitle.textContent = 'Your password must be at least 6 characters long.';
                         
-                        // Remove fade-out and show new content
+                        // Animate heading
                         mainHeading.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
                         subtitle.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
                         subtitle.style.animationDelay = '0.1s';
@@ -1466,8 +1529,9 @@
                         // Show password field
                         passwordContainer.classList.add('show');
                         setTimeout(() => {
+                            passwordGoBack.classList.add('show');
                             passwordInput.focus();
-                        }, 400);
+                        }, 200);
                     }, 400);
                 }
             });
@@ -1487,14 +1551,16 @@
                 }
             });
 
-            // 4. PASSWORD NEXT BUTTON - Hide password field and show confirm password
+            // 4. PASSWORD NEXT BUTTON - Transition to confirm password
             passwordNextBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 if (passwordValid) {
                     console.log('🔒 Password next clicked - transitioning to confirm');
+                    currentStep = 'confirm';
                     
                     // Hide password next button
                     passwordNextBtnContainer.classList.remove('show');
+                    passwordGoBack.classList.remove('show');
                     
                     // Fade out password field
                     passwordContainer.classList.remove('show');
@@ -1512,8 +1578,9 @@
                         // Show confirm password field
                         confirmPasswordContainer.classList.add('show');
                         setTimeout(() => {
+                            confirmPasswordGoBack.classList.add('show');
                             confirmPasswordInput.focus();
-                        }, 400);
+                        }, 200);
                     }, 400);
                 }
             });
@@ -1533,7 +1600,7 @@
                 }
             });
 
-            // 6. CONFIRM PASSWORD NEXT BUTTON - Do nothing (as per requirements)
+            // 6. CONFIRM PASSWORD NEXT BUTTON - Complete
             confirmPasswordNextBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 if (confirmPasswordValid) {
@@ -1543,6 +1610,62 @@
                     console.log('Confirm password matches:', passwordInput.value === confirmPasswordInput.value);
                     // TODO: Submit to backend
                 }
+            });
+
+            // GO BACK HANDLERS
+            passwordGoBack.querySelector('a').addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('⬅️ Going back to email step');
+                currentStep = 'email';
+                
+                passwordGoBack.classList.remove('show');
+                passwordNextBtnContainer.classList.remove('show');
+                passwordContainer.classList.remove('show');
+                
+                setTimeout(() => {
+                    mainHeading.textContent = 'Get started with Us';
+                    subtitle.textContent = 'Continue with';
+                    
+                    mainHeading.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
+                    subtitle.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
+                    
+                    socialButtons.classList.remove('hide', 'fade-out');
+                    divider.classList.remove('hide', 'fade-out');
+                    emailFieldContainer.classList.remove('hide');
+                    
+                    socialButtons.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
+                    divider.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
+                    
+                    if (emailValid) {
+                        emailNextBtnContainer.classList.add('show');
+                    }
+                }, 300);
+            });
+
+            confirmPasswordGoBack.querySelector('a').addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('⬅️ Going back to password step');
+                currentStep = 'password';
+                
+                confirmPasswordGoBack.classList.remove('show');
+                confirmPasswordNextBtnContainer.classList.remove('show');
+                confirmPasswordContainer.classList.remove('show');
+                
+                setTimeout(() => {
+                    mainHeading.textContent = 'Create your password';
+                    subtitle.textContent = 'Your password must be at least 6 characters long.';
+                    
+                    mainHeading.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
+                    subtitle.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
+                    
+                    passwordContainer.classList.add('show');
+                    setTimeout(() => {
+                        passwordGoBack.classList.add('show');
+                        if (passwordValid) {
+                            passwordNextBtnContainer.classList.add('show');
+                        }
+                    }, 200);
+                }, 300);
             });
 
             // Enter key handlers
@@ -1576,7 +1699,7 @@
                 console.log('Microsoft login initiated');
             });
 
-            console.log('✅ Complete workflow initialized!');
+            console.log('✅ Complete workflow with go back buttons initialized!');
         })();
     </script>
 </body>
