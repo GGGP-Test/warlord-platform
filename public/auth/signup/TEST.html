@@ -574,8 +574,8 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* PAGE LOAD ENTRANCE ANIMATIONS - IMPROVED */
-        /* 70% closer start (9px instead of 30px), 50% faster (0.4s instead of 0.8s), add blur */
+        /* PAGE LOAD ENTRANCE ANIMATIONS - STAGGERED */
+        /* Each element starts when previous is 80% done (0.4s * 0.8 = 0.32s intervals) */
         @keyframes fadeInUpBlur {
             from {
                 opacity: 0;
@@ -600,7 +600,7 @@
             }
         }
 
-        /* Apply entrance animations to content elements */
+        /* Apply entrance animations to content elements - STAGGERED */
         .content-container {
             animation: fadeInBlur 0.3s ease-out forwards;
         }
@@ -608,37 +608,37 @@
         .animate-entrance-heading {
             opacity: 0;
             animation: fadeInUpBlur 0.4s ease-out forwards;
-            animation-delay: 0.05s;
+            animation-delay: 0s;
         }
 
         .animate-entrance-description {
             opacity: 0;
             animation: fadeInUpBlur 0.4s ease-out forwards;
-            animation-delay: 0.1s;
+            animation-delay: 0.32s;  /* 0.4s * 0.8 */
         }
 
         .animate-entrance-buttons {
             opacity: 0;
             animation: fadeInUpBlur 0.4s ease-out forwards;
-            animation-delay: 0.15s;
+            animation-delay: 0.64s;  /* 0.32s * 2 */
         }
 
         .animate-entrance-divider {
             opacity: 0;
             animation: fadeInUpBlur 0.4s ease-out forwards;
-            animation-delay: 0.2s;
+            animation-delay: 0.96s;  /* 0.32s * 3 */
         }
 
         .animate-entrance-input {
             opacity: 0;
             animation: fadeInUpBlur 0.4s ease-out forwards;
-            animation-delay: 0.25s;
+            animation-delay: 1.28s;  /* 0.32s * 4 */
         }
 
         .animate-entrance-terms {
             opacity: 0;
             animation: fadeInUpBlur 0.4s ease-out forwards;
-            animation-delay: 0.3s;
+            animation-delay: 1.6s;  /* 0.32s * 5 */
         }
 
         /* CUSTOM SIZING - Match Reference Page */
@@ -660,6 +660,14 @@
             .heading-custom {
                 font-size: 2.8125rem; /* 3.75rem * 0.75 = 2.8125rem (45px) */
             }
+        }
+
+        /* Button container - CENTERED */
+        .buttons-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;  /* CENTER BUTTONS HORIZONTALLY */
+            align-items: center;
         }
 
         /* Button sizing - 40px height, 50% less horizontal padding (X-axis) */
@@ -1016,8 +1024,8 @@
 
         <!-- Form Content -->
         <div class="space-y-6 w-full">
-            <!-- Social Login Buttons - 50% LESS X-AXIS PADDING -->
-            <div class="flex gap-4 animate-entrance-buttons">
+            <!-- Social Login Buttons - CENTERED -->
+            <div class="buttons-container animate-entrance-buttons">
                 <!-- Google Button -->
                 <div class="glass-button-wrap">
                     <div class="glass-button-shadow"></div>
