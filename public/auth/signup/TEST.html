@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - MyWebApp</title>
-    <!-- Cache bust: 2026-02-05 03:05 UTC+0330 -->
+    <!-- Cache bust: 2026-02-05 03:11 UTC+0330 -->
     <style>
         /* Tailwind CSS Base Styles */
         @layer properties {
@@ -1050,9 +1050,8 @@
             height: 16px;
         }
 
-        /* EMAIL FIELD CONTAINER */
+        /* EMAIL FIELD CONTAINER - REMOVED DEFAULT OPACITY:1 SO ANIMATION CLASS CAN CONTROL IT */
         .email-field-container {
-            opacity: 1;
             filter: blur(0px);
             transform: translateY(0);
             transition: opacity 0.4s ease-out, filter 0.4s ease-out, transform 0.4s ease-out, max-height 0.4s ease-out;
