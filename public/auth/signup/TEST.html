@@ -667,6 +667,19 @@
             }
         }
 
+        @keyframes fadeOutBlur {
+            from {
+                opacity: 1;
+                filter: blur(0px);
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                filter: blur(6px);
+                transform: translateY(-5px);
+            }
+        }
+
         .content-container {
             animation: fadeInBlur 0.3s ease-out forwards;
         }
@@ -1000,7 +1013,7 @@
             background-position: 25% 50%;
         }
 
-        /* CIRCULAR NEXT BUTTON INSIDE INPUT */
+        /* CIRCULAR NEXT BUTTON INSIDE INPUT - positioned at end with 2px gap */
         .next-button-container {
             width: 0;
             opacity: 0;
@@ -1014,7 +1027,8 @@
         .next-button-container.show {
             width: 32px;
             opacity: 1;
-            margin-left: 8px;
+            margin-left: 2px;
+            margin-right: 2px;
         }
 
         .next-button-circle {
@@ -1052,6 +1066,34 @@
             transform: translateY(0);
             margin-top: 1.5rem;
             max-height: 200px;
+        }
+
+        /* CONFIRM PASSWORD FIELD SLIDE-IN ANIMATION */
+        .confirm-password-field-container {
+            opacity: 0;
+            filter: blur(6px);
+            transform: translateY(5px);
+            transition: opacity 0.4s ease-out, filter 0.4s ease-out, transform 0.4s ease-out;
+            margin-top: 0;
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        .confirm-password-field-container.show {
+            opacity: 1;
+            filter: blur(0px);
+            transform: translateY(0);
+            margin-top: 1.5rem;
+            max-height: 200px;
+        }
+
+        /* FADE OUT ANIMATION FOR ELEMENTS */
+        .fade-out {
+            animation: fadeOutBlur 0.4s ease-out forwards;
+        }
+
+        .hide {
+            display: none !important;
         }
 
         /* Autofill styling fixes */
@@ -1181,15 +1223,15 @@
 
     <!-- Sign Up Content -->
     <div class="relative z-10 w-full max-w-sm mx-2 flex flex-col items-center content-container">
-        <h1 class="heading-custom font-bold text-foreground text-center tracking-tighter mb-2 font-serif animate-entrance-heading">
+        <h1 class="heading-custom font-bold text-foreground text-center tracking-tighter mb-2 font-serif animate-entrance-heading" id="main-heading">
             Get started with Us
         </h1>
-        <p class="text-sm text-muted-foreground text-center mb-8 animate-entrance-description">Continue with</p>
+        <p class="text-sm text-muted-foreground text-center mb-8 animate-entrance-description" id="subtitle">Continue with</p>
 
         <!-- Form Content -->
         <form class="w-[300px] space-y-6" id="signup-form">
             <!-- Social Login Buttons -->
-            <div class="buttons-container animate-entrance-buttons">
+            <div class="buttons-container animate-entrance-buttons" id="social-buttons">
                 <!-- Google Button -->
                 <div class="glass-button-wrap cursor-pointer rounded-full relative">
                     <div class="glass-button-shadow"></div>
@@ -1228,7 +1270,7 @@
             </div>
 
             <!-- Divider -->
-            <div class="flex items-center gap-4 text-xs text-muted-foreground animate-entrance-divider">
+            <div class="flex items-center gap-4 text-xs text-muted-foreground animate-entrance-divider" id="divider">
                 <div class="flex-1 h-px bg-border"></div>
                 <span>OR</span>
                 <div class="flex-1 h-px bg-border"></div>
@@ -1302,6 +1344,40 @@
                 </div>
             </div>
 
+            <!-- Confirm Password Input Field (Initially Hidden) -->
+            <div class="confirm-password-field-container" id="confirm-password-container">
+                <div class="glass-input-wrap w-full">
+                    <div class="glass-input">
+                        <span class="glass-input-text-area"></span>
+                        <div class="relative z-10 flex-shrink-0 flex items-center justify-center w-10 pl-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lock h-5 w-5 text-foreground/80 flex-shrink-0" aria-hidden="true">
+                                <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                        </div>
+                        <input 
+                            placeholder="Confirm Password" 
+                            class="relative z-10 h-full w-0 flex-grow bg-transparent text-foreground placeholder:text-foreground/60 focus:outline-none" 
+                            type="password" 
+                            value=""
+                            id="confirm-password-input"
+                        >
+                        <div class="relative z-10 flex-shrink-0 next-button-container" id="confirm-password-next-btn-container">
+                            <div class="glass-button-wrap cursor-pointer rounded-full relative">
+                                <button type="button" class="glass-button next-button-circle z-10 relative isolate all-unset cursor-pointer rounded-full transition-all" id="confirm-password-next-btn">
+                                    <span class="glass-button-text relative select-none flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M5 12h14"></path>
+                                            <path d="m12 5 7 7-7 7"></path>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Terms Text -->
             <p class="text-xs text-muted-foreground text-center mt-4 animate-entrance-terms">
                 By clicking continue, you agree to our 
@@ -1313,22 +1389,34 @@
     </div>
 
     <script>
-        // Complete Email → Password Workflow
+        // Complete Email → Password → Confirm Password Workflow
         (function() {
             'use strict';
 
             // Elements
+            const mainHeading = document.getElementById('main-heading');
+            const subtitle = document.getElementById('subtitle');
+            const socialButtons = document.getElementById('social-buttons');
+            const divider = document.getElementById('divider');
+            
             const emailInput = document.getElementById('email-input');
             const emailNextBtn = document.getElementById('email-next-btn');
             const emailNextBtnContainer = document.getElementById('email-next-btn-container');
+            
             const passwordContainer = document.getElementById('password-container');
             const passwordInput = document.getElementById('password-input');
             const passwordNextBtn = document.getElementById('password-next-btn');
             const passwordNextBtnContainer = document.getElementById('password-next-btn-container');
             
+            const confirmPasswordContainer = document.getElementById('confirm-password-container');
+            const confirmPasswordInput = document.getElementById('confirm-password-input');
+            const confirmPasswordNextBtn = document.getElementById('confirm-password-next-btn');
+            const confirmPasswordNextBtnContainer = document.getElementById('confirm-password-next-btn-container');
+            
             // State
             let emailValid = false;
             let passwordValid = false;
+            let confirmPasswordValid = false;
 
             // Email validation regex
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -1348,14 +1436,38 @@
                 }
             });
 
-            // 2. EMAIL NEXT BUTTON - Reveal password field
+            // 2. EMAIL NEXT BUTTON - Fade out buttons/divider and reveal password field
             emailNextBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 if (emailValid) {
-                    passwordContainer.classList.add('show');
-                    console.log('🔒 Password field revealed');
+                    console.log('🔒 Email next clicked - transitioning to password');
+                    
+                    // Hide email next button
+                    emailNextBtnContainer.classList.remove('show');
+                    
+                    // Fade out social buttons, divider, and subtitle
+                    socialButtons.classList.add('fade-out');
+                    divider.classList.add('fade-out');
+                    
+                    // Wait for fade out animation
                     setTimeout(() => {
-                        passwordInput.focus();
+                        socialButtons.classList.add('hide');
+                        divider.classList.add('hide');
+                        
+                        // Change heading and subtitle
+                        mainHeading.textContent = 'Create your password';
+                        subtitle.textContent = 'Your password must be at least 6 characters long.';
+                        
+                        // Remove fade-out and show new content
+                        mainHeading.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
+                        subtitle.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
+                        subtitle.style.animationDelay = '0.1s';
+                        
+                        // Show password field
+                        passwordContainer.classList.add('show');
+                        setTimeout(() => {
+                            passwordInput.focus();
+                        }, 400);
                     }, 400);
                 }
             });
@@ -1375,13 +1487,60 @@
                 }
             });
 
-            // 4. PASSWORD NEXT BUTTON - Submit form
+            // 4. PASSWORD NEXT BUTTON - Hide password field and show confirm password
             passwordNextBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 if (passwordValid) {
-                    console.log('🚀 Form submitted!');
+                    console.log('🔒 Password next clicked - transitioning to confirm');
+                    
+                    // Hide password next button
+                    passwordNextBtnContainer.classList.remove('show');
+                    
+                    // Fade out password field
+                    passwordContainer.classList.remove('show');
+                    
+                    // Wait for animation
+                    setTimeout(() => {
+                        // Change heading
+                        mainHeading.textContent = 'Confirm your password';
+                        subtitle.textContent = 'Re-enter your password to confirm.';
+                        
+                        mainHeading.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
+                        subtitle.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
+                        subtitle.style.animationDelay = '0.1s';
+                        
+                        // Show confirm password field
+                        confirmPasswordContainer.classList.add('show');
+                        setTimeout(() => {
+                            confirmPasswordInput.focus();
+                        }, 400);
+                    }, 400);
+                }
+            });
+
+            // 5. CONFIRM PASSWORD INPUT - Show next button when 6+ chars
+            confirmPasswordInput.addEventListener('input', function() {
+                const password = this.value;
+                const isValid = password.length >= 6;
+
+                if (isValid && !confirmPasswordValid) {
+                    confirmPasswordValid = true;
+                    confirmPasswordNextBtnContainer.classList.add('show');
+                    console.log('✅ Confirm password valid (6+ characters)');
+                } else if (!isValid && confirmPasswordValid) {
+                    confirmPasswordValid = false;
+                    confirmPasswordNextBtnContainer.classList.remove('show');
+                }
+            });
+
+            // 6. CONFIRM PASSWORD NEXT BUTTON - Do nothing (as per requirements)
+            confirmPasswordNextBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirmPasswordValid) {
+                    console.log('🚀 Form complete - All fields filled!');
                     console.log('Email:', emailInput.value);
                     console.log('Password length:', passwordInput.value.length);
+                    console.log('Confirm password matches:', passwordInput.value === confirmPasswordInput.value);
                     // TODO: Submit to backend
                 }
             });
@@ -1398,6 +1557,13 @@
                 if (e.key === 'Enter' && passwordValid) {
                     e.preventDefault();
                     passwordNextBtn.click();
+                }
+            });
+
+            confirmPasswordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && confirmPasswordValid) {
+                    e.preventDefault();
+                    confirmPasswordNextBtn.click();
                 }
             });
 
