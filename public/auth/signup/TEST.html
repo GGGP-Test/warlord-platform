@@ -24,7 +24,7 @@
     
     <!-- Plus Jakarta Sans for headings -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-    <!-- Cache bust: 2026-02-05 06:57 UTC+0330 + Firebase Config -->
+    <!-- Cache bust: 2026-02-05 07:38 UTC+0330 + Redirect Fix -->
     <style>
         /* All CSS stays exactly the same - only changing the font-family for headings below */
         
@@ -1568,7 +1568,7 @@
                 // TODO: Save user to Firestore and redirect
                 // For now, just log success
                 console.log('🚀 User authenticated with business email!');
-                window.location.href = '/dashboard'; // Redirect after success
+                window.location.href = '/auth/verified'; // CHANGED: Redirect to /auth/verified
                 
             } catch (error) {
                 console.error('❌ Google sign-in error:', error);
@@ -1789,7 +1789,7 @@
                     // TODO: Send verification email
                     // TODO: Redirect to dashboard or verification page
                     
-                    window.location.href = '/dashboard'; // Temporary redirect
+                    window.location.href = '/auth/verified'; // CHANGED: Redirect to /auth/verified
                     
                 } catch (error) {
                     console.error('❌ Signup error:', error);
