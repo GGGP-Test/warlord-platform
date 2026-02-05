@@ -24,7 +24,7 @@
     
     <!-- Plus Jakarta Sans for headings -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-    <!-- Cache bust: 2026-02-05 07:38 UTC+0330 + Redirect Fix -->
+    <!-- Cache bust: Microsoft OAuth Support Added -->
     <style>
         /* All CSS stays exactly the same - only changing the font-family for headings below */
         
@@ -1564,11 +1564,7 @@
                 }
 
                 console.log('✅ Business email verified:', email);
-                
-                // TODO: Save user to Firestore and redirect
-                // For now, just log success
-                console.log('🚀 User authenticated with business email!');
-                window.location.href = '/auth/verified'; // CHANGED: Redirect to /auth/verified
+                window.location.href = '/auth/verified';
                 
             } catch (error) {
                 console.error('❌ Google sign-in error:', error);
@@ -1585,10 +1581,52 @@
             }
         });
 
-        // Microsoft Sign-In Handler (Placeholder)
-        document.getElementById('microsoft-login').addEventListener('click', function() {
-            console.log('Microsoft login - Not implemented yet');
-            showError('email-error', 'Microsoft sign-in coming soon. Please use Google or email signup.');
+        // Microsoft Sign-In Handler
+        document.getElementById('microsoft-login').addEventListener('click', async function() {
+            console.log('🔷 Microsoft login initiated');
+            const btn = this;
+            setButtonLoading(btn, true);
+            hideError('email-error');
+
+            try {
+                const provider = new firebase.auth.OAuthProvider('microsoft.com');
+                provider.setCustomParameters({
+                    prompt: 'select_account'
+                });
+
+                const result = await auth.signInWithPopup(provider);
+                const user = result.user;
+                const email = user.email;
+
+                console.log('✅ Microsoft sign-in successful:', email);
+
+                // Check if business email
+                if (!isBusinessEmail(email)) {
+                    // Sign out and show error
+                    await auth.signOut();
+                    showError('email-error', '🚫 Please use your business email. Personal emails are not allowed.');
+                    setButtonLoading(btn, false);
+                    btn.querySelector('.glass-button-text').innerHTML = '<svg width="20" height="20" viewBox="0 0 23 23" fill="none"><path d="M0 0H10.9091V10.9091H0V0Z" fill="#F25022"/><path d="M12.0908 0H22.9999V10.9091H12.0908V0Z" fill="#7FBA00"/><path d="M0 12.0908H10.9091V22.9999H0V12.0908Z" fill="#00A4EF"/><path d="M12.0908 12.0908H22.9999V22.9999H12.0908V12.0908Z" fill="#FFB900"/></svg> Microsoft';
+                    console.log('❌ Personal email rejected:', email);
+                    return;
+                }
+
+                console.log('✅ Business email verified:', email);
+                window.location.href = '/auth/verified';
+                
+            } catch (error) {
+                console.error('❌ Microsoft sign-in error:', error);
+                setButtonLoading(btn, false);
+                btn.querySelector('.glass-button-text').innerHTML = '<svg width="20" height="20" viewBox="0 0 23 23" fill="none"><path d="M0 0H10.9091V10.9091H0V0Z" fill="#F25022"/><path d="M12.0908 0H22.9999V10.9091H12.0908V0Z" fill="#7FBA00"/><path d="M0 12.0908H10.9091V22.9999H0V12.0908Z" fill="#00A4EF"/><path d="M12.0908 12.0908H22.9999V22.9999H12.0908V12.0908Z" fill="#FFB900"/></svg> Microsoft';
+                
+                if (error.code === 'auth/popup-closed-by-user') {
+                    showError('email-error', 'Sign-in cancelled. Please try again.');
+                } else if (error.code === 'auth/popup-blocked') {
+                    showError('email-error', 'Pop-up blocked. Please allow pop-ups and try again.');
+                } else {
+                    showError('email-error', 'An error occurred. Please try again.');
+                }
+            }
         });
 
         // Complete Email → Password → Confirm Password Workflow with Go Back
@@ -1784,12 +1822,7 @@
                     const user = userCredential.user;
                     
                     console.log('✅ Account created successfully:', user.uid);
-                    
-                    // TODO: Save user data to Firestore
-                    // TODO: Send verification email
-                    // TODO: Redirect to dashboard or verification page
-                    
-                    window.location.href = '/auth/verified'; // CHANGED: Redirect to /auth/verified
+                    window.location.href = '/auth/verified';
                     
                 } catch (error) {
                     console.error('❌ Signup error:', error);
@@ -1885,7 +1918,7 @@
                 }
             });
 
-            console.log('✅ Firebase initialized with business email validation!');
+            console.log('✅ Firebase initialized with Google & Microsoft OAuth + business email validation!');
         })();
     </script>
 </body>
