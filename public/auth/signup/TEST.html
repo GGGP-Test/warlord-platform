@@ -24,7 +24,7 @@
     
     <!-- Plus Jakarta Sans for headings -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-    <!-- Cache bust: Microsoft OAuth Support Added -->
+    <!-- Cache bust: Google OAuth Only -->
     <style>
         /* All CSS stays exactly the same - only changing the font-family for headings below */
         
@@ -1230,19 +1230,19 @@
                     <symbol id="gSym" viewBox="0 0 320 860" overflow="visible">
                       <path id="gPath" d="M 209.5 474.25 H 261.5 C 261.667 524.583 262 630.45 262 651.25 C 262 677.25 242.5 718.75 235.5 730.25 C 228.5 741.75 208.5 760.25 193 770.25 C 177.5 780.25 161 786.25 149.5 786.25 C 140.3 786.25 131.667 779.916 128.5 776.75 C 122.5 771.916 105.6 755.85 86.0003 730.25 C 66.4003 704.65 60.5003 662.583 60.0003 644.75 V 221.25 C 59.667 209.583 61.7003 177.25 72.5003 141.25 C 81.5253 111.166 104.214 87.8332 119.5 75.9188 C 131.5 65.7496 150.57 68.3373 156.5 69.2496 C 163 70.2496 173.834 73.2496 178 74.7496 C 184.834 77.083 195.3 82.5496 206.5 91.7496 C 220.5 103.25 227 113.75 230 119.75 C 236 124.15 248.5 161.25 254 179.25 L 264 247.25 L 269.5 259.25 C 273.834 263.75 285 272.45 295 271.25 C 307.5 269.75 310.5 258.25 314 251.25 C 312 159.25 295 102.75 253.5 51.2496 C 220.3 10.0496 176.667 2.08297 159 3.24964 C 143.5 1.4163 101.8 8.84964 59.0003 53.2496 C 16.2003 97.6496 3.83366 179.416 3.00033 214.75 L 7.00033 649.75 C 7.33366 667.75 12.9003 713.55 32.5003 752.75 C 57.0003 801.75 108.5 847.25 166 847.25 C 211.6 846.45 254.334 803.25 270 781.75 C 292.8 752.55 313.392 681.75 313.5 642.25 C 313.667 581.583 313.9 456.65 313.5 442.25 C 313.1 427.85 304.667 416.916 300.5 413.25 H 204.5 C 198 416.083 185 426.35 185 444.75 C 185 463.15 201.334 472.083 209.5 474.25 Z"/>
                     </symbol>
-                    <!-- REFINED PROFESSIONAL GRADIENTS - Softer, cleaner blues -->
+                    <!-- POLISHED PROFESSIONAL BLUE GRADIENTS -->
                     <linearGradient id="ggFill" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0" stop-color="#4A6FA5"/>
-                      <stop offset="0.5" stop-color="#3D5F91"/>
-                      <stop offset="1" stop-color="#2E4A6D"/>
+                      <stop offset="0" stop-color="#3B5998"/>
+                      <stop offset="0.5" stop-color="#2E4A7C"/>
+                      <stop offset="1" stop-color="#1E3A5F"/>
                     </linearGradient>
                     <linearGradient id="ggShimmer" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0" stop-color="#6B8FBD"/>
-                      <stop offset="1" stop-color="#567DAD"/>
+                      <stop offset="0" stop-color="#4A6FA5"/>
+                      <stop offset="1" stop-color="#36568C"/>
                     </linearGradient>
                     <radialGradient id="ggHalo" cx="50%" cy="45%" r="55%">
-                      <stop offset="0" stop-color="#5B7FAD" stop-opacity="0.15"/>
-                      <stop offset="1" stop-color="#5B7FAD" stop-opacity="0"/>
+                      <stop offset="0" stop-color="#3B5998" stop-opacity="0.15"/>
+                      <stop offset="1" stop-color="#3B5998" stop-opacity="0"/>
                     </radialGradient>
                     <linearGradient id="ggSheen" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="64" y2="64">
                       <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/>
@@ -1253,7 +1253,7 @@
                     </linearGradient>
                     <filter id="ggSoftGlow" x="-25%" y="-25%" width="150%" height="150%">
                       <feDropShadow dx="0" dy="0.5" stdDeviation="0.8" flood-color="#000" flood-opacity="0.18"/>
-                      <feDropShadow dx="0" dy="0" stdDeviation="1.2" flood-color="#3D5F91" flood-opacity="0.12"/>
+                      <feDropShadow dx="0" dy="0" stdDeviation="1.2" flood-color="#2E4A7C" flood-opacity="0.12"/>
                     </filter>
                   </defs>
                   <g pointer-events="none"><circle cx="32" cy="33" r="20" fill="url(#ggHalo)"/></g>
@@ -1314,9 +1314,8 @@
 
         <!-- Form Content -->
         <form class="w-[300px] space-y-6" id="signup-form">
-            <!-- Social Login Buttons -->
+            <!-- Google Login Button -->
             <div class="buttons-container animate-entrance-buttons" id="social-buttons">
-                <!-- Google Button -->
                 <div class="glass-button-wrap cursor-pointer rounded-full relative">
                     <div class="glass-button-shadow"></div>
                     <button type="button" class="glass-button z-10 relative isolate all-unset cursor-pointer rounded-full transition-all text-sm font-medium" id="google-login">
@@ -1332,22 +1331,6 @@
                                 </g>
                             </svg>
                             Google
-                        </span>
-                    </button>
-                </div>
-
-                <!-- Microsoft Button -->
-                <div class="glass-button-wrap cursor-pointer rounded-full relative">
-                    <div class="glass-button-shadow"></div>
-                    <button type="button" class="glass-button z-10 relative isolate all-unset cursor-pointer rounded-full transition-all text-sm font-medium" id="microsoft-login">
-                        <span class="glass-button-text relative select-none tracking-tighter px-4 py-2 flex items-center justify-center gap-2">
-                            <svg width="20" height="20" viewBox="0 0 23 23" fill="none">
-                                <path d="M0 0H10.9091V10.9091H0V0Z" fill="#F25022"/>
-                                <path d="M12.0908 0H22.9999V10.9091H12.0908V0Z" fill="#7FBA00"/>
-                                <path d="M0 12.0908H10.9091V22.9999H0V12.0908Z" fill="#00A4EF"/>
-                                <path d="M12.0908 12.0908H22.9999V22.9999H12.0908V12.0908Z" fill="#FFB900"/>
-                            </svg>
-                            Microsoft
                         </span>
                     </button>
                 </div>
@@ -1570,54 +1553,6 @@
                 console.error('❌ Google sign-in error:', error);
                 setButtonLoading(btn, false);
                 btn.querySelector('.glass-button-text').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-6 h-6"><g fill-rule="evenodd" fill="none"><g fill-rule="nonzero" transform="translate(3, 2)"><path fill="#4285F4" d="M57.8123233,30.1515267 C57.8123233,27.7263183 57.6155321,25.9565533 57.1896408,24.1212666 L29.4960833,24.1212666 L29.4960833,35.0674653 L45.7515771,35.0674653 C45.4239683,37.7877475 43.6542033,41.8844383 39.7213169,44.6372555 L39.6661883,45.0037254 L48.4223791,51.7870338 L49.0290201,51.8475849 C54.6004021,46.7020943 57.8123233,39.1313952 57.8123233,30.1515267"></path><path fill="#34A853" d="M29.4960833,58.9921667 C37.4599129,58.9921667 44.1456164,56.3701671 49.0290201,51.8475849 L39.7213169,44.6372555 C37.2305867,46.3742596 33.887622,47.5868638 29.4960833,47.5868638 C21.6960582,47.5868638 15.0758763,42.4415066 12.7159637,35.3297017 L12.3700541,35.3591173 L3.26524241,42.4054015 L3.14617358,42.736208 C8.00797941,52.3681151 17.9571433,58.9921667 29.4960833,58.9921667"></path><path fill="#FBBC04" d="M12.7159637,35.3297017 C12.0932012,33.4944667 11.7329116,31.5279215 11.7329116,29.4960833 C11.7329116,27.4642451 12.0932012,25.4977 12.6832591,23.6624649 L12.6667965,23.2860305 L3.44584714,16.1208332 L3.14617358,16.2559585 C1.14106496,20.2315967 0,24.7456833 0,29.4960833 C0,34.2464833 1.14106496,38.76057 3.14617358,42.736208 L12.7159637,35.3297017"></path><path fill="#EA4335" d="M29.4960833,11.4050769 C35.0347044,11.4050769 38.7707997,13.7975244 40.9011602,15.7867415 L49.2255853,7.66898166 C44.1130815,2.91855167 37.4599129,0 29.4960833,0 C17.9571433,0 8.00797941,6.62405167 3.14617358,16.2559585 L12.6832591,23.6624649 C15.0758763,16.5506601 21.6960582,11.4050769 29.4960833,11.4050769"></path></g></g></svg> Google';
-                
-                if (error.code === 'auth/popup-closed-by-user') {
-                    showError('email-error', 'Sign-in cancelled. Please try again.');
-                } else if (error.code === 'auth/popup-blocked') {
-                    showError('email-error', 'Pop-up blocked. Please allow pop-ups and try again.');
-                } else {
-                    showError('email-error', 'An error occurred. Please try again.');
-                }
-            }
-        });
-
-        // Microsoft Sign-In Handler
-        document.getElementById('microsoft-login').addEventListener('click', async function() {
-            console.log('🔷 Microsoft login initiated');
-            const btn = this;
-            setButtonLoading(btn, true);
-            hideError('email-error');
-
-            try {
-                const provider = new firebase.auth.OAuthProvider('microsoft.com');
-                provider.setCustomParameters({
-                    prompt: 'select_account'
-                });
-
-                const result = await auth.signInWithPopup(provider);
-                const user = result.user;
-                const email = user.email;
-
-                console.log('✅ Microsoft sign-in successful:', email);
-
-                // Check if business email
-                if (!isBusinessEmail(email)) {
-                    // Sign out and show error
-                    await auth.signOut();
-                    showError('email-error', '🚫 Please use your business email. Personal emails are not allowed.');
-                    setButtonLoading(btn, false);
-                    btn.querySelector('.glass-button-text').innerHTML = '<svg width="20" height="20" viewBox="0 0 23 23" fill="none"><path d="M0 0H10.9091V10.9091H0V0Z" fill="#F25022"/><path d="M12.0908 0H22.9999V10.9091H12.0908V0Z" fill="#7FBA00"/><path d="M0 12.0908H10.9091V22.9999H0V12.0908Z" fill="#00A4EF"/><path d="M12.0908 12.0908H22.9999V22.9999H12.0908V12.0908Z" fill="#FFB900"/></svg> Microsoft';
-                    console.log('❌ Personal email rejected:', email);
-                    return;
-                }
-
-                console.log('✅ Business email verified:', email);
-                window.location.href = '/auth/verified';
-                
-            } catch (error) {
-                console.error('❌ Microsoft sign-in error:', error);
-                setButtonLoading(btn, false);
-                btn.querySelector('.glass-button-text').innerHTML = '<svg width="20" height="20" viewBox="0 0 23 23" fill="none"><path d="M0 0H10.9091V10.9091H0V0Z" fill="#F25022"/><path d="M12.0908 0H22.9999V10.9091H12.0908V0Z" fill="#7FBA00"/><path d="M0 12.0908H10.9091V22.9999H0V12.0908Z" fill="#00A4EF"/><path d="M12.0908 12.0908H22.9999V22.9999H12.0908V12.0908Z" fill="#FFB900"/></svg> Microsoft';
                 
                 if (error.code === 'auth/popup-closed-by-user') {
                     showError('email-error', 'Sign-in cancelled. Please try again.');
@@ -1918,7 +1853,7 @@
                 }
             });
 
-            console.log('✅ Firebase initialized with Google & Microsoft OAuth + business email validation!');
+            console.log('✅ Firebase initialized with Google OAuth + business email validation!');
         })();
     </script>
 </body>
