@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - MyWebApp</title>
-    <!-- Cache bust: 2026-02-05 06:21 UTC+0330 -->
+    <!-- Plus Jakarta Sans for headings -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Cache bust: 2026-02-05 06:33 UTC+0330 -->
     <style>
-        /* All CSS stays exactly the same - only changing the SVG gradients below */
+        /* All CSS stays exactly the same - only changing the font-family for headings below */
         
         /* Tailwind CSS Base Styles */
         @layer properties {
@@ -726,6 +728,7 @@
             font-size: 1.6875rem;
             line-height: 1.2;
             white-space: nowrap;
+            font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
         }
 
         @media (min-width: 40rem) {
@@ -1266,7 +1269,7 @@
 
     <!-- Sign Up Content -->
     <div class="relative z-10 w-full max-w-sm mx-2 flex flex-col items-center content-container">
-        <h1 class="heading-custom font-bold text-foreground text-center tracking-tighter mb-2 font-serif animate-entrance-heading" id="main-heading">
+        <h1 class="heading-custom font-bold text-foreground text-center tracking-tighter mb-2 animate-entrance-heading" id="main-heading">
             Get started with Us
         </h1>
         <p class="text-sm text-muted-foreground text-center mb-8 animate-entrance-description" id="subtitle">Continue with</p>
