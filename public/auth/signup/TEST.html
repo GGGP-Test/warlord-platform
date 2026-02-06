@@ -25,30 +25,26 @@
     <!-- Plus Jakarta Sans for headings -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ===== SITE BADGE STYLES ===== */
+        /* ===== REFINED SITE BADGE STYLES ===== */
         @keyframes badgeSlideIn {
             from {
                 opacity: 0;
-                transform: translateY(-12px) scale(0.95);
-                filter: blur(4px);
+                transform: translateY(-8px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0) scale(1);
-                filter: blur(0);
+                transform: translateY(0);
             }
         }
 
         @keyframes badgeSlideOut {
             from {
                 opacity: 1;
-                transform: translateY(0) scale(1);
-                filter: blur(0);
+                transform: translateY(0);
             }
             to {
                 opacity: 0;
-                transform: translateY(-12px) scale(0.95);
-                filter: blur(4px);
+                transform: translateY(-8px);
             }
         }
 
@@ -56,9 +52,20 @@
             width: 100%;
             display: flex;
             justify-content: center;
-            margin-bottom: 1rem;
-            min-height: 44px;
+            margin-bottom: 0;
+            height: 0;
+            overflow: hidden;
+            opacity: 0;
             align-items: center;
+            transition: height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        opacity 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        margin-bottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .site-badge-container.show {
+            height: 54px;
+            opacity: 1;
+            margin-bottom: 1rem;
         }
 
         .site-badge {
@@ -77,14 +84,14 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             opacity: 0;
-            transform: translateY(-12px) scale(0.95);
-            filter: blur(4px);
-            transition: opacity 0.3s ease, transform 0.3s ease, filter 0.3s ease;
-            animation: badgeSlideOut 0.3s ease forwards;
+            transform: translateY(-8px);
+            transition: opacity 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                       transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .site-badge.show {
-            animation: badgeSlideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        .site-badge.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .site-badge-text {
@@ -165,6 +172,10 @@
 
         /* Mobile optimization */
         @media (max-width: 640px) {
+            .site-badge-container.show {
+                height: 50px;
+            }
+
             .site-badge {
                 padding: 8px 14px;
                 gap: 8px;
@@ -1370,7 +1381,7 @@
                 <div class="flex-1 h-px bg-border"></div>
             </div>
 
-            <!-- Site Badge (Shows business domain) -->
+            <!-- Site Badge (Shows business domain - hidden by default, appears on "@") -->
             <div class="site-badge-container" id="site-badge-container">
                 <div class="site-badge" id="site-badge">
                     <span class="site-badge-text">
@@ -1528,6 +1539,7 @@
         ]);
 
         // Site Badge Elements
+        const siteBadgeContainer = document.getElementById('site-badge-container');
         const siteBadge = document.getElementById('site-badge');
         const siteBadgeDomain = document.getElementById('site-badge-domain');
 
@@ -1543,16 +1555,30 @@
             return domain && !PERSONAL_DOMAINS.has(domain);
         }
 
-        // Utility: Show/hide site badge
+        // Utility: Show/hide site badge with smooth animation
         function updateSiteBadge(email) {
             const domain = extractDomain(email);
             
             if (domain && !PERSONAL_DOMAINS.has(domain)) {
                 siteBadgeDomain.textContent = domain;
-                siteBadge.classList.add('show');
+                
+                // Show container first (smooth height expansion + push animation)
+                siteBadgeContainer.classList.add('show');
+                
+                // Then show badge content with slight delay for layered effect
+                setTimeout(() => {
+                    siteBadge.classList.add('visible');
+                }, 100);
+                
                 console.log('✅ Business domain detected:', domain);
             } else {
-                siteBadge.classList.remove('show');
+                // Hide badge content first
+                siteBadge.classList.remove('visible');
+                
+                // Then collapse container
+                setTimeout(() => {
+                    siteBadgeContainer.classList.remove('show');
+                }, 200);
             }
         }
 
@@ -1669,26 +1695,46 @@
             // Email validation regex
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            // 1. EMAIL INPUT - Show next button when valid + update site badge
+            // 1. EMAIL INPUT - Show badge ONLY when "@" is typed, then validate
             emailInput.addEventListener('input', function() {
                 const value = this.value.trim();
-                const isValid = emailRegex.test(value);
                 hideError('email-error');
 
-                // Update site badge in real-time
-                if (isValid) {
-                    updateSiteBadge(value);
+                // TRIGGER BADGE ON "@" CHARACTER
+                if (value.includes('@')) {
+                    const isValid = emailRegex.test(value);
+                    
+                    if (isValid) {
+                        updateSiteBadge(value);
+                        
+                        if (!emailValid) {
+                            emailValid = true;
+                            emailNextBtnContainer.classList.add('show');
+                            console.log('✅ Valid email entered:', value);
+                        }
+                    } else {
+                        // Hide badge if email becomes invalid after showing
+                        siteBadge.classList.remove('visible');
+                        setTimeout(() => {
+                            siteBadgeContainer.classList.remove('show');
+                        }, 200);
+                        
+                        if (emailValid) {
+                            emailValid = false;
+                            emailNextBtnContainer.classList.remove('show');
+                        }
+                    }
                 } else {
-                    siteBadge.classList.remove('show');
-                }
-
-                if (isValid && !emailValid) {
-                    emailValid = true;
-                    emailNextBtnContainer.classList.add('show');
-                    console.log('✅ Valid email entered:', value);
-                } else if (!isValid && emailValid) {
-                    emailValid = false;
-                    emailNextBtnContainer.classList.remove('show');
+                    // No "@" yet - hide everything
+                    siteBadge.classList.remove('visible');
+                    setTimeout(() => {
+                        siteBadgeContainer.classList.remove('show');
+                    }, 200);
+                    
+                    if (emailValid) {
+                        emailValid = false;
+                        emailNextBtnContainer.classList.remove('show');
+                    }
                 }
             });
 
@@ -1710,9 +1756,14 @@
                     // Hide email next button
                     emailNextBtnContainer.classList.remove('show');
                     
-                    // Hide email field and site badge
+                    // Hide site badge
+                    siteBadge.classList.remove('visible');
+                    setTimeout(() => {
+                        siteBadgeContainer.classList.remove('show');
+                    }, 200);
+                    
+                    // Hide email field
                     emailFieldContainer.classList.add('hide');
-                    siteBadge.classList.remove('show');
                     
                     // Fade out social buttons and divider
                     socialButtons.classList.add('fade-out');
@@ -1875,9 +1926,9 @@
                     socialButtons.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
                     divider.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
                     
-                    // Restore site badge if email is valid business email
+                    // Restore site badge if email contains "@" and is valid business email
                     const email = emailInput.value.trim();
-                    if (emailRegex.test(email)) {
+                    if (email.includes('@') && emailRegex.test(email)) {
                         updateSiteBadge(email);
                     }
                     
@@ -1936,7 +1987,7 @@
                 }
             });
 
-            console.log('✅ Site Badge feature initialized with smooth animations!');
+            console.log('✅ Site Badge with "@" trigger & professional push animation initialized!');
             console.log('✅ Firebase initialized with Google OAuth + business email validation!');
         })();
     </script>
