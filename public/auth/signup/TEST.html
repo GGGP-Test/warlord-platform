@@ -24,7 +24,7 @@
     
     <!-- Plus Jakarta Sans for headings -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-    <!-- Cache bust: Polish v4 - Refined home icon -->
+    <!-- Cache bust: Polish v5 - Clean icon only -->
     <style>
         /* All CSS stays exactly the same - only changing the font-family for headings below */
         
@@ -411,53 +411,38 @@
             letter-spacing: 0.2px;
         }
 
-        /* REFINED Home Link Styles with professional polish */
+        /* CLEAN HOME ICON - No background, just icon with professional hover */
         .home-link {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 10px;
-            background: oklch(from var(--background) l c h / 0.6);
-            border: 1px solid oklch(from var(--border) l c h / 0.5);
-            border-radius: 10px;
-            line-height: 0;
-            color: oklch(from var(--foreground) l c h / 0.7);
+            padding: 8px;
+            color: oklch(from var(--foreground) l c h / 0.6);
             text-decoration: none;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(8px);
-            box-shadow: 0 1px 2px 0 oklch(from var(--foreground) l c h / 0.05);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .home-link:hover {
-            background: oklch(from var(--background) l c h / 0.8);
-            border-color: oklch(from var(--border) l c h / 0.8);
             color: var(--foreground);
-            box-shadow: 0 2px 4px 0 oklch(from var(--foreground) l c h / 0.08),
-                        0 0 0 3px oklch(from var(--foreground) l c h / 0.03);
-            transform: translateY(-1px);
+            transform: scale(1.1);
         }
 
         .home-link:active {
-            transform: translateY(0) scale(0.98);
-            box-shadow: 0 1px 2px 0 oklch(from var(--foreground) l c h / 0.05);
+            transform: scale(0.95);
         }
 
         .home-link svg {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             display: block;
-            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .home-link:hover svg {
-            transform: scale(1.05);
+            transition: inherit;
         }
 
         @media (min-width: 1024px) {
             .home-link svg {
-                width: 22px;
-                height: 22px;
+                width: 24px;
+                height: 24px;
             }
         }
 
@@ -1167,7 +1152,7 @@
             </div>
             <span class="brand-word">Galactly</span>
         </a>
-        <!-- REFINED HOME ICON -->
+        <!-- CLEAN HOME ICON - NO BACKGROUND -->
         <a class="home-link" href="/" aria-label="Home">
             <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
