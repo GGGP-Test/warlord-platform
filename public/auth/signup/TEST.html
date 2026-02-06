@@ -24,7 +24,7 @@
     
     <!-- Plus Jakarta Sans for headings -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-    <!-- Cache bust: Google OAuth Only -->
+    <!-- Cache bust: Professional Polish v1 -->
     <style>
         /* All CSS stays exactly the same - only changing the font-family for headings below */
         
@@ -438,225 +438,27 @@
             }
         }
 
-        /* Foggy Glass Window Background */
+        /* CLEAN PROFESSIONAL BACKGROUND - Subtle gradient like Stripe/Linear */
         body {
             background: linear-gradient(135deg, 
-                #f8f9fa 0%,
-                #f0f2f4 25%,
-                #e8eaed 50%,
-                #f0f2f4 75%,
-                #f8f9fa 100%
+                #fafbfc 0%,
+                #f5f7fa 25%,
+                #eef1f5 50%,
+                #f5f7fa 75%,
+                #fafbfc 100%
             );
         }
 
-        /* Subtle cloudy/foggy shapes in background */
-        .foggy-bg {
-            position: absolute;
+        /* Minimal subtle texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
             inset: 0;
-            overflow: hidden;
-            opacity: 0.35;
-        }
-
-        .cloud-shape {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.6;
-        }
-
-        .cloud-1 {
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(220, 224, 228, 0.8) 0%, transparent 70%);
-            top: -200px;
-            left: -100px;
-            animation: cloudFloat1 30s ease-in-out infinite;
-        }
-
-        .cloud-2 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(210, 215, 220, 0.7) 0%, transparent 70%);
-            bottom: -150px;
-            right: -80px;
-            animation: cloudFloat2 35s ease-in-out infinite;
-        }
-
-        .cloud-3 {
-            width: 450px;
-            height: 450px;
-            background: radial-gradient(circle, rgba(225, 228, 232, 0.6) 0%, transparent 70%);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: cloudFloat3 40s ease-in-out infinite;
-        }
-
-        .cloud-4 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(215, 220, 225, 0.5) 0%, transparent 70%);
-            top: 20%;
-            right: 15%;
-            animation: cloudFloat4 32s ease-in-out infinite;
-        }
-
-        .cloud-5 {
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(205, 210, 215, 0.5) 0%, transparent 70%);
-            bottom: 25%;
-            left: 20%;
-            animation: cloudFloat5 38s ease-in-out infinite;
-        }
-
-        /* Light sources layer */
-        .light-sources {
-            position: absolute;
-            inset: 0;
-            overflow: hidden;
-            opacity: 0.77;
-            z-index: 1;
-        }
-
-        .light-bulb {
-            position: absolute;
-        }
-
-        .light-core {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(40px);
-        }
-
-        .light-glow {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-        }
-
-        .light-1 {
-            width: 300px;
-            height: 300px;
-            top: 10%;
-            right: 15%;
-        }
-
-        .light-1 .light-core {
-            width: 180px;
-            height: 180px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(circle, rgba(155, 168, 178, 1) 0%, rgba(135, 148, 158, 0.9) 30%, transparent 70%);
-            animation: glowPulse1 4s ease-in-out infinite;
-        }
-
-        .light-1 .light-glow {
-            width: 300px;
-            height: 300px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(circle, rgba(175, 188, 198, 0.7) 0%, rgba(155, 170, 182, 0.4) 40%, transparent 70%);
-            animation: glowPulse1 4s ease-in-out infinite;
-        }
-
-        .light-2 {
-            width: 240px;
-            height: 240px;
-            bottom: 15%;
-            left: 10%;
-        }
-
-        .light-2 .light-core {
-            width: 140px;
-            height: 140px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(248, 250, 252, 0.9) 30%, transparent 70%);
-            animation: glowPulse2 5s ease-in-out infinite;
-        }
-
-        .light-2 .light-glow {
-            width: 240px;
-            height: 240px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(circle, rgba(252, 253, 254, 0.7) 0%, rgba(245, 247, 250, 0.4) 40%, transparent 70%);
-            animation: glowPulse2 5s ease-in-out infinite;
-        }
-
-        .light-3 {
-            width: 200px;
-            height: 200px;
-            top: 45%;
-            right: 25%;
-        }
-
-        .light-3 .light-core {
-            width: 120px;
-            height: 120px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(circle, rgba(245, 235, 215, 1) 0%, rgba(235, 225, 205, 0.85) 30%, transparent 70%);
-            animation: glowPulse3 4.5s ease-in-out infinite;
-        }
-
-        .light-3 .light-glow {
-            width: 200px;
-            height: 200px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(circle, rgba(235, 230, 220, 0.65) 0%, rgba(225, 218, 208, 0.35) 40%, transparent 70%);
-            animation: glowPulse3 4.5s ease-in-out infinite;
-        }
-
-        @keyframes glowPulse1 {
-            0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 0.75; transform: translate(-50%, -50%) scale(1.08); }
-        }
-
-        @keyframes glowPulse2 {
-            0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.06); }
-        }
-
-        @keyframes glowPulse3 {
-            0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 0.78; transform: translate(-50%, -50%) scale(1.07); }
-        }
-
-        @keyframes cloudFloat1 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -20px) scale(1.05); }
-            66% { transform: translate(-20px, 15px) scale(0.95); }
-        }
-
-        @keyframes cloudFloat2 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(-25px, 20px) scale(1.08); }
-            66% { transform: translate(20px, -15px) scale(0.92); }
-        }
-
-        @keyframes cloudFloat3 {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            33% { transform: translate(calc(-50% + 20px), calc(-50% - 25px)) scale(1.03); }
-            66% { transform: translate(calc(-50% - 15px), calc(-50% + 20px)) scale(0.97); }
-        }
-
-        @keyframes cloudFloat4 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(-15px, 25px) scale(1.06); }
-        }
-
-        @keyframes cloudFloat5 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(20px, -20px) scale(1.04); }
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(59, 89, 152, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(46, 74, 124, 0.02) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
 
         @keyframes spin {
@@ -741,24 +543,31 @@
             animation-delay: 1.6s;
         }
 
-        /* CUSTOM SIZING */
+        /* REFINED TYPOGRAPHY & SPACING */
         .heading-custom {
-            font-size: 1.6875rem;
-            line-height: 1.2;
+            font-size: 2rem;
+            line-height: 1.15;
             white-space: nowrap;
             font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+            letter-spacing: -0.02em;
         }
 
         @media (min-width: 40rem) {
             .heading-custom {
-                font-size: 2.25rem;
+                font-size: 2.5rem;
             }
         }
 
         @media (min-width: 48rem) {
             .heading-custom {
-                font-size: 2.8125rem;
+                font-size: 3rem;
             }
+        }
+
+        /* Tighter subtitle spacing */
+        .subtitle-tight {
+            margin-top: 0.5rem;
+            margin-bottom: 2rem;
         }
 
         .buttons-container {
@@ -768,12 +577,13 @@
             align-items: center;
         }
 
+        /* Larger, more prominent Google button */
         .glass-button {
-            height: 40px;
+            height: 48px;
             padding-top: 0;
             padding-bottom: 0;
-            padding-left: 1rem;
-            padding-right: 1rem;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1280,37 +1090,12 @@
         </a>
     </div>
 
-    <!-- Foggy/Cloudy Background Layer -->
-    <div class="foggy-bg">
-        <div class="cloud-shape cloud-1"></div>
-        <div class="cloud-shape cloud-2"></div>
-        <div class="cloud-shape cloud-3"></div>
-        <div class="cloud-shape cloud-4"></div>
-        <div class="cloud-shape cloud-5"></div>
-    </div>
-
-    <!-- Glowing Light Bulbs Layer -->
-    <div class="light-sources">
-        <div class="light-bulb light-1">
-            <div class="light-core"></div>
-            <div class="light-glow"></div>
-        </div>
-        <div class="light-bulb light-2">
-            <div class="light-core"></div>
-            <div class="light-glow"></div>
-        </div>
-        <div class="light-bulb light-3">
-            <div class="light-core"></div>
-            <div class="light-glow"></div>
-        </div>
-    </div>
-
     <!-- Sign Up Content -->
     <div class="relative z-10 w-full max-w-sm mx-2 flex flex-col items-center content-container">
         <h1 class="heading-custom font-bold text-foreground text-center tracking-tighter mb-2 animate-entrance-heading" id="main-heading">
             Get started with Us
         </h1>
-        <p class="text-sm text-muted-foreground text-center mb-8 animate-entrance-description" id="subtitle">Continue with</p>
+        <p class="text-sm text-muted-foreground text-center subtitle-tight animate-entrance-description" id="subtitle">Continue with</p>
 
         <!-- Form Content -->
         <form class="w-[300px] space-y-6" id="signup-form">
