@@ -1695,37 +1695,34 @@
             // Email validation regex
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            // 1. EMAIL INPUT - Show badge when "@" appears (FIXED)
+            // 1. EMAIL INPUT - Show badge IMMEDIATELY when "@" appears
             emailInput.addEventListener('input', function() {
                 const value = this.value.trim();
                 hideError('email-error');
 
-                // TRIGGER BADGE ON "@" CHARACTER
+                // SHOW BADGE IMMEDIATELY ON "@" CHARACTER - NO VALIDATION NEEDED
                 if (value.includes('@')) {
+                    // Extract domain even if email is incomplete
+                    const domain = extractDomain(value);
+                    
+                    if (domain) {
+                        // Show badge immediately if business domain
+                        updateSiteBadge(value);
+                    }
+                    
+                    // Check if email is fully valid for next button
                     const isValid = emailRegex.test(value);
                     
-                    if (isValid) {
-                        updateSiteBadge(value);
-                        
-                        if (!emailValid) {
-                            emailValid = true;
-                            emailNextBtnContainer.classList.add('show');
-                            console.log('✅ Valid email entered:', value);
-                        }
-                    } else {
-                        // Hide badge if email becomes invalid after showing
-                        siteBadge.classList.remove('visible');
-                        setTimeout(() => {
-                            siteBadgeContainer.classList.remove('show');
-                        }, 200);
-                        
-                        if (emailValid) {
-                            emailValid = false;
-                            emailNextBtnContainer.classList.remove('show');
-                        }
+                    if (isValid && !emailValid) {
+                        emailValid = true;
+                        emailNextBtnContainer.classList.add('show');
+                        console.log('✅ Valid email entered:', value);
+                    } else if (!isValid && emailValid) {
+                        emailValid = false;
+                        emailNextBtnContainer.classList.remove('show');
                     }
                 } else {
-                    // No "@" yet - hide everything
+                    // No "@" yet - hide badge and next button
                     siteBadge.classList.remove('visible');
                     setTimeout(() => {
                         siteBadgeContainer.classList.remove('show');
@@ -1926,9 +1923,9 @@
                     socialButtons.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
                     divider.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
                     
-                    // Restore site badge if email contains "@" and is valid business email
+                    // Restore site badge if email contains "@"
                     const email = emailInput.value.trim();
-                    if (email.includes('@') && emailRegex.test(email)) {
+                    if (email.includes('@')) {
                         updateSiteBadge(email);
                     }
                     
@@ -1987,7 +1984,7 @@
                 }
             });
 
-            console.log('✅ Site Badge with "@" trigger & professional push animation initialized!');
+            console.log('✅ Site Badge triggers IMMEDIATELY on "@" character!');
             console.log('✅ Firebase initialized with Google OAuth + business email validation!');
         })();
     </script>
