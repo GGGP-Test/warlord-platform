@@ -22,8 +22,8 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     
-    <!-- Plus Jakarta Sans for headings -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Plus Jakarta Sans for headings + Inter for body text -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         /* ===== REFINED SITE BADGE STYLES ===== */
         @keyframes badgeSlideIn {
@@ -54,7 +54,7 @@
             justify-content: center;
             margin-bottom: 0;
             height: 0;
-            overflow: visible; /* CHANGED FROM hidden TO visible */
+            overflow: visible;
             opacity: 0;
             align-items: center;
             transition: height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -137,58 +137,99 @@
             color: oklch(from var(--foreground) l c h / 0.7);
         }
 
-        /* PROFESSIONAL TOOLTIP WITH LINK */
+        /* 🎨 PROFESSIONAL TOOLTIP - Complete Redesign */
         .site-badge-tooltip {
             position: absolute;
-            bottom: calc(100% + 12px);
+            bottom: calc(100% + 14px);
             left: 50%;
-            transform: translateX(-50%);
-            padding: 12px 16px;
-            background: oklch(from var(--foreground) l c h / 0.96);
-            color: var(--background);
+            transform: translateX(-50%) translateY(4px) scale(0.95);
+            
+            /* Rich gradient background instead of flat black */
+            background: linear-gradient(145deg, 
+                #1a1d29 0%,
+                #2a2d3a 50%,
+                #1e2130 100%
+            );
+            
+            /* Modern Inter font family */
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             font-size: 13px;
+            font-weight: 500;
             line-height: 1.5;
-            border-radius: 10px;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.25s ease, transform 0.25s ease;
-            z-index: 1000;
-            box-shadow: 
-                0 8px 24px oklch(from var(--foreground) l c h / 0.25),
-                0 2px 8px oklch(from var(--foreground) l c h / 0.15);
+            color: #f0f1f5;
+            
+            /* Better spacing */
+            padding: 14px 18px;
+            border-radius: 12px;
+            
+            /* Max width with text overflow */
             max-width: 280px;
             white-space: normal;
-            text-align: center;
+            text-align: left;
+            
+            /* Professional shadow with multiple layers */
+            box-shadow: 
+                0 12px 32px rgba(0, 0, 0, 0.35),
+                0 4px 12px rgba(0, 0, 0, 0.25),
+                0 0 0 1px rgba(255, 255, 255, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            
+            /* Smooth entrance animation */
+            opacity: 0;
+            pointer-events: none;
+            transition: 
+                opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            
+            z-index: 1000;
+            
+            /* Text overflow handling */
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
         }
 
         .site-badge-tooltip.show {
             opacity: 1;
             pointer-events: auto;
-            transform: translateX(-50%) translateY(-4px);
+            transform: translateX(-50%) translateY(0) scale(1);
         }
 
+        /* Refined arrow with gradient match */
         .site-badge-tooltip::after {
             content: '';
             position: absolute;
             top: 100%;
             left: 50%;
             transform: translateX(-50%);
-            border: 7px solid transparent;
-            border-top-color: oklch(from var(--foreground) l c h / 0.96);
+            border: 8px solid transparent;
+            border-top-color: #1e2130;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
         }
 
+        /* Professional link styling */
         .site-badge-tooltip a {
             color: #6FB3FF;
             text-decoration: none;
             font-weight: 600;
-            transition: color 0.2s ease;
+            transition: all 0.2s ease;
             border-bottom: 1px solid transparent;
+            display: inline-block;
+            position: relative;
         }
 
         .site-badge-tooltip a:hover {
             color: #A3CEFF;
-            border-bottom-color: #A3CEFF;
+            border-bottom-color: rgba(163, 206, 255, 0.5);
+        }
+
+        /* Subtle backdrop blur on desktop */
+        @media (min-width: 768px) {
+            .site-badge-tooltip {
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+            }
         }
 
         /* Mobile optimization */
@@ -218,8 +259,22 @@
 
             .site-badge-tooltip {
                 font-size: 12px;
-                padding: 10px 14px;
+                padding: 12px 16px;
                 max-width: 260px;
+                border-radius: 10px;
+                bottom: calc(100% + 12px);
+            }
+            
+            .site-badge-tooltip::after {
+                border-width: 7px;
+            }
+        }
+
+        /* Tablet optimization */
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .site-badge-tooltip {
+                max-width: 300px;
+                font-size: 13px;
             }
         }
 
@@ -2073,9 +2128,7 @@
                 }
             });
 
-            console.log('✅ Tooltip overflow fixed - container now visible!');
-            console.log('✅ Site Badge triggers IMMEDIATELY on "@" character!');
-            console.log('✅ Firebase initialized with Google OAuth + business email validation!');
+            console.log('✨ Professional tooltip with gradient background, Inter font, smooth animations, and responsive design!');
         })();
     </script>
 </body>
