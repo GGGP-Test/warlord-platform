@@ -137,22 +137,35 @@
             color: oklch(from var(--foreground) l c h / 0.7);
         }
 
+        /* PROFESSIONAL TOOLTIP WITH LINK */
         .site-badge-tooltip {
             position: absolute;
-            bottom: calc(100% + 8px);
+            bottom: calc(100% + 12px);
             left: 50%;
             transform: translateX(-50%);
-            padding: 8px 12px;
-            background: oklch(from var(--foreground) l c h / 0.95);
+            padding: 12px 16px;
+            background: oklch(from var(--foreground) l c h / 0.96);
             color: var(--background);
-            font-size: 12px;
-            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+            border-radius: 10px;
             white-space: nowrap;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.2s ease, transform 0.2s ease;
+            transition: opacity 0.25s ease, transform 0.25s ease;
             z-index: 1000;
-            box-shadow: 0 4px 12px oklch(from var(--foreground) l c h / 0.3);
+            box-shadow: 
+                0 8px 24px oklch(from var(--foreground) l c h / 0.25),
+                0 2px 8px oklch(from var(--foreground) l c h / 0.15);
+            max-width: 280px;
+            white-space: normal;
+            text-align: center;
+        }
+
+        .site-badge-tooltip.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(-4px);
         }
 
         .site-badge-tooltip::after {
@@ -161,13 +174,21 @@
             top: 100%;
             left: 50%;
             transform: translateX(-50%);
-            border: 6px solid transparent;
-            border-top-color: oklch(from var(--foreground) l c h / 0.95);
+            border: 7px solid transparent;
+            border-top-color: oklch(from var(--foreground) l c h / 0.96);
         }
 
-        .site-badge-icon:hover .site-badge-tooltip {
-            opacity: 1;
-            transform: translateX(-50%) translateY(-4px);
+        .site-badge-tooltip a {
+            color: #6FB3FF;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        .site-badge-tooltip a:hover {
+            color: #A3CEFF;
+            border-bottom-color: #A3CEFF;
         }
 
         /* Mobile optimization */
@@ -193,6 +214,12 @@
             .site-badge-icon svg {
                 width: 12px;
                 height: 12px;
+            }
+
+            .site-badge-tooltip {
+                font-size: 12px;
+                padding: 10px 14px;
+                max-width: 260px;
             }
         }
 
@@ -1387,13 +1414,15 @@
                     <span class="site-badge-text">
                         We'll use <span class="site-badge-domain" id="site-badge-domain">—</span>
                     </span>
-                    <div class="site-badge-icon">
+                    <div class="site-badge-icon" id="site-badge-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"/>
                             <path d="M12 7v7"/>
                             <circle cx="12" cy="17" r="1.5" fill="currentColor"/>
                         </svg>
-                        <div class="site-badge-tooltip">Domain match for privacy</div>
+                        <div class="site-badge-tooltip" id="site-badge-tooltip">
+                            This domain will be used as our source of truth about your business. <a href="privacy">Learn more</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1542,6 +1571,63 @@
         const siteBadgeContainer = document.getElementById('site-badge-container');
         const siteBadge = document.getElementById('site-badge');
         const siteBadgeDomain = document.getElementById('site-badge-domain');
+        const siteBadgeIcon = document.getElementById('site-badge-icon');
+        const siteBadgeTooltip = document.getElementById('site-badge-tooltip');
+
+        // Tooltip behavior: show on hover/tap, hide on click outside
+        let tooltipVisible = false;
+
+        // Show tooltip on hover (desktop)
+        siteBadgeIcon.addEventListener('mouseenter', function() {
+            siteBadgeTooltip.classList.add('show');
+            tooltipVisible = true;
+        });
+
+        // Keep tooltip visible when hovering over it (so user can click link)
+        siteBadgeTooltip.addEventListener('mouseenter', function() {
+            siteBadgeTooltip.classList.add('show');
+            tooltipVisible = true;
+        });
+
+        // Hide on mouse leave from both icon and tooltip
+        siteBadgeIcon.addEventListener('mouseleave', function() {
+            setTimeout(() => {
+                if (!siteBadgeTooltip.matches(':hover')) {
+                    siteBadgeTooltip.classList.remove('show');
+                    tooltipVisible = false;
+                }
+            }, 100);
+        });
+
+        siteBadgeTooltip.addEventListener('mouseleave', function() {
+            siteBadgeTooltip.classList.remove('show');
+            tooltipVisible = false;
+        });
+
+        // Toggle tooltip on click/tap (mobile)
+        siteBadgeIcon.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (tooltipVisible) {
+                siteBadgeTooltip.classList.remove('show');
+                tooltipVisible = false;
+            } else {
+                siteBadgeTooltip.classList.add('show');
+                tooltipVisible = true;
+            }
+        });
+
+        // Close tooltip when clicking outside
+        document.addEventListener('click', function(e) {
+            if (tooltipVisible && !siteBadgeTooltip.contains(e.target) && !siteBadgeIcon.contains(e.target)) {
+                siteBadgeTooltip.classList.remove('show');
+                tooltipVisible = false;
+            }
+        });
+
+        // Prevent tooltip from closing when clicking inside it (for link)
+        siteBadgeTooltip.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
 
         // Utility: Extract domain from email
         function extractDomain(email) {
@@ -1986,6 +2072,7 @@
 
             console.log('✅ Site Badge triggers IMMEDIATELY on "@" character!');
             console.log('✅ Firebase initialized with Google OAuth + business email validation!');
+            console.log('✅ Tooltip with "Learn more" link implemented!');
         })();
     </script>
 </body>
