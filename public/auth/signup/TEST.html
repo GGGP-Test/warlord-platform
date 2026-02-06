@@ -24,7 +24,7 @@
     
     <!-- Plus Jakarta Sans for headings -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-    <!-- Cache bust: Professional Polish v1 -->
+    <!-- Cache bust: Polish v2 - Snappier animations + refined inputs -->
     <style>
         /* All CSS stays exactly the same - only changing the font-family for headings below */
         
@@ -465,12 +465,12 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* PAGE LOAD ENTRANCE ANIMATIONS */
+        /* SNAPPIER PAGE LOAD ENTRANCE ANIMATIONS */
         @keyframes fadeInUpBlur {
             from {
                 opacity: 0;
-                filter: blur(8px);
-                transform: translateY(9px) scale(0.98);
+                filter: blur(6px);
+                transform: translateY(8px) scale(0.98);
             }
             to {
                 opacity: 1;
@@ -482,7 +482,7 @@
         @keyframes fadeInBlur {
             from {
                 opacity: 0;
-                filter: blur(8px);
+                filter: blur(6px);
             }
             to {
                 opacity: 1;
@@ -498,49 +498,49 @@
             }
             to {
                 opacity: 0;
-                filter: blur(6px);
-                transform: translateY(-5px);
+                filter: blur(4px);
+                transform: translateY(-4px);
             }
         }
 
         .content-container {
-            animation: fadeInBlur 0.3s ease-out forwards;
+            animation: fadeInBlur 0.25s ease-out forwards;
         }
 
         .animate-entrance-heading {
             opacity: 0;
-            animation: fadeInUpBlur 0.4s ease-out forwards;
+            animation: fadeInUpBlur 0.3s ease-out forwards;
             animation-delay: 0s;
         }
 
         .animate-entrance-description {
             opacity: 0;
-            animation: fadeInUpBlur 0.4s ease-out forwards;
-            animation-delay: 0.32s;
+            animation: fadeInUpBlur 0.3s ease-out forwards;
+            animation-delay: 0.15s;
         }
 
         .animate-entrance-buttons {
             opacity: 0;
-            animation: fadeInUpBlur 0.4s ease-out forwards;
-            animation-delay: 0.64s;
+            animation: fadeInUpBlur 0.3s ease-out forwards;
+            animation-delay: 0.3s;
         }
 
         .animate-entrance-divider {
             opacity: 0;
-            animation: fadeInUpBlur 0.4s ease-out forwards;
-            animation-delay: 0.96s;
+            animation: fadeInUpBlur 0.3s ease-out forwards;
+            animation-delay: 0.45s;
         }
 
         .animate-entrance-input {
             opacity: 0;
-            animation: fadeInUpBlur 0.4s ease-out forwards;
-            animation-delay: 1.28s;
+            animation: fadeInUpBlur 0.3s ease-out forwards;
+            animation-delay: 0.6s;
         }
 
         .animate-entrance-terms {
             opacity: 0;
-            animation: fadeInUpBlur 0.4s ease-out forwards;
-            animation-delay: 1.6s;
+            animation: fadeInUpBlur 0.3s ease-out forwards;
+            animation-delay: 0.75s;
         }
 
         /* REFINED TYPOGRAPHY & SPACING */
@@ -616,7 +616,7 @@
         }
 
         .glass-button-wrap {
-            --anim-time: 400ms;
+            --anim-time: 350ms;
             --anim-ease: cubic-bezier(.25, 1, .5, 1);
             --border-width: clamp(1px, .0625em, 4px);
             position: relative;
@@ -741,7 +741,7 @@
                                       oklch(from var(--foreground) l c h / 50%) 100%),
                         linear-gradient(180deg, oklch(from var(--background) l c h / 50%), oklch(from var(--background) l c h / 50%));
             mask: linear-gradient(#000 0, #000 0) content-box exclude, linear-gradient(#000 0, #000 0);
-            transition: all var(--anim-time) var(--anim-ease), --angle-1 500ms ease;
+            transition: all var(--anim-time) var(--anim-ease), --angle-1 450ms ease;
             box-shadow: inset 0 0 0 calc(var(--border-width) / 2) oklch(from var(--background) l c h / 50%);
             pointer-events: none;
         }
@@ -754,7 +754,7 @@
             --angle-1: -75deg;
         }
 
-        /* Glass Input Styles */
+        /* REFINED Glass Input Styles with Enhanced Focus */
         .glass-input-wrap {
             position: relative;
             z-index: 2;
@@ -770,7 +770,7 @@
             border-radius: 9999px;
             -webkit-tap-highlight-color: transparent;
             backdrop-filter: blur(clamp(1px, .125em, 4px));
-            transition: 400ms cubic-bezier(.25, 1, .5, 1);
+            transition: all 350ms cubic-bezier(.25, 1, .5, 1);
             background: linear-gradient(-75deg, oklch(from var(--background) l c h / 5%), oklch(from var(--background) l c h / 20%), oklch(from var(--background) l c h / 5%));
             box-shadow: inset 0 .125em .125em oklch(from var(--foreground) l c h / 5%),
                         inset 0 -.125em .125em oklch(from var(--background) l c h / 50%),
@@ -779,13 +779,15 @@
                         0 0 0 0 oklch(from var(--background) l c h);
         }
 
+        /* Enhanced focus state with subtle glow */
         .glass-input-wrap:focus-within .glass-input {
             backdrop-filter: blur(.01em);
-            box-shadow: inset 0 .125em .125em oklch(from var(--foreground) l c h / 5%),
-                        inset 0 -.125em .125em oklch(from var(--background) l c h / 50%),
+            box-shadow: inset 0 .125em .125em oklch(from var(--foreground) l c h / 6%),
+                        inset 0 -.125em .125em oklch(from var(--background) l c h / 55%),
                         0 .15em .05em -.1em oklch(from var(--foreground) l c h / 25%),
-                        0 0 .05em .1em inset oklch(from var(--background) l c h / 50%),
-                        0 0 0 0 oklch(from var(--background) l c h);
+                        0 0 .05em .1em inset oklch(from var(--background) l c h / 60%),
+                        0 0 0 3px oklch(from var(--foreground) l c h / 3%),
+                        0 0 12px 0 oklch(from var(--foreground) l c h / 4%);
         }
 
         .glass-input::after {
@@ -806,7 +808,7 @@
                                       oklch(from var(--foreground) l c h / 50%) 100%),
                         linear-gradient(180deg, oklch(from var(--background) l c h / 50%), oklch(from var(--background) l c h / 50%));
             mask: linear-gradient(#000 0, #000 0) content-box exclude, linear-gradient(#000 0, #000 0);
-            transition: 400ms cubic-bezier(.25, 1, .5, 1), --angle-1 500ms;
+            transition: all 350ms cubic-bezier(.25, 1, .5, 1), --angle-1 450ms;
             box-shadow: inset 0 0 0 calc(clamp(1px, .0625em, 4px) / 2) oklch(from var(--background) l c h / 50%);
             pointer-events: none;
         }
@@ -838,7 +840,7 @@
             pointer-events: none;
             background-size: 200% 200%;
             background-position: 0% 50%;
-            transition: background-position .5s cubic-bezier(.25, 1, .5, 1), --angle-2 .5s cubic-bezier(.25, 1, .5, 1);
+            transition: background-position .45s cubic-bezier(.25, 1, .5, 1), --angle-2 .45s cubic-bezier(.25, 1, .5, 1);
         }
 
         .glass-input-wrap:focus-within .glass-input-text-area::after {
@@ -854,8 +856,8 @@
             width: 0;
             opacity: 0;
             overflow: hidden;
-            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                        opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                        opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .next-button-container.show {
@@ -885,14 +887,14 @@
         .email-field-container {
             filter: blur(0px);
             transform: translateY(0);
-            transition: opacity 0.4s ease-out, filter 0.4s ease-out, transform 0.4s ease-out, max-height 0.4s ease-out;
+            transition: opacity 0.3s ease-out, filter 0.3s ease-out, transform 0.3s ease-out, max-height 0.3s ease-out;
             max-height: 200px;
         }
 
         .email-field-container.hide {
             opacity: 0;
-            filter: blur(6px);
-            transform: translateY(-5px);
+            filter: blur(4px);
+            transform: translateY(-4px);
             max-height: 0;
             margin-top: 0 !important;
             overflow: hidden;
@@ -901,9 +903,9 @@
         /* PASSWORD FIELD SLIDE-IN ANIMATION */
         .password-field-container {
             opacity: 0;
-            filter: blur(6px);
-            transform: translateY(5px);
-            transition: opacity 0.4s ease-out, filter 0.4s ease-out, transform 0.4s ease-out;
+            filter: blur(4px);
+            transform: translateY(4px);
+            transition: opacity 0.3s ease-out, filter 0.3s ease-out, transform 0.3s ease-out;
             margin-top: 0;
             max-height: 0;
             overflow: hidden;
@@ -920,9 +922,9 @@
         /* CONFIRM PASSWORD FIELD SLIDE-IN ANIMATION */
         .confirm-password-field-container {
             opacity: 0;
-            filter: blur(6px);
-            transform: translateY(5px);
-            transition: opacity 0.4s ease-out, filter 0.4s ease-out, transform 0.4s ease-out;
+            filter: blur(4px);
+            transform: translateY(4px);
+            transition: opacity 0.3s ease-out, filter 0.3s ease-out, transform 0.3s ease-out;
             margin-top: 0;
             max-height: 0;
             overflow: hidden;
@@ -938,7 +940,7 @@
 
         /* FADE OUT ANIMATION FOR ELEMENTS */
         .fade-out {
-            animation: fadeOutBlur 0.4s ease-out forwards;
+            animation: fadeOutBlur 0.3s ease-out forwards;
         }
 
         .hide {
@@ -950,8 +952,8 @@
             margin-top: 1rem;
             text-align: center;
             opacity: 0;
-            transform: translateY(5px);
-            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+            transform: translateY(4px);
+            transition: opacity 0.25s ease-out, transform 0.25s ease-out;
         }
 
         .go-back-button.show {
@@ -1016,7 +1018,7 @@
             margin-top: 0.5rem;
             text-align: center;
             opacity: 0;
-            animation: fadeInUpBlur 0.3s ease-out forwards;
+            animation: fadeInUpBlur 0.25s ease-out forwards;
         }
 
         /* Loading spinner */
@@ -1436,8 +1438,8 @@
                         subtitle.textContent = 'Your password must be at least 6 characters long.';
                         
                         // Animate heading
-                        mainHeading.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
-                        subtitle.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
+                        mainHeading.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
+                        subtitle.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
                         subtitle.style.animationDelay = '0.1s';
                         
                         // Show password field
@@ -1446,7 +1448,7 @@
                             passwordGoBack.classList.add('show');
                             passwordInput.focus();
                         }, 200);
-                    }, 400);
+                    }, 300);
                 }
             });
 
@@ -1485,8 +1487,8 @@
                         mainHeading.textContent = 'Confirm your password';
                         subtitle.textContent = 'Re-enter your password to confirm.';
                         
-                        mainHeading.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
-                        subtitle.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
+                        mainHeading.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
+                        subtitle.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
                         subtitle.style.animationDelay = '0.1s';
                         
                         // Show confirm password field
@@ -1495,7 +1497,7 @@
                             confirmPasswordGoBack.classList.add('show');
                             confirmPasswordInput.focus();
                         }, 200);
-                    }, 400);
+                    }, 300);
                 }
             });
 
@@ -1573,20 +1575,20 @@
                     mainHeading.textContent = 'Get started with Us';
                     subtitle.textContent = 'Continue with';
                     
-                    mainHeading.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
-                    subtitle.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
+                    mainHeading.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
+                    subtitle.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
                     
                     socialButtons.classList.remove('hide', 'fade-out');
                     divider.classList.remove('hide', 'fade-out');
                     emailFieldContainer.classList.remove('hide');
                     
-                    socialButtons.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
-                    divider.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
+                    socialButtons.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
+                    divider.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
                     
                     if (emailValid) {
                         emailNextBtnContainer.classList.add('show');
                     }
-                }, 300);
+                }, 250);
             });
 
             confirmPasswordGoBack.querySelector('a').addEventListener('click', function(e) {
@@ -1603,8 +1605,8 @@
                     mainHeading.textContent = 'Create your password';
                     subtitle.textContent = 'Your password must be at least 6 characters long.';
                     
-                    mainHeading.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
-                    subtitle.style.animation = 'fadeInUpBlur 0.4s ease-out forwards';
+                    mainHeading.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
+                    subtitle.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
                     
                     passwordContainer.classList.add('show');
                     setTimeout(() => {
@@ -1613,7 +1615,7 @@
                             passwordNextBtnContainer.classList.add('show');
                         }
                     }, 200);
-                }, 300);
+                }, 250);
             });
 
             // Enter key handlers
