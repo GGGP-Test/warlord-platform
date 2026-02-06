@@ -24,7 +24,7 @@
     
     <!-- Plus Jakarta Sans for headings -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-    <!-- Cache bust: Polish v5 - Clean icon only -->
+    <!-- Cache bust: Polish v6 - Refined logo and brand -->
     <style>
         /* All CSS stays exactly the same - only changing the font-family for headings below */
         
@@ -365,25 +365,36 @@
             padding: 0 20px;
         }
 
-        /* Brand Styles */
+        /* REFINED BRAND STYLES - Better sizing, spacing, and hover */
         .brand {
             display: flex;
             align-items: center;
-            gap: 10px;
-            color: var(--foreground);
+            gap: 8px;
+            color: oklch(from var(--foreground) l c h / 0.92);
             text-decoration: none;
             padding: 6px 8px;
             border-radius: 12px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .brand:hover {
+            transform: translateY(-1px);
+            color: var(--foreground);
+        }
+
+        .brand:hover .brand-icon {
+            filter: drop-shadow(0 2px 4px rgba(46, 74, 124, 0.15));
         }
 
         .brand-icon {
-            --icon-w: 38px;
+            --icon-w: 42px;
             --gg-gap-x: 10px;
-            --left-dim: 0.68;
+            --left-dim: 0.72;
             --stroke-w: 2.5;
             width: var(--icon-w);
             height: var(--icon-w);
             display: block;
+            transition: filter 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .brand-icon svg {
@@ -405,10 +416,11 @@
 
         .brand-word {
             font-weight: 800;
-            font-size: 14px;
+            font-size: 15px;
             line-height: 1;
             font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
-            letter-spacing: 0.2px;
+            letter-spacing: 0.4px;
+            text-shadow: 0 1px 2px oklch(from var(--foreground) l c h / 0.06);
         }
 
         /* CLEAN HOME ICON - No background, just icon with professional hover */
