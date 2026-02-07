@@ -825,17 +825,18 @@
 
         .glass-button {
             height: 40px;
-            padding-top: 0;
-            padding-bottom: 0;
-            padding-left: 0;
-            padding-right: 0;
-            display: flex;
+            padding: 0.625rem 1.25rem;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
+            gap: 0.5rem;
         }
 
-        .glass-button-text span {
-            padding: 0.625rem 1.25rem !important;
+        .glass-button-text {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         /* SEPARATE SIZING FOR EMAIL/PASSWORD INPUTS */
@@ -1404,7 +1405,7 @@
                 <div class="glass-button-wrap google-button-wrap cursor-pointer rounded-full relative">
                     <div class="glass-button-shadow"></div>
                     <button type="button" class="glass-button z-10 relative isolate all-unset cursor-pointer rounded-full transition-all text-sm font-medium" id="google-login">
-                        <span class="glass-button-text relative select-none tracking-tighter flex items-center justify-center gap-2">
+                        <span class="glass-button-text relative select-none tracking-tighter">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-6 h-6">
                                 <g fill-rule="evenodd" fill="none">
                                     <g fill-rule="nonzero" transform="translate(3, 2)">
