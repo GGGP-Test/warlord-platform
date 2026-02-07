@@ -529,7 +529,7 @@
         .font-serif { font-family: var(--font-serif); }
         .text-sm { font-size: var(--text-sm); line-height: var(--text-sm--line-height); }
         .text-muted-foreground { color: var(--muted-foreground); }
-        .space-y-3 > * + * { margin-top: 0.75rem; }
+        .space-y-6 > * + * { margin-top: 1.5rem; }
         .flex-1 { flex: 1 1 0%; }
         .rounded-full { border-radius: 9999px; }
         .px-4 { padding-left: 1rem; padding-right: 1rem; }
@@ -845,6 +845,7 @@
             gap: 1rem;
             justify-content: center;
             align-items: center;
+            margin-top: -0.75rem !important; /* 🔥 Pull Google button CLOSER to "Continue with" - cuts gap in half */
         }
 
         /* Larger, more prominent Google button */
@@ -1154,13 +1155,12 @@
             height: 16px;
         }
 
-        /* EMAIL FIELD CONTAINER - REMOVED DEFAULT OPACITY:1 SO ANIMATION CLASS CAN CONTROL IT */
+        /* EMAIL FIELD CONTAINER - Normal spacing restored */
         .email-field-container {
             filter: blur(0px);
             transform: translateY(0);
             transition: opacity 0.3s ease-out, filter 0.3s ease-out, transform 0.3s ease-out, max-height 0.3s ease-out;
             max-height: 200px;
-            margin-top: -0.1125rem !important; /* 🔥 Reduce gap by 15% (-1.5px from 0.75rem = -0.1125rem) */
         }
 
         .email-field-container.hide {
@@ -1432,7 +1432,7 @@
         <p class="text-sm text-muted-foreground text-center subtitle-tight animate-entrance-description" id="subtitle">Continue with</p>
 
         <!-- Form Content -->
-        <form class="w-[300px] space-y-3" id="signup-form">
+        <form class="w-[300px] space-y-6" id="signup-form">
             <!-- Google Login Button -->
             <div class="buttons-container animate-entrance-buttons" id="social-buttons">
                 <div class="glass-button-wrap cursor-pointer rounded-full relative">
@@ -2127,7 +2127,7 @@
                 }
             });
 
-            console.log('✅ Spacing adjustments complete - Continue/Google gap halved, OR/email gap reduced by 15%!');
+            console.log('✅ Spacing fix complete - Form restored to space-y-6, Google button pulled closer with margin-top: -0.75rem');
         })();
     </script>
 </body>
