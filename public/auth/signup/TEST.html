@@ -256,6 +256,59 @@
             }
         }
 
+        /* ===== EMAIL VERIFICATION PANEL ===== */
+        .verification-panel {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 2px solid #86efac;
+            padding: 24px;
+            border-radius: 16px;
+            display: none;
+            animation: fadeInUpBlur 0.4s ease-out forwards;
+            margin-top: 2rem;
+        }
+
+        .verification-panel.show {
+            display: block;
+        }
+
+        .verification-panel h3 {
+            color: #16a34a;
+            margin-bottom: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'Plus Jakarta Sans', 'Inter', system-ui;
+        }
+
+        .verification-panel p {
+            color: #15803d;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .verification-panel .email-highlight {
+            font-weight: 700;
+            color: #15803d;
+        }
+
+        .verification-actions {
+            display: flex;
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .verification-actions a {
+            color: #667eea;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .verification-actions a:hover {
+            text-decoration: underline;
+        }
+
         /* Tailwind CSS Base Styles */
         @layer properties {
             @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color: rgb(from red r g b)))) {
@@ -1346,7 +1399,7 @@
                 <svg viewBox="0 0 64 64" aria-label="Galactly double G" xmlns="http://www.w3.org/2000/svg">
                   <defs>
                     <symbol id="gSym" viewBox="0 0 320 860" overflow="visible">
-                      <path id="gPath" d="M 209.5 474.25 H 261.5 C 261.667 524.583 262 630.45 262 651.25 C 262 677.25 242.5 718.75 235.5 730.25 C 228.5 741.75 208.5 760.25 193 770.25 C 177.5 780.25 161 786.25 149.5 786.25 C 140.3 786.25 131.667 779.916 128.5 776.75 C 122.5 771.916 105.6 755.85 86.0003 730.25 C 66.4003 704.65 60.5003 662.583 60.0003 644.75 V 221.25 C 59.667 209.583 61.7003 177.25 72.5003 141.25 C 81.5253 111.166 104.214 87.8332 119.5 75.9188 C 131.5 65.7496 150.57 68.3373 156.5 69.2496 C 163 70.2496 173.834 73.2496 178 74.7496 C 184.834 77.083 195.3 82.5496 206.5 91.7496 C 220.5 103.25 227 113.75 230 119.75 C 236 124.15 248.5 161.25 254 179.25 L 264 247.25 L 269.5 259.25 C 273.834 263.75 285 272.45 295 271.25 C 307.5 269.75 310.5 258.25 314 251.25 C 312 159.25 295 102.75 253.5 51.2496 C 220.3 10.0496 176.667 2.08297 159 3.24964 C 143.5 1.4163 101.8 8.84964 59.0003 53.2496 C 16.2003 97.6496 3.83366 179.416 3.00033 214.75 L 7.00033 649.75 C 7.33366 667.75 12.9003 713.55 32.5003 752.75 C 57.0003 801.75 108.5 847.25 166 847.25 C 211.6 846.45 254.334 803.25 270 781.75 C 292.8 752.55 313.392 681.75 313.5 642.25 C 313.667 581.583 313.9 456.65 313.5 442.25 C 313.1 427.85 304.667 416.916 300.5 413.25 H 204.5 C 198 416.083 185 426.35 185 444.75 C 185 463.15 201.334 472.083 209.5 474.25 Z"/>
+                      <path id="gPath" d="M 209.5 474.25 H 261.5 C 261.667 524.583 262 630.45 262 651.25 C 262 677.25 242.5 718.75 235.5 730.25 C 228.5 741.75 208.5 760.25 193 770.25 C 177.5 780.25 161 786.25 149.5 786.25 C 140.3 786.25 131.667 779.916 128.5 776.75 C 122.5 771.916 105.6 755.85 86.0003 730.25 C 66.4003 704.65 60.5003 662.583 60.0003 644.75 V 221.25 C 59.667 209.583 61.7003 177.25 72.5003 141.25 C 81.5253 111.166 104.214 87.8332 119.5 75.9188 C 131.5 65.7496 150.57 68.3373 156.5 69.2496 C 163 70.2496 173.834 73.2496 178 74.7496 C 184.834 77.083 195.3 82.5496 206.5 91.7496 C 220.5 103.25 227 113.75 230 119.75 C 236 124.15 248.5 161.25 254 179.25 L 264 247.25 L 269.5 259.25 C 273.834 263.75 285 272.45 295 271.25 C 307.5 269.75 310.5 258.25 314 251.25 C 312 159.25 295 102.75 253.5 51.2496 C 220.3 10.0496 176.667 2.08297 159 3.24964 C 143.5 1.4163 101.8 8.84964 59.0003 53.249 C 16.2003 97.6496 3.83366 179.416 3.00033 214.75 L 7.00033 649.75 C 7.33366 667.75 12.9003 713.55 32.5003 752.75 C 57.0003 801.75 108.5 847.25 166 847.25 C 211.6 846.45 254.334 803.25 270 781.75 C 292.8 752.55 313.392 681.75 313.5 642.25 C 313.667 581.583 313.9 456.65 313.5 442.25 C 313.1 427.85 304.667 416.916 300.5 413.25 H 204.5 C 198 416.083 185 426.35 185 444.75 C 185 463.15 201.334 472.083 209.5 474.25 Z"/>
                     </symbol>
                     <linearGradient id="ggFill" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0" stop-color="#3B5998"/>
@@ -1402,6 +1455,20 @@
             Get started with Us
         </h1>
         <p class="text-sm text-muted-foreground text-center subtitle-tight animate-entrance-description" id="subtitle">Continue with</p>
+
+        <!-- Verification Panel (ADDED) -->
+        <div class="verification-panel" id="verification-panel">
+            <h3>📧 Check Your Email</h3>
+            <p>
+                We sent a verification link to <span class="email-highlight" id="verify-email">—</span>.
+                Click the link in your email to verify and continue.
+            </p>
+            <div class="verification-actions">
+                <a id="resend-link">Resend email</a>
+                <span>•</span>
+                <a id="change-email-link">Use different email</a>
+            </div>
+        </div>
 
         <!-- Form Content -->
         <form class="w-[300px] space-y-6" id="signup-form">
@@ -1701,6 +1768,15 @@
             }
         }
 
+        // ADDED: Function to show verification panel
+        function showVerificationPanel(email) {
+            document.getElementById('verify-email').textContent = email;
+            document.getElementById('verification-panel').classList.add('show');
+            document.getElementById('signup-form').style.display = 'none';
+            document.getElementById('main-heading').textContent = 'Almost There!';
+            document.getElementById('subtitle').textContent = 'One more step to verify your email';
+        }
+
         document.getElementById('google-login').addEventListener('click', async function() {
             const btn = this;
             setButtonLoading(btn, true);
@@ -1894,6 +1970,7 @@
                 }
             });
 
+            // MODIFIED: Add email verification after account creation
             confirmPasswordNextBtn.addEventListener('click', async function(e) {
                 e.preventDefault();
                 
@@ -1913,9 +1990,23 @@
                 hideError('confirm-password-error');
                 
                 try {
+                    // Create account
                     const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                     const user = userCredential.user;
-                    window.location.href = '/auth/verified';
+                    
+                    // Send verification email
+                    try {
+                        await user.sendEmailVerification({
+                            url: window.location.origin + '/auth/verified',
+                            handleCodeInApp: false
+                        });
+                        console.log('Verification email sent to:', email);
+                    } catch (emailError) {
+                        console.error('Email send failed:', emailError);
+                    }
+                    
+                    // Show verification panel (NO REDIRECT)
+                    showVerificationPanel(email);
                     
                 } catch (error) {
                     console.error('Signup error:', error);
@@ -2005,6 +2096,29 @@
                 }
             });
         })();
+
+        // ADDED: Resend and change email handlers
+        document.getElementById('resend-link').addEventListener('click', async function(e) {
+            e.preventDefault();
+            if (!auth.currentUser) return;
+            
+            try {
+                await auth.currentUser.sendEmailVerification({
+                    url: window.location.origin + '/auth/verified',
+                    handleCodeInApp: false
+                });
+                this.textContent = '✓ Sent!';
+                setTimeout(() => this.textContent = 'Resend email', 2000);
+            } catch (error) {
+                console.error('Resend failed:', error);
+                alert('Failed to resend. Please try again.');
+            }
+        });
+
+        document.getElementById('change-email-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            location.reload();
+        });
     </script>
 </body>
 </html>
