@@ -108,7 +108,6 @@
             color: var(--foreground);
         }
 
-        /* 🎯 FIXED: Icon needs position relative to create stacking context */
         .site-badge-icon {
             display: inline-flex;
             align-items: center;
@@ -122,8 +121,8 @@
             border: 1px solid oklch(from var(--foreground) l c h / 0.15);
             cursor: pointer;
             transition: all 0.2s ease;
-            position: relative; /* 🔥 CRITICAL FIX - creates stacking context */
-            z-index: 1; /* Base z-index for icon */
+            position: relative;
+            z-index: 1;
         }
 
         .site-badge-icon:hover {
@@ -139,53 +138,39 @@
             color: oklch(from var(--foreground) l c h / 0.7);
         }
 
-        /* 🎨 PROFESSIONAL TOOLTIP - Complete Redesign */
         .site-badge-tooltip {
             position: absolute;
-            bottom: calc(100% + 16px); /* 🔥 Increased offset */
+            bottom: calc(100% + 16px);
             left: 50%;
             transform: translateX(-50%) translateY(4px) scale(0.95);
-            
-            /* Rich gradient background instead of flat black */
             background: linear-gradient(145deg, 
                 #1a1d29 0%,
                 #2a2d3a 50%,
                 #1e2130 100%
             );
-            
-            /* Modern Inter font family */
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             font-size: 13px;
             font-weight: 500;
-            line-height: 1.6; /* 🔥 Increased line height for better readability */
+            line-height: 1.6;
             color: #f0f1f5;
-            
-            /* Better spacing */
             padding: 14px 18px;
             border-radius: 12px;
-            
-            /* Max width with text overflow */
             max-width: 280px;
-            width: max-content; /* 🔥 Auto-size based on content */
+            width: max-content;
             white-space: normal;
             text-align: left;
-            word-wrap: break-word; /* 🔥 Break long words nicely */
-            
-            /* Professional shadow with multiple layers */
+            word-wrap: break-word;
             box-shadow: 
                 0 12px 32px rgba(0, 0, 0, 0.35),
                 0 4px 12px rgba(0, 0, 0, 0.25),
                 0 0 0 1px rgba(255, 255, 255, 0.08),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            
-            /* Smooth entrance animation */
             opacity: 0;
             pointer-events: none;
             transition: 
                 opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
                 transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            
-            z-index: 9999; /* 🔥 CRITICAL FIX - super high z-index to appear above everything */
+            z-index: 9999;
         }
 
         .site-badge-tooltip.show {
@@ -194,7 +179,6 @@
             transform: translateX(-50%) translateY(0) scale(1);
         }
 
-        /* Refined arrow with gradient match */
         .site-badge-tooltip::after {
             content: '';
             position: absolute;
@@ -206,7 +190,6 @@
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
         }
 
-        /* Professional link styling */
         .site-badge-tooltip a {
             color: #6FB3FF;
             text-decoration: none;
@@ -222,7 +205,6 @@
             border-bottom-color: rgba(163, 206, 255, 0.5);
         }
 
-        /* Subtle backdrop blur on desktop */
         @media (min-width: 768px) {
             .site-badge-tooltip {
                 backdrop-filter: blur(12px);
@@ -230,7 +212,6 @@
             }
         }
 
-        /* Mobile optimization */
         @media (max-width: 640px) {
             .site-badge-container.show {
                 height: 50px;
@@ -268,7 +249,6 @@
             }
         }
 
-        /* Tablet optimization */
         @media (min-width: 641px) and (max-width: 1024px) {
             .site-badge-tooltip {
                 max-width: 300px;
@@ -276,8 +256,6 @@
             }
         }
 
-        /* All CSS stays exactly the same - only changing the font-family for headings below */
-        
         /* Tailwind CSS Base Styles */
         @layer properties {
             @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color: rgb(from red r g b)))) {
@@ -461,7 +439,6 @@
             }
         }
 
-        /* Animation Property Definitions */
         @property --tw-animation-delay {
             syntax: "*";
             inherits: false;
@@ -615,7 +592,6 @@
             padding: 0 20px;
         }
 
-        /* REFINED BRAND STYLES - Better sizing, spacing, and hover */
         .brand {
             display: flex;
             align-items: center;
@@ -673,7 +649,6 @@
             text-shadow: 0 1px 2px oklch(from var(--foreground) l c h / 0.06);
         }
 
-        /* CLEAN HOME ICON - No background, just icon with professional hover */
         .home-link {
             display: inline-flex;
             align-items: center;
@@ -708,7 +683,6 @@
             }
         }
 
-        /* CLEAN PROFESSIONAL BACKGROUND - Subtle gradient like Stripe/Linear */
         body {
             background: linear-gradient(135deg, 
                 #fafbfc 0%,
@@ -719,7 +693,6 @@
             );
         }
 
-        /* Minimal subtle texture overlay */
         body::before {
             content: '';
             position: fixed;
@@ -735,7 +708,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* SNAPPIER PAGE LOAD ENTRANCE ANIMATIONS */
         @keyframes fadeInUpBlur {
             from {
                 opacity: 0;
@@ -813,7 +785,6 @@
             animation-delay: 0.75s;
         }
 
-        /* REFINED TYPOGRAPHY & SPACING */
         .heading-custom {
             font-size: 2rem;
             line-height: 1.15;
@@ -834,7 +805,6 @@
             }
         }
 
-        /* Tighter subtitle spacing */
         .subtitle-tight {
             margin-top: 0.5rem;
             margin-bottom: 2rem;
@@ -845,16 +815,22 @@
             gap: 1rem;
             justify-content: center;
             align-items: center;
-            margin-top: -0.75rem !important; /* 🔥 Pull Google button CLOSER to "Continue with" - cuts gap in half */
+            margin-top: -0.75rem !important;
         }
 
-        /* Google button with tight padding */
-        #google-login {
-            height: 48px;
+        .glass-button {
+            height: 40px;
+            padding-top: 0;
+            padding-bottom: 0;
+            padding-left: 0;
+            padding-right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        #google-login .glass-button-text {
-            padding: 0.625rem 1.25rem !important; /* Tight padding close to "Google" text */
+        .glass-button-text span {
+            padding: 0.625rem 1.25rem !important;
         }
 
         .glass-input-wrap {
@@ -893,7 +869,6 @@
             transition: transform var(--anim-time) var(--anim-ease);
         }
 
-        /* MICRO-INTERACTION: Button press feedback */
         .glass-button-wrap:has(.glass-button:active) {
             transform: scale(0.98);
         }
@@ -939,14 +914,6 @@
                         0 .25em .125em -.125em oklch(from var(--foreground) l c h / 20%),
                         0 0 .1em .25em inset oklch(from var(--background) l c h / 20%),
                         0 0 0 0 oklch(from var(--background) l c h);
-            height: 40px;
-            padding-top: 0;
-            padding-bottom: 0;
-            padding-left: 0;
-            padding-right: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .glass-button:hover {
@@ -1031,7 +998,6 @@
             --angle-1: -75deg;
         }
 
-        /* REFINED Glass Input Styles with Enhanced Focus */
         .glass-input-wrap {
             position: relative;
             z-index: 2;
@@ -1056,7 +1022,6 @@
                         0 0 0 0 oklch(from var(--background) l c h);
         }
 
-        /* Enhanced focus state with subtle glow */
         .glass-input-wrap:focus-within .glass-input {
             backdrop-filter: blur(.01em);
             box-shadow: inset 0 .125em .125em oklch(from var(--foreground) l c h / 6%),
@@ -1124,7 +1089,6 @@
             background-position: 25% 50%;
         }
 
-        /* CIRCULAR NEXT BUTTON INSIDE INPUT - FIXED AT END */
         .next-button-container {
             position: absolute;
             right: 6px;
@@ -1160,7 +1124,6 @@
             height: 16px;
         }
 
-        /* EMAIL FIELD CONTAINER - Normal spacing restored */
         .email-field-container {
             filter: blur(0px);
             transform: translateY(0);
@@ -1177,7 +1140,6 @@
             overflow: hidden;
         }
 
-        /* PASSWORD FIELD SLIDE-IN ANIMATION */
         .password-field-container {
             opacity: 0;
             filter: blur(4px);
@@ -1196,7 +1158,6 @@
             max-height: 200px;
         }
 
-        /* CONFIRM PASSWORD FIELD SLIDE-IN ANIMATION */
         .confirm-password-field-container {
             opacity: 0;
             filter: blur(4px);
@@ -1215,7 +1176,6 @@
             max-height: 200px;
         }
 
-        /* FADE OUT ANIMATION FOR ELEMENTS */
         .fade-out {
             animation: fadeOutBlur 0.3s ease-out forwards;
         }
@@ -1224,7 +1184,6 @@
             display: none !important;
         }
 
-        /* MICRO-INTERACTION: GO BACK BUTTON with hover effect */
         .go-back-button {
             margin-top: 1rem;
             text-align: center;
@@ -1255,7 +1214,6 @@
             transform: translateX(-2px);
         }
 
-        /* ENHANCED TERMS TEXT - Better contrast and positioning */
         .terms-text {
             font-size: 0.6875rem;
             line-height: 1.5;
@@ -1298,7 +1256,6 @@
             transform-origin: left;
         }
 
-        /* Autofill styling fixes */
         input[type="password"]::-webkit-credentials-auto-fill-button,
         input[type="password"]::-webkit-strong-password-auto-fill-button {
             display: none !important;
@@ -1336,7 +1293,6 @@
             -webkit-text-fill-color: var(--foreground) !important;
         }
 
-        /* MICRO-INTERACTION: Error message with smooth slide-in */
         .error-message {
             color: #ef4444;
             font-size: 0.75rem;
@@ -1358,7 +1314,6 @@
             }
         }
 
-        /* Loading spinner */
         .spinner {
             border: 2px solid rgba(0, 0, 0, 0.1);
             border-top: 2px solid var(--foreground);
@@ -1379,7 +1334,6 @@
                     <symbol id="gSym" viewBox="0 0 320 860" overflow="visible">
                       <path id="gPath" d="M 209.5 474.25 H 261.5 C 261.667 524.583 262 630.45 262 651.25 C 262 677.25 242.5 718.75 235.5 730.25 C 228.5 741.75 208.5 760.25 193 770.25 C 177.5 780.25 161 786.25 149.5 786.25 C 140.3 786.25 131.667 779.916 128.5 776.75 C 122.5 771.916 105.6 755.85 86.0003 730.25 C 66.4003 704.65 60.5003 662.583 60.0003 644.75 V 221.25 C 59.667 209.583 61.7003 177.25 72.5003 141.25 C 81.5253 111.166 104.214 87.8332 119.5 75.9188 C 131.5 65.7496 150.57 68.3373 156.5 69.2496 C 163 70.2496 173.834 73.2496 178 74.7496 C 184.834 77.083 195.3 82.5496 206.5 91.7496 C 220.5 103.25 227 113.75 230 119.75 C 236 124.15 248.5 161.25 254 179.25 L 264 247.25 L 269.5 259.25 C 273.834 263.75 285 272.45 295 271.25 C 307.5 269.75 310.5 258.25 314 251.25 C 312 159.25 295 102.75 253.5 51.2496 C 220.3 10.0496 176.667 2.08297 159 3.24964 C 143.5 1.4163 101.8 8.84964 59.0003 53.2496 C 16.2003 97.6496 3.83366 179.416 3.00033 214.75 L 7.00033 649.75 C 7.33366 667.75 12.9003 713.55 32.5003 752.75 C 57.0003 801.75 108.5 847.25 166 847.25 C 211.6 846.45 254.334 803.25 270 781.75 C 292.8 752.55 313.392 681.75 313.5 642.25 C 313.667 581.583 313.9 456.65 313.5 442.25 C 313.1 427.85 304.667 416.916 300.5 413.25 H 204.5 C 198 416.083 185 426.35 185 444.75 C 185 463.15 201.334 472.083 209.5 474.25 Z"/>
                     </symbol>
-                    <!-- POLISHED PROFESSIONAL BLUE GRADIENTS -->
                     <linearGradient id="ggFill" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0" stop-color="#3B5998"/>
                       <stop offset="0.5" stop-color="#2E4A7C"/>
@@ -1420,7 +1374,6 @@
             </div>
             <span class="brand-word">Galactly</span>
         </a>
-        <!-- CLEAN HOME ICON - NO BACKGROUND -->
         <a class="home-link" href="/" aria-label="Home">
             <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
@@ -1454,7 +1407,7 @@
                                     </g>
                                 </g>
                             </svg>
-                            Google
+                            <span>Google</span>
                         </span>
                     </button>
                 </div>
@@ -1467,7 +1420,7 @@
                 <div class="flex-1 h-px bg-border"></div>
             </div>
 
-            <!-- Site Badge (Shows business domain - hidden by default, appears on "@") -->
+            <!-- Site Badge -->
             <div class="site-badge-container" id="site-badge-container">
                 <div class="site-badge" id="site-badge">
                     <span class="site-badge-text">
@@ -1522,7 +1475,7 @@
                 <div id="email-error" class="error-message" style="display: none;"></div>
             </div>
 
-            <!-- Password Input Field (Initially Hidden) -->
+            <!-- Password Input Field -->
             <div class="password-field-container" id="password-container">
                 <div class="glass-input-wrap w-full" style="position: relative;">
                     <div class="glass-input">
@@ -1555,13 +1508,12 @@
                         </div>
                     </div>
                 </div>
-                <!-- Go Back Button for Password -->
                 <div class="go-back-button" id="password-go-back">
                     <a class="go-back-link">← Go back</a>
                 </div>
             </div>
 
-            <!-- Confirm Password Input Field (Initially Hidden) -->
+            <!-- Confirm Password Input Field -->
             <div class="confirm-password-field-container" id="confirm-password-container">
                 <div class="glass-input-wrap w-full" style="position: relative;">
                     <div class="glass-input">
@@ -1595,13 +1547,12 @@
                     </div>
                 </div>
                 <div id="confirm-password-error" class="error-message" style="display: none;"></div>
-                <!-- Go Back Button for Confirm Password -->
                 <div class="go-back-button" id="confirm-password-go-back">
                     <a class="go-back-link">← Go back</a>
                 </div>
             </div>
 
-            <!-- ENHANCED Terms Text -->
+            <!-- Terms Text -->
             <p class="terms-text animate-entrance-terms">
                 By clicking continue, you agree to our 
                 <a href="#">Terms of Service</a> 
@@ -1617,7 +1568,6 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // Personal email domains to block
         const PERSONAL_DOMAINS = new Set([
             'gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 
             'aol.com', 'icloud.com', 'mail.com', 'protonmail.com',
@@ -1626,14 +1576,12 @@
             'me.com', 'mac.com', 'pm.me', 'fastmail.com', 'hey.com'
         ]);
 
-        // Site Badge Elements
         const siteBadgeContainer = document.getElementById('site-badge-container');
         const siteBadge = document.getElementById('site-badge');
         const siteBadgeDomain = document.getElementById('site-badge-domain');
         const siteBadgeIcon = document.getElementById('site-badge-icon');
         const siteBadgeTooltip = document.getElementById('site-badge-tooltip');
 
-        // Tooltip behavior
         let isHoveringIcon = false;
         let isHoveringTooltip = false;
 
@@ -1649,7 +1597,6 @@
             }, 100);
         }
 
-        // Desktop hover behavior
         siteBadgeIcon.addEventListener('mouseenter', () => {
             isHoveringIcon = true;
             showTooltip();
@@ -1669,7 +1616,6 @@
             hideTooltip();
         });
 
-        // Mobile tap behavior
         siteBadgeIcon.addEventListener('click', (e) => {
             e.stopPropagation();
             if (siteBadgeTooltip.classList.contains('show')) {
@@ -1679,58 +1625,43 @@
             }
         });
 
-        // Close tooltip when clicking outside
         document.addEventListener('click', (e) => {
             if (!siteBadgeTooltip.contains(e.target) && !siteBadgeIcon.contains(e.target)) {
                 siteBadgeTooltip.classList.remove('show');
             }
         });
 
-        // Prevent clicks inside tooltip from closing it
         siteBadgeTooltip.addEventListener('click', (e) => {
             e.stopPropagation();
         });
 
-        // Utility: Extract domain from email
         function extractDomain(email) {
             const match = email.match(/@([^@\s]+)$/);
             return match ? match[1].toLowerCase() : null;
         }
 
-        // Utility: Check if email is business email
         function isBusinessEmail(email) {
             const domain = extractDomain(email);
             return domain && !PERSONAL_DOMAINS.has(domain);
         }
 
-        // Utility: Show/hide site badge with smooth animation
         function updateSiteBadge(email) {
             const domain = extractDomain(email);
             
             if (domain && !PERSONAL_DOMAINS.has(domain)) {
                 siteBadgeDomain.textContent = domain;
-                
-                // Show container first (smooth height expansion + push animation)
                 siteBadgeContainer.classList.add('show');
-                
-                // Then show badge content with slight delay for layered effect
                 setTimeout(() => {
                     siteBadge.classList.add('visible');
                 }, 100);
-                
-                console.log('✅ Business domain detected:', domain);
             } else {
-                // Hide badge content first
                 siteBadge.classList.remove('visible');
-                
-                // Then collapse container
                 setTimeout(() => {
                     siteBadgeContainer.classList.remove('show');
                 }, 200);
             }
         }
 
-        // Utility: Show error message
         function showError(elementId, message) {
             const errorEl = document.getElementById(elementId);
             if (errorEl) {
@@ -1739,7 +1670,6 @@
             }
         }
 
-        // Utility: Hide error message
         function hideError(elementId) {
             const errorEl = document.getElementById(elementId);
             if (errorEl) {
@@ -1747,7 +1677,6 @@
             }
         }
 
-        // Utility: Show loading state
         function setButtonLoading(buttonEl, loading) {
             const textSpan = buttonEl.querySelector('.glass-button-text');
             if (loading) {
@@ -1758,9 +1687,7 @@
             }
         }
 
-        // Google Sign-In Handler
         document.getElementById('google-login').addEventListener('click', async function() {
-            console.log('🔵 Google login initiated');
             const btn = this;
             setButtonLoading(btn, true);
             hideError('email-error');
@@ -1769,33 +1696,27 @@
                 const provider = new firebase.auth.GoogleAuthProvider();
                 provider.setCustomParameters({
                     prompt: 'select_account',
-                    hd: '*' // Allow all domains, we'll filter after
+                    hd: '*'
                 });
 
                 const result = await auth.signInWithPopup(provider);
                 const user = result.user;
                 const email = user.email;
 
-                console.log('✅ Google sign-in successful:', email);
-
-                // Check if business email
                 if (!isBusinessEmail(email)) {
-                    // Sign out and show error
                     await auth.signOut();
                     showError('email-error', '🚫 Please use your business email. Personal emails (Gmail, Yahoo, etc.) are not allowed.');
                     setButtonLoading(btn, false);
-                    btn.querySelector('.glass-button-text').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-6 h-6"><g fill-rule="evenodd" fill="none"><g fill-rule="nonzero" transform="translate(3, 2)"><path fill="#4285F4" d="M57.8123233,30.1515267 C57.8123233,27.7263183 57.6155321,25.9565533 57.1896408,24.1212666 L29.4960833,24.1212666 L29.4960833,35.0674653 L45.7515771,35.0674653 C45.4239683,37.7877475 43.6542033,41.8844383 39.7213169,44.6372555 L39.6661883,45.0037254 L48.4223791,51.7870338 L49.0290201,51.8475849 C54.6004021,46.7020943 57.8123233,39.1313952 57.8123233,30.1515267"></path><path fill="#34A853" d="M29.4960833,58.9921667 C37.4599129,58.9921667 44.1456164,56.3701671 49.0290201,51.8475849 L39.7213169,44.6372555 C37.2305867,46.3742596 33.887622,47.5868638 29.4960833,47.5868638 C21.6960582,47.5868638 15.0758763,42.4415066 12.7159637,35.3297017 L12.3700541,35.3591173 L3.26524241,42.4054015 L3.14617358,42.736208 C8.00797941,52.3681151 17.9571433,58.9921667 29.4960833,58.9921667"></path><path fill="#FBBC04" d="M12.7159637,35.3297017 C12.0932012,33.4944667 11.7329116,31.5279215 11.7329116,29.4960833 C11.7329116,27.4642451 12.0932012,25.4977 12.6832591,23.6624649 L12.6667965,23.2860305 L3.44584714,16.1208332 L3.14617358,16.2559585 C1.14106496,20.2315967 0,24.7456833 0,29.4960833 C0,34.2464833 1.14106496,38.76057 3.14617358,42.736208 L12.7159637,35.3297017"></path><path fill="#EA4335" d="M29.4960833,11.4050769 C35.0347044,11.4050769 38.7707997,13.7975244 40.9011602,15.7867415 L49.2255853,7.66898166 C44.1130815,2.91855167 37.4599129,0 29.4960833,0 C17.9571433,0 8.00797941,6.62405167 3.14617358,16.2559585 L12.6832591,23.6624649 C15.0758763,16.5506601 21.6960582,11.4050769 29.4960833,11.4050769"></path></g></g></svg> Google';
-                    console.log('❌ Personal email rejected:', email);
+                    btn.querySelector('.glass-button-text').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-6 h-6"><g fill-rule="evenodd" fill="none"><g fill-rule="nonzero" transform="translate(3, 2)"><path fill="#4285F4" d="M57.8123233,30.1515267 C57.8123233,27.7263183 57.6155321,25.9565533 57.1896408,24.1212666 L29.4960833,24.1212666 L29.4960833,35.0674653 L45.7515771,35.0674653 C45.4239683,37.7877475 43.6542033,41.8844383 39.7213169,44.6372555 L39.6661883,45.0037254 L48.4223791,51.7870338 L49.0290201,51.8475849 C54.6004021,46.7020943 57.8123233,39.1313952 57.8123233,30.1515267"></path><path fill="#34A853" d="M29.4960833,58.9921667 C37.4599129,58.9921667 44.1456164,56.3701671 49.0290201,51.8475849 L39.7213169,44.6372555 C37.2305867,46.3742596 33.887622,47.5868638 29.4960833,47.5868638 C21.6960582,47.5868638 15.0758763,42.4415066 12.7159637,35.3297017 L12.3700541,35.3591173 L3.26524241,42.4054015 L3.14617358,42.736208 C8.00797941,52.3681151 17.9571433,58.9921667 29.4960833,58.9921667"></path><path fill="#FBBC04" d="M12.7159637,35.3297017 C12.0932012,33.4944667 11.7329116,31.5279215 11.7329116,29.4960833 C11.7329116,27.4642451 12.0932012,25.4977 12.6832591,23.6624649 L12.6667965,23.2860305 L3.44584714,16.1208332 L3.14617358,16.2559585 C1.14106496,20.2315967 0,24.7456833 0,29.4960833 C0,34.2464833 1.14106496,38.76057 3.14617358,42.736208 L12.7159637,35.3297017"></path><path fill="#EA4335" d="M29.4960833,11.4050769 C35.0347044,11.4050769 38.7707997,13.7975244 40.9011602,15.7867415 L49.2255853,7.66898166 C44.1130815,2.91855167 37.4599129,0 29.4960833,0 C17.9571433,0 8.00797941,6.62405167 3.14617358,16.2559585 L12.6832591,23.6624649 C15.0758763,16.5506601 21.6960582,11.4050769 29.4960833,11.4050769"></path></g></g></svg><span>Google</span>';
                     return;
                 }
 
-                console.log('✅ Business email verified:', email);
                 window.location.href = '/auth/verified';
                 
             } catch (error) {
-                console.error('❌ Google sign-in error:', error);
+                console.error('Google sign-in error:', error);
                 setButtonLoading(btn, false);
-                btn.querySelector('.glass-button-text').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-6 h-6"><g fill-rule="evenodd" fill="none"><g fill-rule="nonzero" transform="translate(3, 2)"><path fill="#4285F4" d="M57.8123233,30.1515267 C57.8123233,27.7263183 57.6155321,25.9565533 57.1896408,24.1212666 L29.4960833,24.1212666 L29.4960833,35.0674653 L45.7515771,35.0674653 C45.4239683,37.7877475 43.6542033,41.8844383 39.7213169,44.6372555 L39.6661883,45.0037254 L48.4223791,51.7870338 L49.0290201,51.8475849 C54.6004021,46.7020943 57.8123233,39.1313952 57.8123233,30.1515267"></path><path fill="#34A853" d="M29.4960833,58.9921667 C37.4599129,58.9921667 44.1456164,56.3701671 49.0290201,51.8475849 L39.7213169,44.6372555 C37.2305867,46.3742596 33.887622,47.5868638 29.4960833,47.5868638 C21.6960582,47.5868638 15.0758763,42.4415066 12.7159637,35.3297017 L12.3700541,35.3591173 L3.26524241,42.4054015 L3.14617358,42.736208 C8.00797941,52.3681151 17.9571433,58.9921667 29.4960833,58.9921667"></path><path fill="#FBBC04" d="M12.7159637,35.3297017 C12.0932012,33.4944667 11.7329116,31.5279215 11.7329116,29.4960833 C11.7329116,27.4642451 12.0932012,25.4977 12.6832591,23.6624649 L12.6667965,23.2860305 L3.44584714,16.1208332 L3.14617358,16.2559585 C1.14106496,20.2315967 0,24.7456833 0,29.4960833 C0,34.2464833 1.14106496,38.76057 3.14617358,42.736208 L12.7159637,35.3297017"></path><path fill="#EA4335" d="M29.4960833,11.4050769 C35.0347044,11.4050769 38.7707997,13.7975244 40.9011602,15.7867415 L49.2255853,7.66898166 C44.1130815,2.91855167 37.4599129,0 29.4960833,0 C17.9571433,0 8.00797941,6.62405167 3.14617358,16.2559585 L12.6832591,23.6624649 C15.0758763,16.5506601 21.6960582,11.4050769 29.4960833,11.4050769"></path></g></g></svg> Google';
+                btn.querySelector('.glass-button-text').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-6 h-6"><g fill-rule="evenodd" fill="none"><g fill-rule="nonzero" transform="translate(3, 2)"><path fill="#4285F4" d="M57.8123233,30.1515267 C57.8123233,27.7263183 57.6155321,25.9565533 57.1896408,24.1212666 L29.4960833,24.1212666 L29.4960833,35.0674653 L45.7515771,35.0674653 C45.4239683,37.7877475 43.6542033,41.8844383 39.7213169,44.6372555 L39.6661883,45.0037254 L48.4223791,51.7870338 L49.0290201,51.8475849 C54.6004021,46.7020943 57.8123233,39.1313952 57.8123233,30.1515267"></path><path fill="#34A853" d="M29.4960833,58.9921667 C37.4599129,58.9921667 44.1456164,56.3701671 49.0290201,51.8475849 L39.7213169,44.6372555 C37.2305867,46.3742596 33.887622,47.5868638 29.4960833,47.5868638 C21.6960582,47.5868638 15.0758763,42.4415066 12.7159637,35.3297017 L12.3700541,35.3591173 L3.26524241,42.4054015 L3.14617358,42.736208 C8.00797941,52.3681151 17.9571433,58.9921667 29.4960833,58.9921667"></path><path fill="#FBBC04" d="M12.7159637,35.3297017 C12.0932012,33.4944667 11.7329116,31.5279215 11.7329116,29.4960833 C11.7329116,27.4642451 12.0932012,25.4977 12.6832591,23.6624649 L12.6667965,23.2860305 L3.44584714,16.1208332 L3.14617358,16.2559585 C1.14106496,20.2315967 0,24.7456833 0,29.4960833 C0,34.2464833 1.14106496,38.76057 3.14617358,42.736208 L12.7159637,35.3297017"></path><path fill="#EA4335" d="M29.4960833,11.4050769 C35.0347044,11.4050769 38.7707997,13.7975244 40.9011602,15.7867415 L49.2255853,7.66898166 C44.1130815,2.91855167 37.4599129,0 29.4960833,0 C17.9571433,0 8.00797941,6.62405167 3.14617358,16.2559585 L12.6832591,23.6624649 C15.0758763,16.5506601 21.6960582,11.4050769 29.4960833,11.4050769"></path></g></g></svg><span>Google</span>';
                 
                 if (error.code === 'auth/popup-closed-by-user') {
                     showError('email-error', 'Sign-in cancelled. Please try again.');
@@ -1807,11 +1728,9 @@
             }
         });
 
-        // Complete Email → Password → Confirm Password Workflow with Go Back
         (function() {
             'use strict';
 
-            // Elements
             const mainHeading = document.getElementById('main-heading');
             const subtitle = document.getElementById('subtitle');
             const socialButtons = document.getElementById('social-buttons');
@@ -1834,43 +1753,34 @@
             const confirmPasswordNextBtnContainer = document.getElementById('confirm-password-next-btn-container');
             const confirmPasswordGoBack = document.getElementById('confirm-password-go-back');
             
-            // State
             let emailValid = false;
             let passwordValid = false;
             let confirmPasswordValid = false;
-            let currentStep = 'email'; // 'email', 'password', 'confirm'
+            let currentStep = 'email';
 
-            // Email validation regex
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            // 1. EMAIL INPUT - Show badge IMMEDIATELY when "@" appears
             emailInput.addEventListener('input', function() {
                 const value = this.value.trim();
                 hideError('email-error');
 
-                // SHOW BADGE IMMEDIATELY ON "@" CHARACTER - NO VALIDATION NEEDED
                 if (value.includes('@')) {
-                    // Extract domain even if email is incomplete
                     const domain = extractDomain(value);
                     
                     if (domain) {
-                        // Show badge immediately if business domain
                         updateSiteBadge(value);
                     }
                     
-                    // Check if email is fully valid for next button
                     const isValid = emailRegex.test(value);
                     
                     if (isValid && !emailValid) {
                         emailValid = true;
                         emailNextBtnContainer.classList.add('show');
-                        console.log('✅ Valid email entered:', value);
                     } else if (!isValid && emailValid) {
                         emailValid = false;
                         emailNextBtnContainer.classList.remove('show');
                     }
                 } else {
-                    // No "@" yet - hide badge and next button
                     siteBadge.classList.remove('visible');
                     setTimeout(() => {
                         siteBadgeContainer.classList.remove('show');
@@ -1883,52 +1793,34 @@
                 }
             });
 
-            // 2. EMAIL NEXT BUTTON - Transition to password
             emailNextBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 const email = emailInput.value.trim();
                 
-                // Validate business email
                 if (!isBusinessEmail(email)) {
                     showError('email-error', '🚫 Please use your business email. Personal emails (Gmail, Yahoo, etc.) are not allowed.');
                     return;
                 }
                 
                 if (emailValid) {
-                    console.log('🔒 Email next clicked - transitioning to password');
                     currentStep = 'password';
-                    
-                    // Hide email next button
                     emailNextBtnContainer.classList.remove('show');
-                    
-                    // Hide site badge
                     siteBadge.classList.remove('visible');
                     setTimeout(() => {
                         siteBadgeContainer.classList.remove('show');
                     }, 200);
-                    
-                    // Hide email field
                     emailFieldContainer.classList.add('hide');
-                    
-                    // Fade out social buttons and divider
                     socialButtons.classList.add('fade-out');
                     divider.classList.add('fade-out');
                     
-                    // Wait for fade out animation
                     setTimeout(() => {
                         socialButtons.classList.add('hide');
                         divider.classList.add('hide');
-                        
-                        // Change heading and subtitle
                         mainHeading.textContent = 'Create your password';
                         subtitle.textContent = 'Your password must be at least 6 characters long.';
-                        
-                        // Animate heading
                         mainHeading.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
                         subtitle.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
                         subtitle.style.animationDelay = '0.1s';
-                        
-                        // Show password field
                         passwordContainer.classList.add('show');
                         setTimeout(() => {
                             passwordGoBack.classList.add('show');
@@ -1938,7 +1830,6 @@
                 }
             });
 
-            // 3. PASSWORD INPUT - Show next button when 6+ chars
             passwordInput.addEventListener('input', function() {
                 const password = this.value;
                 const isValid = password.length >= 6;
@@ -1946,38 +1837,26 @@
                 if (isValid && !passwordValid) {
                     passwordValid = true;
                     passwordNextBtnContainer.classList.add('show');
-                    console.log('✅ Password valid (6+ characters)');
                 } else if (!isValid && passwordValid) {
                     passwordValid = false;
                     passwordNextBtnContainer.classList.remove('show');
                 }
             });
 
-            // 4. PASSWORD NEXT BUTTON - Transition to confirm password
             passwordNextBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 if (passwordValid) {
-                    console.log('🔒 Password next clicked - transitioning to confirm');
                     currentStep = 'confirm';
-                    
-                    // Hide password next button
                     passwordNextBtnContainer.classList.remove('show');
                     passwordGoBack.classList.remove('show');
-                    
-                    // Fade out password field
                     passwordContainer.classList.remove('show');
                     
-                    // Wait for animation
                     setTimeout(() => {
-                        // Change heading
                         mainHeading.textContent = 'Confirm your password';
                         subtitle.textContent = 'Re-enter your password to confirm.';
-                        
                         mainHeading.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
                         subtitle.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
                         subtitle.style.animationDelay = '0.1s';
-                        
-                        // Show confirm password field
                         confirmPasswordContainer.classList.add('show');
                         setTimeout(() => {
                             confirmPasswordGoBack.classList.add('show');
@@ -1987,7 +1866,6 @@
                 }
             });
 
-            // 5. CONFIRM PASSWORD INPUT - Show next button when 6+ chars
             confirmPasswordInput.addEventListener('input', function() {
                 const password = this.value;
                 const isValid = password.length >= 6;
@@ -1996,14 +1874,12 @@
                 if (isValid && !confirmPasswordValid) {
                     confirmPasswordValid = true;
                     confirmPasswordNextBtnContainer.classList.add('show');
-                    console.log('✅ Confirm password valid (6+ characters)');
                 } else if (!isValid && confirmPasswordValid) {
                     confirmPasswordValid = false;
                     confirmPasswordNextBtnContainer.classList.remove('show');
                 }
             });
 
-            // 6. CONFIRM PASSWORD NEXT BUTTON - Complete signup
             confirmPasswordNextBtn.addEventListener('click', async function(e) {
                 e.preventDefault();
                 
@@ -2013,27 +1889,22 @@
                 const password = passwordInput.value;
                 const confirmPassword = confirmPasswordInput.value;
                 
-                // Check passwords match
                 if (password !== confirmPassword) {
                     showError('confirm-password-error', '❌ Passwords do not match');
                     return;
                 }
                 
-                console.log('🚀 Form complete - Creating account...');
                 const btn = this;
                 setButtonLoading(btn, true);
                 hideError('confirm-password-error');
                 
                 try {
-                    // Create user with email/password
                     const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                     const user = userCredential.user;
-                    
-                    console.log('✅ Account created successfully:', user.uid);
                     window.location.href = '/auth/verified';
                     
                 } catch (error) {
-                    console.error('❌ Signup error:', error);
+                    console.error('Signup error:', error);
                     setButtonLoading(btn, false);
                     btn.querySelector('.glass-button-text').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>';
                     
@@ -2047,12 +1918,9 @@
                 }
             });
 
-            // GO BACK HANDLERS
             passwordGoBack.querySelector('a').addEventListener('click', function(e) {
                 e.preventDefault();
-                console.log('⬅️ Going back to email step');
                 currentStep = 'email';
-                
                 passwordGoBack.classList.remove('show');
                 passwordNextBtnContainer.classList.remove('show');
                 passwordContainer.classList.remove('show');
@@ -2060,18 +1928,14 @@
                 setTimeout(() => {
                     mainHeading.textContent = 'Get started with Us';
                     subtitle.textContent = 'Continue with';
-                    
                     mainHeading.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
                     subtitle.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
-                    
                     socialButtons.classList.remove('hide', 'fade-out');
                     divider.classList.remove('hide', 'fade-out');
                     emailFieldContainer.classList.remove('hide');
-                    
                     socialButtons.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
                     divider.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
                     
-                    // Restore site badge if email contains "@"
                     const email = emailInput.value.trim();
                     if (email.includes('@')) {
                         updateSiteBadge(email);
@@ -2085,9 +1949,7 @@
 
             confirmPasswordGoBack.querySelector('a').addEventListener('click', function(e) {
                 e.preventDefault();
-                console.log('⬅️ Going back to password step');
                 currentStep = 'password';
-                
                 confirmPasswordGoBack.classList.remove('show');
                 confirmPasswordNextBtnContainer.classList.remove('show');
                 confirmPasswordContainer.classList.remove('show');
@@ -2096,10 +1958,8 @@
                 setTimeout(() => {
                     mainHeading.textContent = 'Create your password';
                     subtitle.textContent = 'Your password must be at least 6 characters long.';
-                    
                     mainHeading.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
                     subtitle.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
-                    
                     passwordContainer.classList.add('show');
                     setTimeout(() => {
                         passwordGoBack.classList.add('show');
@@ -2110,7 +1970,6 @@
                 }, 250);
             });
 
-            // Enter key handlers
             emailInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter' && emailValid) {
                     e.preventDefault();
@@ -2131,8 +1990,6 @@
                     confirmPasswordNextBtn.click();
                 }
             });
-
-            console.log('✅ Complete JavaScript logic restored with tight Google button padding');
         })();
     </script>
 </body>
