@@ -1,5 +1,6 @@
 name: Build and Deploy to Firebase
 
+# Triggers: push to main, pull requests, or manual dispatch
 on:
   push:
     branches:
