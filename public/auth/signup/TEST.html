@@ -1720,7 +1720,7 @@
                 <a href="#">Privacy Policy</a>.
             </p>
 
-            <!-- Login Link Row (ADDED) -->
+            <!-- Login Link Row -->
             <div class="small-row" id="login-row">
                 <span>Already have an account?</span>
                 <a id="static-login-link" href="/auth/login/">Log in</a>
@@ -1893,10 +1893,9 @@
             hideInlineError();
         }
 
-        // FIXED: Check if domain is verified (not just email exists)
+        // Check if domain is verified
         async function checkDomainVerified(domain) {
             try {
-                // Query Firestore to check if domain is already verified
                 const domainsRef = db.collection('verified_domains');
                 const snapshot = await domainsRef.where('domain', '==', domain).limit(1).get();
                 return !snapshot.empty;
@@ -1932,18 +1931,17 @@
                     return;
                 }
 
-                // FIXED: Check domain verification instead of user existence
+                // Check domain verification
                 const domainVerified = await checkDomainVerified(domain);
                 if (domainVerified) {
                     await auth.signOut();
-                    showInlineError(`<strong>Company already registered.</strong> <a href="/auth/login/?email=${encodeURIComponent(email)}">Log in</a>`);
+                    showInlineError(`<strong>Company already registered, login?</strong> <a href="/auth/login/?email=${encodeURIComponent(email)}">Log in</a>`);
                     setButtonLoading(btn, false);
                     btn.querySelector('.glass-button-text').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-6 h-6"><g fill-rule="evenodd" fill="none"><g fill-rule="nonzero" transform="translate(3, 2)"><path fill="#4285F4" d="M57.8123233,30.1515267 C57.8123233,27.7263183 57.6155321,25.9565533 57.1896408,24.1212666 L29.4960833,24.1212666 L29.4960833,35.0674653 L45.7515771,35.0674653 C45.4239683,37.7877475 43.6542033,41.8844383 39.7213169,44.6372555 L39.6661883,45.0037254 L48.4223791,51.7870338 L49.0290201,51.8475849 C54.6004021,46.7020943 57.8123233,39.1313952 57.8123233,30.1515267"></path><path fill="#34A853" d="M29.4960833,58.9921667 C37.4599129,58.9921667 44.1456164,56.3701671 49.0290201,51.8475849 L39.7213169,44.6372555 C37.2305867,46.3742596 33.887622,47.5868638 29.4960833,47.5868638 C21.6960582,47.5868638 15.0758763,42.4415066 12.7159637,35.3297017 L12.3700541,35.3591173 L3.26524241,42.4054015 L3.14617358,42.736208 C8.00797941,52.3681151 17.9571433,58.9921667 29.4960833,58.9921667"></path><path fill="#FBBC04" d="M12.7159637,35.3297017 C12.0932012,33.4944667 11.7329116,31.5279215 11.7329116,29.4960833 C11.7329116,27.4642451 12.0932012,25.4977 12.6832591,23.6624649 L12.6667965,23.2860305 L3.44584714,16.1208332 L3.14617358,16.2559585 C1.14106496,20.2315967 0,24.7456833 0,29.4960833 C0,34.2464833 1.14106496,38.76057 3.14617358,42.736208 L12.7159637,35.3297017"></path><path fill="#EA4335" d="M29.4960833,11.4050769 C35.0347044,11.4050769 38.7707997,13.7975244 40.9011602,15.7867415 L49.2255853,7.66898166 C44.1130815,2.91855167 37.4599129,0 29.4960833,0 C17.9571433,0 8.00797941,6.62405167 3.14617358,16.2559585 L12.6832591,23.6624649 C15.0758763,16.5506601 21.6960582,11.4050769 29.4960833,11.4050769"></path></g></g></svg><span>Google</span>';
                     return;
                 }
 
-                // User successfully signed up and email verified
-                // After verification page, mark domain as verified
+                // User successfully signed up
                 window.location.href = '/auth/verified';
                 
             } catch (error) {
@@ -2030,6 +2028,7 @@
 
             emailInput.addEventListener('blur', updateLoginLink);
 
+            // FIXED: Check domain verification at FIRST STEP (email next button)
             emailNextBtn.addEventListener('click', async function(e) {
                 e.preventDefault();
                 const email = emailInput.value.trim();
@@ -2040,34 +2039,54 @@
                     return;
                 }
                 
-                // FIXED: Remove email check here - only check business email
-                // Domain verification check happens AFTER email verification
-                
+                // NEW: Check domain BEFORE proceeding to password step
                 if (emailValid) {
-                    currentStep = 'password';
-                    emailNextBtnContainer.classList.remove('show');
-                    siteBadge.classList.remove('visible');
-                    setTimeout(() => {
-                        siteBadgeContainer.classList.remove('show');
-                    }, 200);
-                    emailFieldContainer.classList.add('hide');
-                    socialButtons.classList.add('fade-out');
-                    divider.classList.add('fade-out');
+                    const btn = this;
+                    setButtonLoading(btn, true);
                     
-                    setTimeout(() => {
-                        socialButtons.classList.add('hide');
-                        divider.classList.add('hide');
-                        mainHeading.textContent = 'Create your password';
-                        subtitle.textContent = 'Your password must be at least 6 characters long.';
-                        mainHeading.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
-                        subtitle.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
-                        subtitle.style.animationDelay = '0.1s';
-                        passwordContainer.classList.add('show');
+                    try {
+                        const domainVerified = await checkDomainVerified(domain);
+                        if (domainVerified) {
+                            setButtonLoading(btn, false);
+                            btn.querySelector('.glass-button-text').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>';
+                            showInlineError(`<strong>Company already registered, login?</strong> <a href="/auth/login/?email=${encodeURIComponent(email)}">Log in</a>`);
+                            return;
+                        }
+                        
+                        // Domain not verified, proceed to password step
+                        setButtonLoading(btn, false);
+                        btn.querySelector('.glass-button-text').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>';
+                        
+                        currentStep = 'password';
+                        emailNextBtnContainer.classList.remove('show');
+                        siteBadge.classList.remove('visible');
                         setTimeout(() => {
-                            passwordGoBack.classList.add('show');
-                            passwordInput.focus();
+                            siteBadgeContainer.classList.remove('show');
                         }, 200);
-                    }, 300);
+                        emailFieldContainer.classList.add('hide');
+                        socialButtons.classList.add('fade-out');
+                        divider.classList.add('fade-out');
+                        
+                        setTimeout(() => {
+                            socialButtons.classList.add('hide');
+                            divider.classList.add('hide');
+                            mainHeading.textContent = 'Create your password';
+                            subtitle.textContent = 'Your password must be at least 6 characters long.';
+                            mainHeading.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
+                            subtitle.style.animation = 'fadeInUpBlur 0.3s ease-out forwards';
+                            subtitle.style.animationDelay = '0.1s';
+                            passwordContainer.classList.add('show');
+                            setTimeout(() => {
+                                passwordGoBack.classList.add('show');
+                                passwordInput.focus();
+                            }, 200);
+                        }, 300);
+                    } catch (error) {
+                        console.error('Domain check failed:', error);
+                        setButtonLoading(btn, false);
+                        btn.querySelector('.glass-button-text').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>';
+                        showError('email-error', '❌ An error occurred. Please try again.');
+                    }
                 }
             });
 
@@ -2121,13 +2140,13 @@
                 }
             });
 
+            // FIXED: Don't check domain here - already checked at email step
             confirmPasswordNextBtn.addEventListener('click', async function(e) {
                 e.preventDefault();
                 
                 if (!confirmPasswordValid) return;
                 
                 const email = emailInput.value.trim();
-                const domain = extractDomain(email);
                 const password = passwordInput.value;
                 const confirmPassword = confirmPasswordInput.value;
                 
@@ -2141,15 +2160,7 @@
                 hideError('confirm-password-error');
                 
                 try {
-                    // FIXED: Check domain BEFORE creating user
-                    const domainVerified = await checkDomainVerified(domain);
-                    if (domainVerified) {
-                        setButtonLoading(btn, false);
-                        btn.querySelector('.glass-button-text').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>';
-                        showInlineError(`<strong>Company already registered.</strong> <a href="/auth/login/?email=${encodeURIComponent(email)}">Log in</a>`);
-                        return;
-                    }
-                    
+                    // Create user account
                     const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                     const user = userCredential.user;
                     
