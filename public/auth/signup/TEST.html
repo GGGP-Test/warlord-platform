@@ -309,6 +309,81 @@
             text-decoration: underline;
         }
 
+        /* ===== INLINE ERROR BOX (RED) ===== */
+        .inline-error {
+            width: min(560px, 86vw);
+            margin: 12px auto 16px;
+            font-size: 13px;
+            line-height: 1.35;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,107,107,.35);
+            background: rgba(255,107,107,.12);
+            color: #ffd7d7;
+            display: none;
+        }
+
+        .inline-error.show {
+            display: block;
+            animation: errorSlideIn 0.3s ease-out forwards;
+        }
+
+        .inline-error a,
+        .inline-error a:visited {
+            color: #fff !important;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            font-weight: 600;
+        }
+
+        .inline-error a:hover,
+        .inline-error a:focus-visible {
+            text-decoration-thickness: 2px;
+            outline: none;
+        }
+
+        /* ===== SMALL ROW FOR LOGIN LINK ===== */
+        .small-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 12px;
+            font-size: 13px;
+            color: oklch(from var(--muted-foreground) l c h / 0.85);
+            text-align: center;
+        }
+
+        .small-row a {
+            color: oklch(from var(--primary) l c h / 0.9);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .small-row a:hover {
+            color: var(--foreground);
+        }
+
+        .small-row a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: currentColor;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.2s ease;
+        }
+
+        .small-row a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
         /* Tailwind CSS Base Styles */
         @layer properties {
             @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color: rgb(from red r g b)))) {
@@ -1457,7 +1532,10 @@
         </h1>
         <p class="text-sm text-muted-foreground text-center subtitle-tight animate-entrance-description" id="subtitle">Continue with</p>
 
-        <!-- Verification Panel (ADDED) -->
+        <!-- Inline Error Box (RED) - Positioned ABOVE form -->
+        <div class="inline-error" id="inline-error" role="alert" aria-live="polite"></div>
+
+        <!-- Verification Panel -->
         <div class="verification-panel" id="verification-panel">
             <h3>📧 Check Your Email</h3>
             <p>
@@ -1641,6 +1719,12 @@
                 and 
                 <a href="#">Privacy Policy</a>.
             </p>
+
+            <!-- Login Link Row (ADDED) -->
+            <div class="small-row" id="login-row">
+                <span>Already have an account?</span>
+                <a id="static-login-link" href="/auth/login/">Log in</a>
+            </div>
         </form>
     </div>
 
@@ -1663,6 +1747,8 @@
         const siteBadgeDomain = document.getElementById('site-badge-domain');
         const siteBadgeIcon = document.getElementById('site-badge-icon');
         const siteBadgeTooltip = document.getElementById('site-badge-tooltip');
+        const inlineError = document.getElementById('inline-error');
+        const staticLoginLink = document.getElementById('static-login-link');
 
         let isHoveringIcon = false;
         let isHoveringTooltip = false;
@@ -1744,6 +1830,35 @@
             }
         }
 
+        // NEW: Update login link with email parameter
+        function updateLoginLink() {
+            const email = document.getElementById('email-input').value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (emailRegex.test(email)) {
+                staticLoginLink.href = `/auth/login/?email=${encodeURIComponent(email)}`;
+            } else {
+                staticLoginLink.href = '/auth/login/';
+            }
+        }
+
+        // NEW: Show inline error box (RED)
+        function showInlineError(message) {
+            inlineError.innerHTML = message;
+            inlineError.classList.add('show');
+            try {
+                inlineError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } catch {}
+        }
+
+        // NEW: Hide inline error box
+        function hideInlineError() {
+            inlineError.classList.remove('show');
+            setTimeout(() => {
+                inlineError.innerHTML = '';
+            }, 300);
+        }
+
         function showError(elementId, message) {
             const errorEl = document.getElementById(elementId);
             if (errorEl) {
@@ -1769,19 +1884,20 @@
             }
         }
 
-        // ADDED: Function to show verification panel
         function showVerificationPanel(email) {
             document.getElementById('verify-email').textContent = email;
             document.getElementById('verification-panel').classList.add('show');
             document.getElementById('signup-form').style.display = 'none';
             document.getElementById('main-heading').textContent = 'Almost There!';
             document.getElementById('subtitle').textContent = 'One more step to verify your email';
+            hideInlineError();
         }
 
         document.getElementById('google-login').addEventListener('click', async function() {
             const btn = this;
             setButtonLoading(btn, true);
             hideError('email-error');
+            hideInlineError();
 
             try {
                 const provider = new firebase.auth.GoogleAuthProvider();
@@ -1854,6 +1970,8 @@
             emailInput.addEventListener('input', function() {
                 const value = this.value.trim();
                 hideError('email-error');
+                hideInlineError();
+                updateLoginLink(); // NEW: Update login link on email change
 
                 if (value.includes('@')) {
                     const domain = extractDomain(value);
@@ -1884,13 +2002,27 @@
                 }
             });
 
-            emailNextBtn.addEventListener('click', function(e) {
+            emailInput.addEventListener('blur', updateLoginLink); // NEW: Update on blur
+
+            emailNextBtn.addEventListener('click', async function(e) {
                 e.preventDefault();
                 const email = emailInput.value.trim();
                 
                 if (!isBusinessEmail(email)) {
                     showError('email-error', '🚫 Please use your business email. Personal emails (Gmail, Yahoo, etc.) are not allowed.');
                     return;
+                }
+                
+                // NEW: Check if email already exists
+                try {
+                    const methods = await auth.fetchSignInMethodsForEmail(email);
+                    if (methods && methods.length > 0) {
+                        // Email already exists - show red error box with login link
+                        showInlineError(`<strong>Account already registered.</strong> <a href="/auth/login/?email=${encodeURIComponent(email)}">Log in</a>`);
+                        return;
+                    }
+                } catch (error) {
+                    console.error('Email check error:', error);
                 }
                 
                 if (emailValid) {
@@ -1971,7 +2103,6 @@
                 }
             });
 
-            // MODIFIED: Add email verification after account creation
             confirmPasswordNextBtn.addEventListener('click', async function(e) {
                 e.preventDefault();
                 
@@ -1991,11 +2122,9 @@
                 hideError('confirm-password-error');
                 
                 try {
-                    // Create account
                     const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                     const user = userCredential.user;
                     
-                    // Send verification email
                     try {
                         await user.sendEmailVerification({
                             url: window.location.origin + '/auth/verified',
@@ -2006,7 +2135,6 @@
                         console.error('Email send failed:', emailError);
                     }
                     
-                    // Show verification panel (NO REDIRECT)
                     showVerificationPanel(email);
                     
                 } catch (error) {
@@ -2030,6 +2158,7 @@
                 passwordGoBack.classList.remove('show');
                 passwordNextBtnContainer.classList.remove('show');
                 passwordContainer.classList.remove('show');
+                hideInlineError();
                 
                 setTimeout(() => {
                     mainHeading.textContent = 'Get started with Us';
@@ -2096,9 +2225,11 @@
                     confirmPasswordNextBtn.click();
                 }
             });
+
+            // Initialize login link on page load
+            updateLoginLink();
         })();
 
-        // ADDED: Resend and change email handlers
         document.getElementById('resend-link').addEventListener('click', async function(e) {
             e.preventDefault();
             if (!auth.currentUser) return;
