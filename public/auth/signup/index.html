@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - Galactly</title>
     
-    <!-- Firebase Configuration -->
     <script>
         window.__FIREBASE_CONFIG__ = {
             apiKey: "AIzaSyDk7vVnSiMfYJPJ38gbw21fzqsBTu1PbC8",
@@ -17,14 +16,11 @@
         };
     </script>
     
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* Same beautiful glass UI from TEST.html */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         :root {
@@ -80,10 +76,7 @@
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        .brand:hover {
-            transform: translateY(-1px);
-            color: var(--foreground);
-        }
+        .brand:hover { transform: translateY(-1px); color: var(--foreground); }
         
         .brand-word {
             font-weight: 800;
@@ -94,13 +87,7 @@
             text-shadow: 0 1px 2px oklch(from var(--foreground) l c h / 0.06);
         }
         
-        .container {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 400px;
-            padding: 0 20px;
-        }
+        .container { position: relative; z-index: 10; width: 100%; max-width: 400px; padding: 0 20px; }
         
         h1 {
             font-size: 2.5rem;
@@ -113,34 +100,16 @@
             color: var(--foreground);
         }
         
-        .subtitle {
-            text-align: center;
-            color: var(--muted-foreground);
-            font-size: 0.875rem;
-            margin-bottom: 2rem;
-        }
-        
-        .form-step {
-            opacity: 0;
-            display: none;
-            animation: fadeIn 0.3s ease forwards;
-        }
-        
-        .form-step.active {
-            display: block;
-            opacity: 1;
-        }
+        .subtitle { text-align: center; color: var(--muted-foreground); font-size: 0.875rem; margin-bottom: 2rem; }
+        .form-step { opacity: 0; display: none; animation: fadeIn 0.3s ease forwards; }
+        .form-step.active { display: block; opacity: 1; }
         
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .glass-button-wrap {
-            position: relative;
-            z-index: 2;
-            margin-bottom: 1rem;
-        }
+        .glass-button-wrap { position: relative; z-index: 2; margin-bottom: 1rem; }
         
         .glass-button {
             width: 100%;
@@ -152,12 +121,8 @@
             gap: 0.75rem;
             border: none;
             border-radius: 9999px;
-            background: linear-gradient(-75deg, 
-                oklch(from var(--background) l c h / 5%), 
-                oklch(from var(--background) l c h / 20%), 
-                oklch(from var(--background) l c h / 5%));
-            box-shadow: inset 0 2px 4px oklch(from var(--foreground) l c h / 5%),
-                        0 4px 12px oklch(from var(--foreground) l c h / 15%);
+            background: linear-gradient(-75deg, oklch(from var(--background) l c h / 5%), oklch(from var(--background) l c h / 20%), oklch(from var(--background) l c h / 5%));
+            box-shadow: inset 0 2px 4px oklch(from var(--foreground) l c h / 5%), 0 4px 12px oklch(from var(--foreground) l c h / 15%);
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 15px;
@@ -167,19 +132,11 @@
         
         .glass-button:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: inset 0 2px 4px oklch(from var(--foreground) l c h / 5%),
-                        0 6px 16px oklch(from var(--foreground) l c h / 20%);
+            box-shadow: inset 0 2px 4px oklch(from var(--foreground) l c h / 5%), 0 6px 16px oklch(from var(--foreground) l c h / 20%);
         }
         
-        .glass-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        .glass-input-wrap {
-            position: relative;
-            margin-bottom: 1rem;
-        }
+        .glass-button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .glass-input-wrap { position: relative; margin-bottom: 1rem; }
         
         .glass-input {
             width: 100%;
@@ -187,10 +144,7 @@
             padding: 0 1rem 0 3rem;
             border: 2px solid oklch(from var(--foreground) l c h / 0.12);
             border-radius: 9999px;
-            background: linear-gradient(-75deg, 
-                oklch(from var(--background) l c h / 5%), 
-                oklch(from var(--background) l c h / 20%), 
-                oklch(from var(--background) l c h / 5%));
+            background: linear-gradient(-75deg, oklch(from var(--background) l c h / 5%), oklch(from var(--background) l c h / 20%), oklch(from var(--background) l c h / 5%));
             font-size: 15px;
             color: var(--foreground);
             transition: all 0.3s ease;
@@ -222,13 +176,7 @@
             font-size: 0.75rem;
         }
         
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
+        .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
         
         .error {
             background: #fee;
@@ -260,9 +208,7 @@
             transition: color 0.2s;
         }
         
-        .back-link:hover {
-            color: var(--foreground);
-        }
+        .back-link:hover { color: var(--foreground); }
         
         .spinner {
             border: 3px solid rgba(0,0,0,0.1);
@@ -273,16 +219,13 @@
             animation: spin 0.8s linear infinite;
         }
         
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
         
         .verification-panel {
             background: #f0fdf4;
             border: 2px solid #86efac;
             padding: 24px;
             border-radius: 16px;
-            margin-top: 20px;
             display: none;
             animation: fadeIn 0.4s;
         }
@@ -303,10 +246,7 @@
             margin-bottom: 16px;
         }
         
-        .verification-panel .email-highlight {
-            font-weight: 700;
-            color: #15803d;
-        }
+        .verification-panel .email-highlight { font-weight: 700; color: #15803d; }
         
         .verification-actions {
             display: flex;
@@ -322,34 +262,28 @@
             font-weight: 600;
         }
         
-        .verification-actions a:hover {
-            text-decoration: underline;
-        }
+        .verification-actions a:hover { text-decoration: underline; }
         
-        @media (max-width: 640px) {
-            h1 { font-size: 2rem; }
-        }
+        @media (max-width: 640px) { h1 { font-size: 2rem; } }
     </style>
 </head>
 <body>
-    <!-- Topbar -->
     <div class="topbar">
         <a class="brand" href="/">
             <span class="brand-word">Galactly</span>
         </a>
     </div>
 
-    <!-- Main Container -->
     <div class="container">
         <h1 id="main-heading">Get Started</h1>
         <p class="subtitle" id="subtitle">Create your account</p>
         
-        <!-- Verification Panel (hidden initially) -->
+        <!-- Verification Panel -->
         <div class="verification-panel" id="verification-panel">
             <h3>✉️ Check Your Email</h3>
             <p>
                 We sent a verification link to <span class="email-highlight" id="verify-email">—</span>.
-                Click the link to verify your email and get started.
+                Click the link in your email to verify and continue.
             </p>
             <div class="verification-actions">
                 <a id="resend-link">Resend email</a>
@@ -360,7 +294,6 @@
         
         <!-- Signup Form -->
         <form id="signup-form">
-            <!-- Step 1: Email -->
             <div class="form-step active" id="step-email">
                 <div class="glass-button-wrap">
                     <button type="button" class="glass-button" id="google-login">
@@ -388,7 +321,6 @@
                 <div class="error" id="email-error"></div>
             </div>
             
-            <!-- Step 2: Password -->
             <div class="form-step" id="step-password">
                 <div class="glass-input-wrap">
                     <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -400,10 +332,8 @@
                 
                 <button type="button" class="glass-button" id="password-next" disabled>Continue</button>
                 <a href="#" class="back-link" id="password-back">← Back</a>
-                <div class="error" id="password-error"></div>
             </div>
             
-            <!-- Step 3: Confirm -->
             <div class="form-step" id="step-confirm">
                 <div class="glass-input-wrap">
                     <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -421,14 +351,11 @@
     </div>
 
     <script>
-        // Initialize Firebase
         firebase.initializeApp(window.__FIREBASE_CONFIG__);
         const auth = firebase.auth();
         
         const PERSONAL_DOMAINS = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'aol.com', 'icloud.com', 'live.com', 'msn.com'];
-        
-        let currentEmail = '';
-        let currentPassword = '';
+        let currentEmail = '', currentPassword = '';
         
         function extractDomain(email) {
             const match = email.match(/@([^@\\s]+)$/);
@@ -446,9 +373,7 @@
             el.classList.add('show');
         }
         
-        function hideError(id) {
-            document.getElementById(id).classList.remove('show');
-        }
+        function hideError(id) { document.getElementById(id).classList.remove('show'); }
         
         function setLoading(btn, loading) {
             if (loading) {
@@ -465,53 +390,36 @@
             document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
             document.getElementById(`step-${step}`).classList.add('active');
             
-            const headings = {
-                email: 'Get Started',
-                password: 'Create Password',
-                confirm: 'Confirm Password'
-            };
-            const subtitles = {
-                email: 'Create your account',
-                password: 'Min 6 characters',
-                confirm: 'Re-enter your password'
-            };
+            const headings = { email: 'Get Started', password: 'Create Password', confirm: 'Confirm Password' };
+            const subtitles = { email: 'Create your account', password: 'Min 6 characters', confirm: 'Re-enter your password' };
             
             document.getElementById('main-heading').textContent = headings[step];
             document.getElementById('subtitle').textContent = subtitles[step];
-        }
-        
-        async function sendVerificationEmail() {
-            if (!auth.currentUser) return;
-            await auth.currentUser.sendEmailVerification({
-                url: window.location.origin + '/auth/verified',
-                handleCodeInApp: false
-            });
         }
         
         function showVerificationPanel(email) {
             document.getElementById('verify-email').textContent = email;
             document.getElementById('verification-panel').classList.add('show');
             document.getElementById('signup-form').style.display = 'none';
+            document.getElementById('main-heading').textContent = 'Almost There!';
+            document.getElementById('subtitle').textContent = 'One more step to verify your email';
         }
         
-        // Email Step
+        // Email
         const emailInput = document.getElementById('email-input');
         const emailNext = document.getElementById('email-next');
         
         emailInput.addEventListener('input', () => {
-            const valid = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(emailInput.value.trim());
-            emailNext.disabled = !valid;
+            emailNext.disabled = !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(emailInput.value.trim());
             hideError('email-error');
         });
         
         emailNext.addEventListener('click', () => {
             const email = emailInput.value.trim();
-            
             if (!isBusinessEmail(email)) {
                 showError('email-error', '🚫 Please use a business email (not Gmail, Yahoo, etc.)');
                 return;
             }
-            
             currentEmail = email;
             goToStep('password');
             document.getElementById('password-input').focus();
@@ -521,14 +429,13 @@
             if (e.key === 'Enter' && !emailNext.disabled) emailNext.click();
         });
         
-        // Password Step
+        // Password
         const passwordInput = document.getElementById('password-input');
         const passwordNext = document.getElementById('password-next');
         const passwordBack = document.getElementById('password-back');
         
         passwordInput.addEventListener('input', () => {
             passwordNext.disabled = passwordInput.value.length < 6;
-            hideError('password-error');
         });
         
         passwordNext.addEventListener('click', () => {
@@ -546,7 +453,7 @@
             if (e.key === 'Enter' && !passwordNext.disabled) passwordNext.click();
         });
         
-        // Confirm Step
+        // Confirm
         const confirmInput = document.getElementById('confirm-input');
         const confirmNext = document.getElementById('confirm-next');
         const confirmBack = document.getElementById('confirm-back');
@@ -565,10 +472,26 @@
             setLoading(confirmNext, true);
             
             try {
-                await auth.createUserWithEmailAndPassword(currentEmail, currentPassword);
-                await sendVerificationEmail();
+                // Create account
+                const result = await auth.createUserWithEmailAndPassword(currentEmail, currentPassword);
+                console.log('Account created:', result.user.email);
+                
+                // Send verification email
+                try {
+                    await result.user.sendEmailVerification({
+                        url: window.location.origin + '/auth/verified',
+                        handleCodeInApp: false
+                    });
+                    console.log('Verification email sent');
+                } catch (emailError) {
+                    console.error('Email send failed:', emailError);
+                }
+                
+                // Show panel (DO NOT redirect)
                 showVerificationPanel(currentEmail);
+                
             } catch (error) {
+                console.error('Signup error:', error);
                 setLoading(confirmNext, false);
                 
                 if (error.code === 'auth/email-already-in-use') {
@@ -607,27 +530,32 @@
                     return;
                 }
                 
-                // Google users are auto-verified, go straight to verified page
+                // Google users are verified, go to verified page
                 window.location.href = '/auth/verified';
                 
             } catch (error) {
                 setLoading(btn, false);
-                
                 if (error.code !== 'auth/popup-closed-by-user') {
                     showError('email-error', 'Sign-in error. Please try again.');
                 }
             }
         });
         
-        // Verification Panel Actions
+        // Resend
         document.getElementById('resend-link').addEventListener('click', async (e) => {
             e.preventDefault();
+            if (!auth.currentUser) return;
+            
             try {
-                await sendVerificationEmail();
+                await auth.currentUser.sendEmailVerification({
+                    url: window.location.origin + '/auth/verified',
+                    handleCodeInApp: false
+                });
                 e.target.textContent = 'Sent!';
                 setTimeout(() => e.target.textContent = 'Resend email', 2000);
             } catch (error) {
-                alert('Failed to resend');
+                console.error('Resend failed:', error);
+                alert('Failed to resend. Please try again.');
             }
         });
         
