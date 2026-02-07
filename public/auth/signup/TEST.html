@@ -818,6 +818,11 @@
             margin-top: -0.75rem !important;
         }
 
+        /* SEPARATE SIZING FOR GOOGLE BUTTON */
+        .google-button-wrap {
+            width: auto;
+        }
+
         .glass-button {
             height: 40px;
             padding-top: 0;
@@ -833,8 +838,11 @@
             padding: 0.625rem 1.25rem !important;
         }
 
-        .glass-input-wrap {
-            max-width: 100px;
+        /* SEPARATE SIZING FOR EMAIL/PASSWORD INPUTS */
+        .email-input-wrap,
+        .password-input-wrap,
+        .confirm-password-input-wrap {
+            max-width: 380px;
             width: 100%;
             margin-left: auto;
             margin-right: auto;
@@ -1393,7 +1401,7 @@
         <form class="w-[300px] space-y-6" id="signup-form">
             <!-- Google Login Button -->
             <div class="buttons-container animate-entrance-buttons" id="social-buttons">
-                <div class="glass-button-wrap cursor-pointer rounded-full relative">
+                <div class="glass-button-wrap google-button-wrap cursor-pointer rounded-full relative">
                     <div class="glass-button-shadow"></div>
                     <button type="button" class="glass-button z-10 relative isolate all-unset cursor-pointer rounded-full transition-all text-sm font-medium" id="google-login">
                         <span class="glass-button-text relative select-none tracking-tighter flex items-center justify-center gap-2">
@@ -1441,7 +1449,7 @@
 
             <!-- Email Input Field -->
             <div class="w-full animate-entrance-input email-field-container" id="email-field-container">
-                <div class="glass-input-wrap w-full" style="position: relative;">
+                <div class="glass-input-wrap email-input-wrap" style="position: relative;">
                     <div class="glass-input">
                         <span class="glass-input-text-area"></span>
                         <div class="relative z-10 flex-shrink-0 flex items-center justify-center overflow-hidden transition-all duration-300 ease-in-out w-10 pl-2">
@@ -1477,7 +1485,7 @@
 
             <!-- Password Input Field -->
             <div class="password-field-container" id="password-container">
-                <div class="glass-input-wrap w-full" style="position: relative;">
+                <div class="glass-input-wrap password-input-wrap" style="position: relative;">
                     <div class="glass-input">
                         <span class="glass-input-text-area"></span>
                         <div class="relative z-10 flex-shrink-0 flex items-center justify-center w-10 pl-2">
@@ -1515,7 +1523,7 @@
 
             <!-- Confirm Password Input Field -->
             <div class="confirm-password-field-container" id="confirm-password-container">
-                <div class="glass-input-wrap w-full" style="position: relative;">
+                <div class="glass-input-wrap confirm-password-input-wrap" style="position: relative;">
                     <div class="glass-input">
                         <span class="glass-input-text-area"></span>
                         <div class="relative z-10 flex-shrink-0 flex items-center justify-center w-10 pl-2">
