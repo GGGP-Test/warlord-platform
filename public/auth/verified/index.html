@@ -18,6 +18,7 @@
     
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -236,10 +237,51 @@
     <script>
         firebase.initializeApp(window.__FIREBASE_CONFIG__);
         const auth = firebase.auth();
+        const db = firebase.firestore();
+        
+        function extractDomain(email) {
+            const match = email.match(/@([^@\s]+)$/);
+            return match ? match[1].toLowerCase() : null;
+        }
         
         function showCard(cardId) {
             document.querySelectorAll('.status-card').forEach(c => c.classList.remove('show'));
             document.getElementById(cardId).classList.add('show');
+        }
+        
+        // Store verified domain in Firestore
+        async function storeDomainVerification(user) {
+            try {
+                const domain = extractDomain(user.email);
+                if (!domain) {
+                    console.error('Could not extract domain from email:', user.email);
+                    return;
+                }
+                
+                console.log('Storing domain verification for:', domain);
+                
+                // Check if domain already exists
+                const existingDomain = await db.collection('verified_domains')
+                    .where('domain', '==', domain)
+                    .limit(1)
+                    .get();
+                
+                if (existingDomain.empty) {
+                    // Add new verified domain
+                    await db.collection('verified_domains').add({
+                        domain: domain,
+                        verifiedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        verifiedBy: user.email,
+                        userId: user.uid
+                    });
+                    console.log('✅ Domain stored successfully:', domain);
+                } else {
+                    console.log('Domain already verified:', domain);
+                }
+            } catch (error) {
+                console.error('Failed to store domain:', error);
+                // Don't block the user if storage fails
+            }
         }
         
         async function checkVerification() {
@@ -259,6 +301,10 @@
             
             if (user.emailVerified) {
                 console.log('✅ Email verified!');
+                
+                // Store domain in Firestore
+                await storeDomainVerification(user);
+                
                 showCard('success-card');
             } else {
                 console.log('⚠️ Email NOT verified');
