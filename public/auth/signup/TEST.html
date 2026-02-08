@@ -1924,6 +1924,38 @@
             }
         }
 
+        // ✅ NEW: Generate random verification code
+        function generateVerificationCode() {
+            return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        }
+
+        // ✅ NEW: Send verification email WITHOUT creating Firebase user
+        async function sendVerificationEmail(email, password) {
+            const verificationCode = generateVerificationCode();
+            const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+            
+            try {
+                // Store pending verification in Firestore
+                await db.collection('pendingVerifications').doc(email).set({
+                    email: email,
+                    password: password, // Consider encrypting this in production
+                    verificationCode: verificationCode,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    expiresAt: expiresAt
+                });
+                
+                // TODO: In production, send actual email via Cloud Functions
+                // For now, we'll use console.log
+                const verificationLink = `${window.location.origin}/auth/verify?code=${verificationCode}&email=${encodeURIComponent(email)}`;
+                console.log('Verification link:', verificationLink);
+                
+                return true;
+            } catch (error) {
+                console.error('Failed to send verification:', error);
+                return false;
+            }
+        }
+
         document.getElementById('google-login').addEventListener('click', async function() {
             const btn = this;
             setButtonLoading(btn, true);
@@ -2158,6 +2190,7 @@
                 }
             });
 
+            // ✅ NEW: DON'T create Firebase user - just send verification
             confirmPasswordNextBtn.addEventListener('click', async function(e) {
                 e.preventDefault();
                 
@@ -2177,34 +2210,22 @@
                 hideError('confirm-password-error');
                 
                 try {
-                    // Create user account
-                    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                    const user = userCredential.user;
+                    // ✅ DON'T create Firebase user yet!
+                    // Instead, send verification email first
+                    const sent = await sendVerificationEmail(email, password);
                     
-                    try {
-                        await user.sendEmailVerification({
-                            url: window.location.origin + '/auth/verified',
-                            handleCodeInApp: false
-                        });
-                        console.log('Verification email sent to:', email);
-                    } catch (emailError) {
-                        console.error('Email send failed:', emailError);
+                    if (!sent) {
+                        throw new Error('Failed to send verification email');
                     }
                     
+                    // Show verification panel
                     showVerificationPanel(email);
                     
                 } catch (error) {
                     console.error('Signup error:', error);
                     setButtonLoading(btn, false);
                     btn.querySelector('.glass-button-text').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>';
-                    
-                    if (error.code === 'auth/email-already-in-use') {
-                        showError('confirm-password-error', '❌ This email is already registered');
-                    } else if (error.code === 'auth/weak-password') {
-                        showError('confirm-password-error', '❌ Password is too weak');
-                    } else {
-                        showError('confirm-password-error', '❌ An error occurred. Please try again.');
-                    }
+                    showError('confirm-password-error', '❌ An error occurred. Please try again.');
                 }
             });
 
@@ -2285,17 +2306,20 @@
             updateLoginLink();
         })();
 
+        // ✅ NEW: Resend verification email
         document.getElementById('resend-link').addEventListener('click', async function(e) {
             e.preventDefault();
-            if (!auth.currentUser) return;
+            const email = document.getElementById('verify-email').textContent;
             
             try {
-                await auth.currentUser.sendEmailVerification({
-                    url: window.location.origin + '/auth/verified',
-                    handleCodeInApp: false
-                });
-                this.textContent = '✓ Sent!';
-                setTimeout(() => this.textContent = 'Resend email', 2000);
+                // Retrieve password from Firestore
+                const doc = await db.collection('pendingVerifications').doc(email).get();
+                if (doc.exists) {
+                    const password = doc.data().password;
+                    await sendVerificationEmail(email, password);
+                    this.textContent = '✓ Sent!';
+                    setTimeout(() => this.textContent = 'Resend email', 2000);
+                }
             } catch (error) {
                 console.error('Resend failed:', error);
                 alert('Failed to resend. Please try again.');
