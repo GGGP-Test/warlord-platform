@@ -1,0 +1,31 @@
+name: Deploy Firestore Rules
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'firestore.rules'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+      
+      - name: Deploy Firestore Rules
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          firebase deploy --only firestore:rules --project warlord-1cbe3 --token "$FIREBASE_TOKEN"
