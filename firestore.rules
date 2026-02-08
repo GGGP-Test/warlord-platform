@@ -53,6 +53,33 @@ service cloud.firestore {
       allow update, delete: if false;
     }
     
+    // Domain claims collection (for checking domain availability during signup)
+    match /domainClaims/{domain} {
+      // Anyone can read to check if domain is already claimed
+      allow read: if true;
+      
+      // Only authenticated users can create/update domain claims
+      allow create, update: if isAuthenticated();
+      
+      // No deletes
+      allow delete: if false;
+    }
+    
+    // Pending verifications collection (for email verification before account creation)
+    match /pendingVerifications/{email} {
+      // Allow anyone to create (needed for signup flow)
+      allow create: if true;
+      
+      // Allow anyone to read their own verification record
+      allow read: if true;
+      
+      // Allow updates for resending verification
+      allow update: if true;
+      
+      // Allow deletes after verification is complete
+      allow delete: if true;
+    }
+    
     // Cost tracking (read-only for users)
     match /cost_tracking/{operation}/logs/{logId} {
       allow read: if isAuthenticated();
