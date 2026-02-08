@@ -11,6 +11,10 @@ service cloud.firestore {
       return request.auth.uid == userId;
     }
     
+    function isEmailVerified() {
+      return request.auth.token.email_verified == true;
+    }
+    
     // Users collection
     match /users/{userId} {
       allow read: if isAuthenticated() && isOwner(userId);
@@ -35,6 +39,18 @@ service cloud.firestore {
       allow create: if isAuthenticated();
       allow update: if isAuthenticated();
       allow delete: if isAuthenticated();
+    }
+    
+    // Verified domains collection
+    match /verified_domains/{domainId} {
+      // Anyone can read to check if a domain is verified
+      allow read: if true;
+      
+      // Only verified authenticated users can create domain records
+      allow create: if isAuthenticated() && isEmailVerified();
+      
+      // No updates or deletes (domains are permanent once verified)
+      allow update, delete: if false;
     }
     
     // Cost tracking (read-only for users)
