@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email - Galactly</title>
+    
+    <!-- Firebase Configuration -->
+    <script>
+        window.__FIREBASE_CONFIG__ = {
+            apiKey: "AIzaSyDk7vVnSiMfYJPJ38gbw21fzqsBTu1PbC8",
+            authDomain: "warlord-1cbe3.firebaseapp.com",
+            projectId: "warlord-1cbe3",
+            storageBucket: "warlord-1cbe3.firebasestorage.app",
+            messagingSenderId: "212906032385",
+            appId: "1:212906032385:web:441058c2ed0c88ace16f00"
+        };
+    </script>
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #fafbfc 0%, #f5f7fa 25%, #eef1f5 50%, #f5f7fa 75%, #fafbfc 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 48px;
+            text-align: center;
+        }
+
+        .icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        .icon.loading {
+            background: linear-gradient(135deg, #3B5998 0%, #2E4A7C 100%);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .icon.success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .icon.error {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        h1 {
+            font-family: 'Plus Jakarta Sans', 'Inter', system-ui;
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1d29;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .email {
+            font-weight: 600;
+            color: #3B5998;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #3B5998 0%, #2E4A7C 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(59, 89, 152, 0.3);
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(59, 89, 152, 0.4);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .error-details {
+            margin-top: 16px;
+            padding: 12px;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #991b1b;
+            text-align: left;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Loading State -->
+        <div id="loading-state">
+            <div class="icon loading">
+                <div class="spinner"></div>
+            </div>
+            <h1>Verifying Your Email...</h1>
+            <p>Please wait while we verify your email address.</p>
+        </div>
+
+        <!-- Success State -->
+        <div id="success-state" class="hidden">
+            <div class="icon success">✓</div>
+            <h1>Email Verified!</h1>
+            <p>Your account has been successfully created for <span class="email" id="verified-email"></span></p>
+            <p>Redirecting you to the dashboard...</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="error-state" class="hidden">
+            <div class="icon error">✕</div>
+            <h1>Verification Failed</h1>
+            <p id="error-message">Something went wrong. Please try again.</p>
+            <a href="/auth/signup/TEST.html" class="button">Back to Sign Up</a>
+            <div id="error-details" class="error-details hidden"></div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Firebase
+        firebase.initializeApp(window.__FIREBASE_CONFIG__);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Get DOM elements
+        const loadingState = document.getElementById('loading-state');
+        const successState = document.getElementById('success-state');
+        const errorState = document.getElementById('error-state');
+        const errorMessage = document.getElementById('error-message');
+        const errorDetails = document.getElementById('error-details');
+        const verifiedEmail = document.getElementById('verified-email');
+
+        // Get verification code and email from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const email = urlParams.get('email');
+
+        // Show error
+        function showError(message, details = null) {
+            loadingState.classList.add('hidden');
+            errorState.classList.remove('hidden');
+            errorMessage.textContent = message;
+            
+            if (details) {
+                errorDetails.textContent = details;
+                errorDetails.classList.remove('hidden');
+            }
+        }
+
+        // Show success
+        function showSuccess(email) {
+            loadingState.classList.add('hidden');
+            successState.classList.remove('hidden');
+            verifiedEmail.textContent = email;
+        }
+
+        // Extract domain from email
+        function extractDomain(email) {
+            const match = email.match(/@([^@\s]+)$/);
+            return match ? match[1].toLowerCase() : null;
+        }
+
+        // Main verification logic
+        async function verifyEmail() {
+            try {
+                // Validate parameters
+                if (!code || !email) {
+                    showError('Invalid verification link.', 'Missing verification code or email address.');
+                    return;
+                }
+
+                console.log('Verifying:', email);
+
+                // Get pending verification from Firestore
+                const pendingDoc = await db.collection('pendingVerifications').doc(email).get();
+
+                if (!pendingDoc.exists) {
+                    showError('Verification link expired or already used.', 'This verification link is no longer valid. Please sign up again.');
+                    return;
+                }
+
+                const data = pendingDoc.data();
+
+                // Verify the code matches
+                if (data.verificationCode !== code) {
+                    showError('Invalid verification code.', 'The verification code does not match.');
+                    return;
+                }
+
+                // Check if expired
+                const now = firebase.firestore.Timestamp.now();
+                if (data.expiresAt < now) {
+                    // Delete expired verification
+                    await pendingDoc.ref.delete();
+                    showError('Verification link expired.', 'This link has expired. Please sign up again.');
+                    return;
+                }
+
+                console.log('Verification valid, creating Firebase account...');
+
+                // ✅ NOW create the Firebase Auth account
+                const userCredential = await auth.createUserWithEmailAndPassword(email, data.password);
+                const user = userCredential.user;
+
+                console.log('Firebase account created:', user.uid);
+
+                // Send email verification (Firebase built-in)
+                await user.sendEmailVerification();
+
+                // Create user profile in Firestore
+                const domain = extractDomain(email);
+                await db.collection('users').doc(user.uid).set({
+                    email: email,
+                    domain: domain,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    emailVerified: false,
+                    onboardingCompleted: false
+                });
+
+                // Create or update domain claim
+                await db.collection('domainClaims').doc(domain).set({
+                    domain: domain,
+                    claimedBy: user.uid,
+                    claimedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    status: 'pending'
+                }, { merge: true });
+
+                // Delete the pending verification
+                await pendingDoc.ref.delete();
+
+                console.log('✅ Account created successfully!');
+
+                // Show success and redirect
+                showSuccess(email);
+                
+                setTimeout(() => {
+                    window.location.href = '/auth/verified';
+                }, 2000);
+
+            } catch (error) {
+                console.error('Verification error:', error);
+                
+                if (error.code === 'auth/email-already-in-use') {
+                    showError('Account already exists.', 'An account with this email already exists. Please log in instead.');
+                } else if (error.code === 'auth/weak-password') {
+                    showError('Password too weak.', 'The password is too weak. Please use a stronger password.');
+                } else {
+                    showError('Verification failed.', error.message);
+                }
+            }
+        }
+
+        // Start verification when page loads
+        verifyEmail();
+    </script>
+</body>
+</html>
