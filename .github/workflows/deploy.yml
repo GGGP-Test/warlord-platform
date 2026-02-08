@@ -30,13 +30,14 @@ jobs:
         run: |
           cd functions
           npm install
-          cd ..
 
       - name: Build Functions
         run: |
           cd functions
           npm run build
-          cd ..
+          ls -la dist/
+          echo "Build completed, dist contents:"
+          cat dist/index.js | head -20 || echo "index.js not found"
 
       - name: Build Next.js (if app exists)
         run: |
@@ -45,10 +46,6 @@ jobs:
           else
             echo "Next.js app not set up yet, skipping build"
           fi
-
-      - name: Create service account file
-        run: |
-          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > ${{ github.workspace }}/gcloud-service-key.json
 
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v2
