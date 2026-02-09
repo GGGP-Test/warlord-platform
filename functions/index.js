@@ -4,9 +4,6 @@ const { Resend } = require('resend');
 
 admin.initializeApp();
 
-// Initialize Resend with API key from environment variable
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 /**
  * Cloud Function to send verification email
  * Triggered by HTTP POST request from signup page
@@ -31,6 +28,20 @@ exports.sendVerificationEmail = functions.https.onCall(async (data, context) => 
         'Invalid email format'
       );
     }
+
+    // Get Resend API key from Firebase config
+    const resendApiKey = functions.config().resend.api_key;
+    
+    if (!resendApiKey) {
+      console.error('Resend API key not configured');
+      throw new functions.https.HttpsError(
+        'failed-precondition',
+        'Email service not configured'
+      );
+    }
+
+    // Initialize Resend with API key
+    const resend = new Resend(resendApiKey);
 
     // Construct verification link
     const verificationLink = `https://warlord-1cbe3.web.app/auth/verify.html?code=${verificationCode}&email=${encodeURIComponent(email)}`;
