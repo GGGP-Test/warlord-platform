@@ -55,10 +55,13 @@
     "cleanUrls": true,
     "trailingSlash": false
   },
-  "functions": {
-    "source": "functions",
-    "runtime": "nodejs20"
-  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "runtime": "nodejs18"
+    }
+  ],
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
