@@ -1,36 +1,24 @@
 {
-  "name": "warlord-functions",
-  "version": "1.0.0",
-  "description": "WARLORD Platform - Cloud Functions Backend",
-  "engines": {
-    "node": "20"
-  },
-  "main": "dist/index.js",
+  "name": "functions",
+  "description": "Cloud Functions for Warlord Platform",
   "scripts": {
-    "build": "tsc",
-    "build:watch": "tsc --watch",
-    "serve": "npm run build && firebase emulators:start --only functions",
-    "shell": "npm run build && firebase functions:shell",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
   },
+  "engines": {
+    "node": "18"
+  },
+  "main": "index.js",
   "dependencies": {
     "firebase-admin": "^12.0.0",
-    "firebase-functions": "^4.5.0",
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "axios": "^1.6.7",
-    "openai": "^4.28.0",
-    "@sendgrid/mail": "^7.7.0",
-    "apify-client": "^2.8.0"
+    "firebase-functions": "^5.0.0",
+    "resend": "^3.0.0"
   },
   "devDependencies": {
-    "typescript": "^5.3.3",
-    "@types/express": "^4.17.21",
-    "@types/cors": "^2.8.17",
-    "firebase-functions-test": "^3.1.1"
+    "firebase-functions-test": "^3.1.0"
   },
   "private": true
 }
