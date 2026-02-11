@@ -229,8 +229,8 @@
             </svg>
             <h1>Something Went Wrong</h1>
             <p id="error-message">Please try signing in again.</p>
-            <a href="/auth/signin" class="button">Sign In</a>
-            <a href="/auth/signup" class="button button-secondary">Sign Up</a>
+            <a href="/auth/login" class="button">Log In</a>
+            <a href="/auth/signup/TEST.html" class="button button-secondary">Sign Up</a>
         </div>
     </div>
 
@@ -258,26 +258,25 @@
                     return;
                 }
                 
-                console.log('Storing domain verification for:', domain);
+                console.log('Ensuring domain claim for:', domain);
                 
-                // Check if domain already exists
-                const existingDomain = await db.collection('verified_domains')
-                    .where('domain', '==', domain)
-                    .limit(1)
-                    .get();
+                // Use domainClaims as source of truth
+                await db.collection('domainClaims').doc(domain).set({
+                    domain: domain,
+                    claimedBy: user.uid,
+                    claimedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    status: 'verified'
+                }, { merge: true });
                 
-                if (existingDomain.empty) {
-                    // Add new verified domain
-                    await db.collection('verified_domains').add({
-                        domain: domain,
-                        verifiedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        verifiedBy: user.email,
-                        userId: user.uid
-                    });
-                    console.log('✅ Domain stored successfully:', domain);
-                } else {
-                    console.log('Domain already verified:', domain);
-                }
+                // Also create user profile if it doesn't exist
+                await db.collection('users').doc(user.uid).set({
+                    email: user.email,
+                    domain: domain,
+                    emailVerified: true,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+
+                console.log('✅ Domain and user profile ensured');
             } catch (error) {
                 console.error('Failed to store domain:', error);
                 // Don't block the user if storage fails
