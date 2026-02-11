@@ -188,6 +188,14 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
+        const PERSONAL_DOMAINS = new Set([
+            'gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com',
+            'aol.com', 'icloud.com', 'mail.com', 'protonmail.com',
+            'yandex.com', 'zoho.com', 'gmx.com', 'inbox.com',
+            'googlemail.com', 'ymail.com', 'live.com', 'msn.com',
+            'me.com', 'mac.com', 'pm.me', 'fastmail.com', 'hey.com'
+        ]);
+
         // Get DOM elements
         const loadingState = document.getElementById('loading-state');
         const successState = document.getElementById('success-state');
@@ -226,6 +234,11 @@
             return match ? match[1].toLowerCase() : null;
         }
 
+        function isBusinessEmail(email) {
+            const domain = extractDomain(email);
+            return domain && !PERSONAL_DOMAINS.has(domain);
+        }
+
         // Main verification logic
         async function verifyEmail() {
             try {
@@ -262,7 +275,15 @@
                     return;
                 }
 
-                console.log('Verification valid, creating Firebase account...');
+                console.log('Verification valid, checking domain status...');
+                const domain = extractDomain(email);
+                const domainClaimDoc = await db.collection('domainClaims').doc(domain).get();
+                if (domainClaimDoc.exists && domainClaimDoc.data().status === 'verified') {
+                    showError('This domain is already registered.', 'Another user from your company has already registered.');
+                    return;
+                }
+
+                console.log('Domain clear, creating Firebase account...');
 
                 // ✅ NOW create the Firebase Auth account
                 const userCredential = await auth.createUserWithEmailAndPassword(email, data.password);
@@ -270,26 +291,24 @@
 
                 console.log('Firebase account created:', user.uid);
 
-                // Send email verification (Firebase built-in)
-                await user.sendEmailVerification();
-
                 // Create user profile in Firestore
-                const domain = extractDomain(email);
                 await db.collection('users').doc(user.uid).set({
                     email: email,
                     domain: domain,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    emailVerified: false,
+                    emailVerified: true,
                     onboardingCompleted: false
                 });
 
-                // Create or update domain claim
-                await db.collection('domainClaims').doc(domain).set({
-                    domain: domain,
-                    claimedBy: user.uid,
-                    claimedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    status: 'pending'
-                }, { merge: true });
+                // Create or update domain claim ONLY if it's a business email
+                if (isBusinessEmail(email)) {
+                    await db.collection('domainClaims').doc(domain).set({
+                        domain: domain,
+                        claimedBy: user.uid,
+                        claimedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        status: 'verified'
+                    }, { merge: true });
+                }
 
                 // Delete the pending verification
                 await pendingDoc.ref.delete();

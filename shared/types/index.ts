@@ -2,7 +2,15 @@
 // WARLORD Platform - Shared Types
 // ============================================
 
-import { Timestamp } from 'firebase/firestore';
+/**
+ * Simple Timestamp interface to maintain compatibility between
+ * frontend (firebase/firestore) and backend (firebase-admin).
+ */
+export interface Timestamp {
+  seconds: number;
+  nanoseconds: number;
+  toDate(): Date;
+}
 
 // ============================================
 // USER & AUTH TYPES
