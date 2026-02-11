@@ -1,0 +1,1167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Galactly --- Onboarding</title>
+<script>
+(function () {
+if (/\/index\.html$/i.test(location.pathname)) {
+var q = location.search || '', h = location.hash || '';
+var p = location.pathname.replace(/index\.html$/i, '');
+if (!/\/$/.test(p)) p += '/';
+history.replaceState(null, '', p + q + h);
+}
+})();
+</script>
+<link rel="canonical" href="https://galactly.com/auth/signup/">
+<!-- Jakarta for headings -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
+<!-- Primary: SVG favicon -->
+<link rel="icon" href="/favicon.ico">
+<!-- PNG fallbacks -->
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="shortcut icon" href="/favicon.ico">
+<!-- === Config: Firebase + Security (adaptive challenge knobs) === -->
+<script>
+window.__FIREBASE_CONFIG__ = {
+apiKey: "AIzaSyCBf7LHL4PfxD2rH7-HdYSE2dXIGfb3Vz4",
+authDomain: "artemiss-42e40.firebaseapp.com",
+projectId: "artemiss-42e40",
+appId: "1:384891834378:web:53624662894e0650a74ff3"
+};
+</script>
+<script>
+window.__SECURITY__ = {
+turnstileSiteKey: "",
+hcaptchaSiteKey: "",
+humanVerifyEndpoint: "",
+policy: {
+windowMs: 10*60*1000,
+warmupTries: 999999999,
+maxTriesBeforeChallenge: 999999999,
+distinctEmailsBeforeChallenge: 999999999,
+throttleMs: 1200,
+humanPassTtlMs: 24*60*60*1000
+}
+};
+</script>
+<style>
+:root{
+--content-w: min(960px, 92vw);
+--title-fs: clamp(28px, 5.6vw, 58px);
+--safe-top: env(safe-area-inset-top);
+--safe-bottom: env(safe-area-inset-bottom);
+--ctl-h: 46px; --ctl-r: 16px; --rim-w: 1.5px;
+--bevel-light: rgba(255,255,255,.85);
+--bevel-dark: rgba(0,0,0,.08);
+--pane-bg-2: rgba(255,255,255,.22);
+--outer-shadow: 0 4px 14px rgba(0,0,0,.08);
+--ring-alpha: .24; --ring-speed: 900ms; --ring-size: 110%;
+--fg: #1a2332; --muted: #5d6875; --error: #d63447;
+--bg-1: #f8fafc; --bg-2: #ffffff;
+--s2-gap-edge-title: 48px;
+--s2-gap-title-subtitle: 8px;
+--s2-gap-subtitle-chips: 12px;
+--s2-gap-chips-hr: 16px;
+--s2-gap-hr-or: 8px;
+--s2-gap-or-field: 16px;
+--s2-gap-field-arrow: 10px;
+--s2-gap-bottom-edge: 48px;
+--topbar-pad-x: 20px; --topbar-pad-y: 10px;
+--cta-d: 36px; --stage-lift-m: 0px; --stage-lift-d: 0px;
+--chip-sheen-ang: -70deg; --chip-sheen-ang-hover: -110deg;
+--chip-glare-alpha: .15; --chip-glare-soften: .5px;
+--field-rim-w: 0.1px; --field-rim-top: rgba(0,0,0,.06);
+--field-rim-bottom: rgba(0,0,0,.12);
+--field-inset-top: rgba(255,255,255,.95);
+--field-inset-bottom: rgba(0,0,0,.04);
+--field-inset-ambient: rgba(0,0,0,.02);
+}
+@property --chip-sheen-ang { syntax: "<angle>"; inherits: true; initial-value: -70deg; }
+@media (min-width:768px){
+:root{ --cta-d: 40px; }
+}
+@media (min-width: 768px){
+:root{
+--s2-gap-edge-title: 72px;
+--s2-gap-title-subtitle: 10px;
+--s2-gap-subtitle-chips: 14px;
+--s2-gap-chips-hr: 20px;
+--s2-gap-hr-or: 10px;
+--s2-gap-or-field: 20px;
+--s2-gap-field-arrow: 12px;
+--s2-gap-bottom-edge: 72px;
+}
+}
+html,body{height:100%;margin:0; background-color:#f8fafc;}
+body{
+color:var(--fg);
+font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+background:
+radial-gradient(850px 650px at 82% 18%, rgba(245,248,252,.85) 0%, rgba(250,250,250,.35) 45%, transparent 68%),
+radial-gradient(920px 720px at 15% 75%, rgba(238,242,248,.75) 0%, rgba(248,250,252,.4) 42%, transparent 65%),
+radial-gradient(680px 580px at 68% 62%, rgba(252,253,255,.7) 0%, rgba(245,247,250,.38) 48%, transparent 72%),
+radial-gradient(750px 620px at 38% 35%, rgba(242,245,250,.68) 0%, rgba(250,251,253,.32) 50%, transparent 70%),
+radial-gradient(580px 480px at 50% 88%, rgba(248,250,253,.62) 0%, rgba(252,252,254,.28) 52%, transparent 75%),
+radial-gradient(420px 380px at 25% 45%, rgba(240,243,248,.55) 0%, transparent 68%),
+linear-gradient(180deg, #fafafa 0%, #fcfcfd 35%, #ffffff 100%);
+background-blend-mode: soft-light, soft-light, soft-light, soft-light, soft-light, overlay, normal;
+-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+overflow-y: auto;
+-webkit-overflow-scrolling: touch;
+}
+.wrap{ min-height:100dvh; display:grid; place-items:center;
+padding: calc(0px + var(--safe-top)) 16px calc(0px + var(--safe-bottom)); }
+.stage{ width:var(--content-w); transform: translateY(var(--stage-lift-m)); transition: transform .2s ease; }
+@media (min-width:768px){ .stage{ transform: translateY(var(--stage-lift-d)); } }
+.topbar{ position:fixed; top: calc(var(--safe-top) + var(--topbar-pad-y)); left:0; right:0; z-index:10;
+display:flex; align-items:center; justify-content:space-between; padding:0 var(--topbar-pad-x); }
+.brand{ display:flex; align-items:center; gap:10px; color:var(--fg); text-decoration:none; padding:6px 8px; border-radius:12px; }
+.brand img{height:22px; width:auto}
+.brand span{ font:800 14px/1 "Plus Jakarta Sans", Inter, system-ui; letter-spacing:.2px; }
+.home-link{ display:inline-flex; align-items:center; justify-content:center; padding:6px 8px; background:none; border:0; line-height:0; color: var(--fg); }
+.home-link svg{ width:22px; height:22px; display:block; }
+@media (min-width:1024px){ .home-link svg{ width:28px; height:28px; } }
+h1{ font:800 var(--title-fs)/1.05 "Plus Jakarta Sans", Inter, system-ui; margin:0 0 18px 0; text-shadow:0 1px 2px rgba(0,0,0,.08); text-align:center; }
+.subtitle{ color:var(--muted); margin:0 0 18px 0; text-align:center }
+.center { display:grid; gap:16px; place-items:center; }
+#step2 .center { gap: 0; }
+.cardless{ max-width:860px; margin-inline:auto; }
+.step{ display:none; }
+.step.active{ display:block; }
+.choices{ display:grid; grid-template-columns: 1fr; gap:16px; }
+@media (min-width:720px){ .choices{ grid-template-columns: 1fr 1fr; } }
+.choice{
+position:relative; border-radius:16px; padding:18px 18px;
+background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.88));
+border:1px solid rgba(0,0,0,.12);
+box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 4px 12px rgba(0,0,0,.06);
+cursor:pointer; user-select:none;
+display:flex; gap:14px; align-items:flex-start;
+transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.choice:hover{ transform:translateY(-2px); border-color:rgba(0,0,0,.18); box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 8px 24px rgba(0,0,0,.12); }
+.choice.selected{ outline:2px solid #ff9520; box-shadow: 0 0 0 6px rgba(255,149,32,.12), 0 8px 24px rgba(255,149,32,.18); }
+.choice h3{ margin:0 0 6px 0; font-size:18px; font-weight:700; letter-spacing:-0.01em; }
+.choice p{ margin:0; color:var(--muted); font-size:14px; line-height:1.35; }
+.choice .icon{
+display:inline-flex; align-items:center; justify-content:center;
+width:38px; height:38px; border-radius:12px;
+background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(245,247,250,.92));
+border:1px solid rgba(0,0,0,.1);
+box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 3px 8px rgba(0,0,0,.08);
+flex:0 0 auto;
+}
+.choice .icon svg{ width:18px; height:18px; }
+.row-actions{ display:flex; justify-content:flex-end; gap:12px; margin-top:16px; }
+.btn-icon{
+display:inline-flex; align-items:center; justify-content:center;
+width:44px; height:44px; border-radius:999px; color:var(--fg);
+background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(250,251,252,.94));
+border:1px solid rgba(0,0,0,.14);
+box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 4px 12px rgba(0,0,0,.08);
+backdrop-filter: blur(6px);
+cursor:pointer;
+transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, opacity .18s ease;
+}
+.btn-icon[disabled]{ opacity:.4; pointer-events:none; }
+.btn-icon:hover{ transform: translateY(-1px); border-color:rgba(0,0,0,.2); box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 8px 20px rgba(0,0,0,.12); }
+.title-row{ text-align:center; margin-bottom:8px }
+.title-row h1{ font-family:"Plus Jakarta Sans", Inter, system-ui }
+.hr{ width:min(560px, 86vw); height:1px; margin:12px auto; background:linear-gradient(90deg, transparent, rgba(0,0,0,.12), transparent) }
+.muted{ color:var(--muted); font-size:14px; text-align:center }
+.chip-row{ display:flex; gap:18px; flex-wrap:wrap; justify-content:center }
+.chip{
+--local-h: var(--ctl-h);
+position:relative; display:inline-grid;
+grid-auto-flow:column; align-items:center; gap:10px;
+height:var(--local-h); padding:0 18px; border-radius:calc(var(--ctl-r) + 4px);
+color:var(--fg); text-decoration:none; font-weight:600;
+background:
+linear-gradient(var(--chip-sheen-ang), transparent 44%, rgba(255,255,255,.85) 51%, transparent 58%),
+linear-gradient(180deg, rgba(255,255,255,.98), rgba(250,252,255,.92)),
+radial-gradient(120% 120% at 50% 45%, rgba(255,255,255,.95), rgba(240,245,250,.88));
+background-clip: padding-box;
+border:1px solid rgba(0,0,0,.14);
+box-shadow:
+inset 0 1px 0 var(--bevel-light),
+inset 0 -2px 5px var(--bevel-dark),
+inset 0 10px 22px var(--pane-bg-2),
+0 2px 8px rgba(0,0,0,.08);
+backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, --chip-sheen-ang .45s ease;
+}
+.chip:hover{
+--chip-sheen-ang: var(--chip-sheen-ang-hover);
+transform: translateY(-1px);
+border-color: rgba(0,0,0,.18);
+box-shadow:
+inset 0 1px 0 var(--bevel-light),
+inset 0 -2px 5px var(--bevel-dark),
+inset 0 12px 24px var(--pane-bg-2),
+0 4px 16px rgba(0,0,0,.12);
+}
+.inline-error{
+width:min(560px, 86vw); margin: 8px auto 14px; font-size: 13px; line-height: 1.35;
+padding: 10px 12px; border-radius: 10px; border:1px solid rgba(214,52,71,.4);
+background: rgba(214,52,71,.08); color: #a01828;
+}
+/* Login link in error box should be DARK */
+.inline-error a,.inline-error a:visited{ color:#1a2332; text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }
+.inline-error a:hover,.inline-error a:focus-visible{ text-decoration-thickness: 2px; outline: none; }
+.inline-note{
+width:min(560px, 86vw); margin: 8px auto 0; font-size: 13px; line-height: 1.35;
+padding: 10px 12px; border-radius: 10px; border:1px solid rgba(0,0,0,.14);
+background: rgba(255,255,255,.6); color: var(--fg);
+}
+.small-row{ display:flex; gap:10px; justify-content:center; margin-top:8px; font-size:12px; color:var(--muted); }
+.small-row a{ color:var(--fg); text-decoration:underline; cursor:pointer }
+.field-wrap{ width:min(280px, 86vw); margin: 20px auto 0 auto; position:relative; }
+.pressed{
+position:relative; display:grid; grid-template-columns: 26px 1fr; align-items:center;
+height:var(--ctl-h); border-radius:var(--ctl-r); padding:0 14px; background: transparent;
+border:1px solid rgba(0,0,0,.12);
+box-shadow: inset 0 1px 0 rgba(255,255,255,.95), inset 0 2px 4px rgba(0,0,0,.04), inset 0 8px 16px rgba(255,255,255,.22);
+backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+transition: box-shadow .15s ease, border-color .15s ease;
+}
+.pressed::before{ content:""; position:absolute; inset:0; border-radius:inherit; padding:0.1px;
+-webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+-webkit-mask-composite: xor; mask-composite: exclude;
+background: linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,0,0,.12)); pointer-events:none;
+}
+.pressed:has(input:focus){ border-color: rgba(0,0,0,.22); box-shadow:
+inset 0 1px 0 rgba(255,255,255,1), inset 0 2px 4px rgba(0,0,0,.06), inset 0 8px 16px rgba(255,255,255,.28), 0 4px 16px rgba(0,0,0,.08); }
+.left-icon{display:inline-grid; place-items:center; width:24px; color:#2a3442; opacity:.85}
+input{ min-width:0; background:transparent; border:0; outline:0; color:var(--fg);
+font-size:14px; padding:0 8px; height:calc(var(--ctl-h) - 2px);
+padding-right: calc(var(--cta-d) + 14px); }
+input::placeholder{ color:rgba(26,35,50,.48); }
+.field-cta{
+position:absolute; right:6px; top:50%;
+width:var(--cta-d); height:var(--cta-d);
+transform: translate(10px,-50%) scale(.9); opacity:0; pointer-events:none;
+border-radius:999px; border:1px solid rgba(0,0,0,.14);
+background:
+radial-gradient(140% 90% at 50% -20%, rgba(255,255,255,.95) 0%, rgba(250,252,255,.88) 28%, rgba(245,247,250,0) 60%),
+radial-gradient(120% 120% at 50% 40%, rgba(255,255,255,.92), rgba(235,240,245,.85));
+background-blend-mode: normal, normal;
+box-shadow:
+inset 0 1px 0 rgba(255,255,255,1), inset 0 -2px 4px rgba(0,0,0,.06),
+inset 0 8px 16px rgba(255,255,255,.18), 0 3px 10px rgba(0,0,0,.1);
+backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+color:var(--fg); display:grid; place-items:center; cursor:pointer;
+transition: transform var(--ring-speed) cubic-bezier(.25,1,.5,1), opacity calc(var(--ring-speed)*.7) ease, box-shadow .2s ease, border-color .2s ease;
+}
+.pressed.show-cta .field-cta{ opacity:1; pointer-events:auto; transform: translate(0,-50%) scale(1); }
+.single-action{ display:grid; place-items:center; margin-top:12px; }
+#step2 .title-row { margin-top: var(--s2-gap-edge-title); margin-bottom: 0; }
+#step2 .title-row h1 { margin: 0 0 var(--s2-gap-title-subtitle) 0; }
+#step2 .subtitle { margin: 0 0 var(--s2-gap-subtitle-chips) 0; text-align: center; }
+#step2 .chip-row { margin: 0 0 var(--s2-gap-chips-hr) 0; }
+#step2 .hr { margin: 10px auto var(--s2-gap-hr-or) auto; }
+#step2 .muted { margin: 0 0 var(--s2-gap-or-field) 0; }
+#step2 .field-wrap { margin: 0 auto var(--s2-gap-field-arrow) auto; }
+#step2 .single-action { margin: 0 0 var(--s2-gap-bottom-edge) 0; }
+:root{
+--ease-hero: cubic-bezier(.22,1,.36,1);
+--ease-soft: cubic-bezier(.25,.95,.35,1);
+--ease-snap: cubic-bezier(.16,.84,.44,1);
+--anim-title-d: 1.25s; --anim-sub-d: 1.40s; --anim-div-d: 1.00s;
+--anim-below-d: 1.25s; --anim-pwd-d: 1.30s;
+}
+@keyframes titleRise { 0%{ opacity:0; transform: translateY(24px) scale(.985); filter: blur(3px); } 60%{ filter: blur(0); } 100%{ opacity:1; transform: translateY(0) scale(1); } }
+.anim-title{ animation: titleRise var(--anim-title-d) var(--ease-hero) both; }
+@keyframes subDrift { 0%{ opacity:0; transform: translateY(30px); } 100%{ opacity:1; transform: translateY(0); } }
+.anim-sub{ animation: subDrift var(--anim-sub-d) var(--ease-soft) both; animation-delay: .12s; }
+@keyframes dividerGrow { 0%{ opacity:0; transform: scaleX(.6); } 100%{ opacity:1; transform: scaleX(1); } }
+.anim-divider{ transform-origin: 50% 50%; animation: dividerGrow var(--anim-div-d) cubic-bezier(.2,.8,.2,1) both; animation-delay: .10s; }
+@keyframes fieldDrop { 0%{ opacity:0; transform: translateY(-24px); } 100%{ opacity:1; transform: translateY(0); } }
+.anim-or { animation: fieldDrop var(--anim-below-d) var(--ease-hero) both; animation-delay: .18s; }
+.anim-field{ animation: fieldDrop var(--anim-below-d) var(--ease-hero) both; animation-delay: .26s; }
+.anim-back { animation: fieldDrop var(--anim-below-d) var(--ease-soft) both; animation-delay: .36s; }
+@media (prefers-reduced-motion: reduce){
+*{ animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition: none !important; }
+}
+:root{ --leave-ms: 1500ms; }
+body.leaving .stage{
+opacity: 0; transform: translateY(12px) scale(.985); filter: blur(2px);
+transition: transform var(--leave-ms) cubic-bezier(.22,1,.36,1),
+opacity var(--leave-ms) ease,
+filter var(--leave-ms) ease;
+}
+body.leaving::after{
+content:""; position:fixed; inset:0;
+background: radial-gradient(1200px 800px at 50% 40%, rgba(255,255,255,.7), rgba(245,247,250,.92));
+pointer-events:none; opacity:0; transition: opacity var(--leave-ms) ease;
+}
+body.leaving::after{ opacity:1; }
+.site-badge{ position: relative; display: inline-grid; grid-auto-flow: column; align-items: center; gap:10px; margin: 8px auto 6px; padding: 8px 12px; border-radius: 14px; color: var(--fg); font-weight:600; font-size:13px; background:
+linear-gradient(180deg, rgba(255,255,255,.98), rgba(250,252,255,.92)),
+radial-gradient(120% 120% at 50% 45%, rgba(255,255,255,.95), rgba(240,245,250,.88));
+border:1px solid rgba(0,0,0,.14); box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 2px 8px rgba(0,0,0,.08); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.site-badge .host{ font-weight:800; letter-spacing:.2px; }
+.site-badge .info{ display:inline-flex; align-items:center; justify-content:center; box-sizing:border-box; width:24px; height:24px; border-radius:999px; line-height:0; border:1px solid rgba(0,0,0,.14); background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(250,252,255,.94)); box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 2px 8px rgba(0,0,0,.08); color:var(--fg); cursor:pointer; }
+.site-badge .info svg,
+.site-badge .info img{ width: 24px; height: 24px; display: block; }
+.site-badge .tip{ position:absolute; top: calc(100% + 8px); left:50%; transform: translateX(-50%); z-index: 40; padding:6px 8px; border-radius:8px; font-size:12px; white-space:nowrap; color:#f8fafc; background: rgba(26,35,50,.96); border:1px solid rgba(0,0,0,.2); box-shadow: 0 6px 18px rgba(0,0,0,.14); opacity:0; pointer-events:auto; transition: opacity .2s ease, transform .2s ease; }
+.site-badge:hover .tip, .site-badge:focus-within .tip{ opacity:1; transform: translate(-50%, -2px); pointer-events:auto; }
+.error{ display:none !important; }
+[hidden]{ display:none !important; }
+/* Verify panel link stays dark (only in that box) */
+#verifyPanel a, #verifyPanel a:visited{ color:#1a2332 !important; }
+/* === MOBILE PATCH: keep Step-1 NEXT visible and RIGHT-ALIGNED === */
+@media (max-width: 720px){
+#step1 .row-actions{
+position: sticky;
+bottom: calc(12px + var(--safe-bottom));
+padding-bottom: calc(8px + var(--safe-bottom));
+justify-content: flex-end; /* right side, not centered */
+z-index: 5;
+}
+#s1-next{ width:56px; height:56px; }
+}
+</style>
+<!-- Google Identity Services -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<!-- Firebase (auth + firestore) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<!-- Human checks (loaded but used adaptively) -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+</head>
+<body>
+<div class="topbar">
+<a class="brand" href="/" aria-label="Galactly">
+<img alt="Galactly" src="" id="brandLogo"/>
+<span class="brand-word">Galactly</span>
+</a>
+<a class="home-link" href="/" aria-label="Home">
+<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M3 10.5L12 3l9 7.5"/>
+<path d="M5 10v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-9"/>
+<path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/>
+</svg>
+</a>
+</div>
+<main class="wrap">
+<div class="stage cardless">
+<!-- STEP 2 -->
+<section id="step2" class="step active" aria-labelledby="s2-title">
+<div id="siteBadge" class="site-badge" hidden>
+<span>We'll use&nbsp;<span class="host" id="siteHost">---</span></span>
+<button class="info" id="siteInfo" type="button" aria-label="Why this site?">
+<svg viewBox="0 0 24 24" aria-hidden="true">
+<circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+<path d="M12 7v7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+<circle cx="12" cy="17" r="1.5" fill="currentColor"/>
+</svg>
+</button>
+<span class="tip" id="siteTip" role="tooltip">
+Privacy: <a id="siteTipLink" class="tip-link" href="/privacy#domain-match" target="_blank" rel="noopener">domain match</a>
+</span>
+</div>
+<div id="s2-top-start" class="top-group">
+<div class="title-row">
+<h1 id="s2-title">Get started with Us</h1>
+<p class="subtitle">Continue with</p>
+</div>
+<div class="center">
+<div class="chip-row">
+<a class="chip" id="googleBtn" href="#" aria-label="Continue with Google (Work)">
+<span class="glare" aria-hidden="true"></span>
+<svg width="20" height="20" viewBox="0 0 533.5 544.3" role="img" aria-hidden="true" focusable="false">
+<path fill="#4285F4" d="M533.5 278.4c0-18.4-1.7-36-4.9-53.1H272v100.5h146.9c-6.3 34-25 62.8-53.1 82v68h85.7c50.1-46.2 81.9-114.1 81.9-197.4z"/>
+<path fill="#34A853" d="M272 544.3c72.2 0 132.8-23.9 177.1-64.9l-85.7-68c-23.8 16-54.2 25.5-91.4 25.5-70 0-129.4-47.2-150.6-110.8H33.1v69.6c44.2 87.8 135.2 148.6 238.9 148.6z"/>
+<path fill="#FBBC04" d="M121.4 326.1c-11.2-33.5-11.2-69.6 0-103.1V153.4H33.1c-40.1 79.9-40.1 175.2 0 255.1l88.3-69.6z"/>
+<path fill="#EA4335" d="M272 107.7c39.2-.6 76.7 14 104.8 41.2l78.3-78.3C411.7 18.1 344.2-5.3 272 0 168.3 0 77.3 60.8 33.1 148.6l88.3 69.6C142.7 154.6 202 107.7 272 107.7z"/>
+</svg>
+<span>Google</span>
+</a>
+</div>
+</div>
+</div>
+<div id="s2-top-pass" class="top-group" hidden>
+<div class="title-row">
+<h1>Create your password</h1>
+<p class="subtitle">Your password must be at least 6 characters long.</p>
+</div>
+</div>
+<div class="hr" id="s2-divider" aria-hidden="true"></div>
+<!-- verification box -->
+<div id="verifyPanel" class="inline-note" hidden>
+<div id="verifyMsg">
+We sent a verification link to <strong id="vEmail">---</strong>. Open it on this device to verify, then return to <a id="loginLinkInline" href="/auth/login/">log in</a>.
+</div>
+<div class="small-row">
+<a id="resendLink">Resend</a><span>·</span><a id="changeEmail">Use a different email</a>
+</div>
+</div>
+<!-- generic red status (kept for other errors) -->
+<div id="inlineStatus" class="inline-error" role="alert" aria-live="polite" hidden></div>
+<div id="s2-bottom">
+<div id="s2-or" class="muted">OR</div>
+<!-- email -->
+<div class="field-wrap">
+<div class="pressed" id="emailBox">
+<span class="left-icon" aria-hidden="true">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 7l9 6 9-6"/>
+</svg>
+</span>
+<input id="email" type="email" inputmode="email" autocomplete="email" placeholder="Email"/>
+<button id="emailNext" class="field-cta" type="button" aria-label="Next">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<path d="M9 18l6-6-6-6"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- password (shown only after prechecks) -->
+<div class="field-wrap" id="pwdWrap" hidden>
+<div class="pressed" id="pwdBox">
+<span class="left-icon" aria-hidden="true">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<rect x="3" y="11" width="18" height="10" rx="3"/><path d="M7 11V8a5 5 0 0 1 10 0v3"/>
+</svg>
+</span>
+<input id="password" type="password" autocomplete="new-password" placeholder="Password (min 6 characters)"/>
+<button id="pwdNext" class="field-cta" type="button" aria-label="Next">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<path d="M9 18l6-6-6-6"></path>
+</svg>
+</button>
+</div>
+</div>
+<div class="single-action">
+<button type="button" id="s2-back" class="btn-icon" aria-label="Back">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<path d="M15 18l-6-6 6-6"></path>
+</svg>
+</button>
+</div>
+<div class="small-row" id="loginRow">
+<span>Already have an account?</span>
+<a id="staticLoginLink" href="/auth/login/">Log in</a>
+</div>
+</div>
+</section>
+<div id="emailError" class="error hide"></div>
+<div id="domainMismatch" class="error hide"></div>
+<div id="siteUnreachable" class="error hide"></div>
+</div>
+</main>
+<div id="human-zone" style="position:fixed;left:-9999px;top:0;width:1px;height:1px;overflow:hidden;">
+<div id="cf-turnstile"></div>
+<div id="hcaptcha"></div>
+</div>
+<script>
+(function tryLogo(){
+const candidates = [
+"/assets/logo/galactly-logo.svg","/assets/logo/logo.svg","/assets/brand/galactly-logo.svg","/assets/branding/galactly-logo.svg",
+"/img/galactly-logo.svg","/images/logo.svg","/logo.svg","/assets/logo.png","/images/logo.png"
+];
+const el = document.getElementById("brandLogo");
+let i = 0;
+(function next(){
+if(i>=candidates.length){ try{ el.remove(); }catch{} return; }
+const src = candidates[i++], img = new Image();
+img.onload = () => el.src = src;
+img.onerror = next;
+img.src = src;
+})();
+})();
+const byId = (id)=>document.getElementById(id);
+const qsa = (sel,root=document)=>Array.from(root.querySelectorAll(sel));
+const step2 = byId("step2");
+const s2Back = byId("s2-back");
+const s2TopStart = byId("s2-top-start"); const s2TopPass = byId("s2-top-pass");
+const s2Or = byId("s2-or");
+const emailInput = byId("email"); const emailBox = byId("emailBox"); const emailNext = byId("emailNext");
+const verifyPanel = byId("verifyPanel"); const vEmail = byId("vEmail");
+const resendLink = byId("resendLink"); const changeEmail = byId("changeEmail");
+const pwdWrap = byId("pwdWrap"); const pwdBox = byId("pwdBox"); const pwdInput = byId("password"); const pwdNext = byId("pwdNext");
+const siteBadge = byId('siteBadge'); const siteHostEl = byId('siteHost'); const siteInfo = byId('siteInfo'); const siteTip = byId('siteTip');
+const statusEl = byId('inlineStatus'); const staticLoginLink = byId('staticLoginLink'); const loginLinkInline = byId('loginLinkInline');
+function updateLoginLink(){
+const em = (emailInput?.value || '').trim();
+const valid = /^[^\s@]+@[^\s@]{2,}\.[^\s@]{2,}$/i.test(em);
+const url = valid ? `/auth/login/?email=${encodeURIComponent(em)}` : `/auth/login/`;
+staticLoginLink.href = url;
+if (loginLinkInline) loginLinkInline.href = url;
+}
+function showStatus(msg){ statusEl.textContent = msg || "We couldn't continue."; statusEl.hidden = false; }
+function showStatusHTML(html){ statusEl.innerHTML = html || "We couldn't continue."; statusEl.hidden = false; }
+function hideStatus(){ statusEl.hidden = true; statusEl.textContent = ""; }
+function escapeHTML(s){ return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function goLogin(email){
+const em = (email || emailInput?.value || '').trim();
+showStatusHTML(`<strong>Company already registered.</strong> <a href="/auth/login/?email=${encodeURIComponent(em)}">Log in</a>`);
+try { statusEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch {}
+}
+emailInput?.addEventListener('input', updateLoginLink);
+emailInput?.addEventListener('blur', updateLoginLink);
+updateLoginLink();
+let s2Stage = 'start';
+function play(el, cls){ if(!el) return; el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); }
+function cleanHost(raw){
+if(!raw) return null;
+let s = String(raw).trim();
+s = s.replace(/^mailto:/i,'').replace(/^(https?:)?\/\//i,'').replace(/^www\./i,'');
+s = s.split(/[\/?#]/)[0].replace(/[^\w.-]/g,'');
+return s || null;
+}
+function extractHostFromEmail(val){
+const m = String(val||'').trim().match(/@([^@\s>]+)$/);
+const host = m ? cleanHost(m[1]) : null;
+return host && host.includes('.') ? host.toLowerCase() : null;
+}
+function getQueryParam(name){ const p = new URLSearchParams(location.search); return p.get(name); }
+function animateStep2Intro(){
+const divider = byId('s2-divider');
+const backRow = document.querySelector('#step2 .single-action');
+if(!s2TopStart.hidden){
+const title = s2TopStart.querySelector('.title-row h1');
+const subtitle = s2TopStart.querySelector('.title-row .subtitle');
+const chips = s2TopStart.querySelector('.chip-row');
+play(title,'anim-title'); play(subtitle,'anim-sub'); play(chips,'anim-chips');
+} else {
+const pTitle = s2TopPass.querySelector('.title-row h1');
+const pSub = s2TopPass.querySelector('.title-row .subtitle');
+play(pTitle,'anim-title'); play(pSub,'anim-sub');
+}
+play(divider,'anim-divider'); play(s2Or,'anim-or'); play(emailBox?.closest('.field-wrap'),'anim-field'); play(backRow,'anim-back');
+}
+function showStartStage(){
+s2TopStart.hidden = false; s2TopPass.hidden = true; s2Or.hidden = false;
+verifyPanel.hidden = true; pwdWrap.hidden = true; pwdInput.value = ''; pwdBox.classList.remove('show-cta');
+updateEmailCTA(); s2Stage = 'start'; animateStep2Intro(); syncSiteBadge(false); hideStatus();
+}
+s2Back.addEventListener("click", ()=>{
+if(!step2.classList.contains('active')) return;
+if(s2Stage === 'password'){ showStartStage(); }
+});
+const looksValidEmail = (v)=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(v.trim());
+function updateEmailCTA(){
+const v = emailInput.value; const valid = looksValidEmail(v);
+const lockEmailCTA = !pwdWrap.hidden; const show = valid && !lockEmailCTA;
+emailBox.classList.toggle('show-cta', show); emailNext.toggleAttribute('disabled', !show); emailNext.setAttribute('aria-hidden', show ? 'false' : 'true');
+}
+emailInput.addEventListener('input', ()=>{ updateEmailCTA(); syncSiteBadge(false); updateLoginLink(); });
+emailInput.addEventListener('blur', ()=>{ updateEmailCTA(); syncSiteBadge(false); updateLoginLink(); });
+emailInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' && looksValidEmail(emailInput.value)){ e.preventDefault(); if(pwdWrap.hidden) emailNext.click(); } });
+function updatePwdCTA(){
+const show = (pwdInput.value.length >= 6);
+pwdBox.classList.toggle('show-cta', show); pwdNext.toggleAttribute('disabled', !show); pwdNext.setAttribute('aria-hidden', show ? 'false' : 'true');
+}
+pwdInput?.addEventListener('input', updatePwdCTA);
+pwdInput?.addEventListener('blur', updatePwdCTA);
+pwdInput?.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' && pwdInput.value.length >= 6){ e.preventDefault(); pwdNext.click(); } });
+const PERSONAL = new Set(["gmail.com","googlemail.com","yahoo.com","ymail.com","outlook.com","hotmail.com","live.com","msn.com",
+"icloud.com","me.com","mac.com","aol.com","proton.me","protonmail.com","pm.me","mail.com","yandex.com","yandex.ru",
+"gmx.com","zoho.com","fastmail.com","hey.com","inbox.com"]);
+const isBusinessEmail = (email)=>{
+const host = extractHostFromEmail(email);
+return !!(host && !PERSONAL.has(host.toLowerCase()));
+};
+function getPrefilledSite(){
+const cands = [ getQueryParam('site'), getQueryParam('website'), getQueryParam('domain'),
+sessionStorage.getItem('preWebsite'), localStorage.getItem('preWebsite') ];
+for(const c of cands){ const h = cleanHost(c); if(h) return h.toLowerCase(); }
+return null;
+}
+let preSiteHost = getPrefilledSite();
+function showSiteBadge(host, animate=false){
+if(!host) return hideSiteBadge();
+siteHostEl.textContent = host; const wasHidden = siteBadge.hasAttribute('hidden');
+siteBadge.removeAttribute('hidden'); if(animate || wasHidden) play(siteBadge,'anim-badge');
+}
+function hideSiteBadge(){ siteBadge.setAttribute('hidden',''); siteBadge.classList.remove('show-tip'); }
+function syncSiteBadge(animate=false){
+const emailHost = extractHostFromEmail(emailInput.value);
+if(emailHost && !PERSONAL.has(emailHost.toLowerCase())){ showSiteBadge(emailHost, animate); return; }
+if(preSiteHost){ showSiteBadge(preSiteHost, animate); return; }
+hideSiteBadge();
+}
+siteInfo.addEventListener('mouseenter', ()=> siteBadge.classList.add('show-tip'));
+siteInfo.addEventListener('click', (e)=>{ e.stopPropagation(); siteBadge.classList.toggle('show-tip'); });
+siteTip?.addEventListener('mouseenter', ()=> siteBadge.classList.add('show-tip'));
+siteTip?.addEventListener('click', (e)=> e.stopPropagation());
+document.addEventListener('click', ()=> siteBadge.classList.remove('show-tip'));
+const META_CFG = (()=>{ try{ const m=document.querySelector('meta[name="firebase-config"]'); return m && m.content ? JSON.parse(m.content) : null; }catch(e){ return null; }})();
+const FIREBASE_CONFIG =
+(window.__FIREBASE_CONFIG__ && typeof window.__FIREBASE_CONFIG__==='object' && window.__FIREBASE_CONFIG__) ||
+(typeof window.firebaseConfig!=='undefined' && window.firebaseConfig) ||
+META_CFG || {
+apiKey: "AIzaSyCBf7LHL4PfxD2rH7-HdYSE2dXIGfb3Vz4",
+authDomain: "artemiss-42e40.firebaseapp.com",
+projectId: "artemiss-42e40",
+appId: "1:384891834378:web:53624662894e0650a74ff3",
+};
+let auth=null, db=null;
+(async function initFirebase(){
+try{
+if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length) {
+auth = firebase.auth(); try{ db = firebase.firestore(); }catch(_){}
+return;
+}
+const looksReal = FIREBASE_CONFIG && Object.values(FIREBASE_CONFIG).every(v => typeof v==='string' && v && !/^YOUR_/i.test(v));
+if(looksReal){ firebase.initializeApp(FIREBASE_CONFIG); auth = firebase.auth(); try{ db = firebase.firestore(); }catch(_){ } return; }
+try{
+const res = await fetch('/__/firebase/init.json', { cache:'no-store' });
+if(res.ok){ const cfg = await res.json(); if(cfg && cfg.projectId){ firebase.initializeApp(cfg); auth = firebase.auth(); try{ db = firebase.firestore(); }catch(_){ } return; } }
+}catch(_){}
+}catch(e){ auth = null; db = null; }
+})();
+const EMAIL_KEY = 'gg_pending_email';
+const VERIFIED_KEY = 'gg_email_verified';
+const TIMEOUTS = { emailExists: 3500, domainCheck: 2500, createUser: 10000, sendVerify: 7000, claimAfter: 5000, humanVerify: 6000, finalizeClaim: 5000 };
+function withTimeout(promise, ms, label){
+let t; const timer = new Promise((_,rej)=>{ t=setTimeout(()=>rej(new Error('timeout:'+label)), ms); });
+return Promise.race([promise, timer]).finally(()=>clearTimeout(t));
+}
+let globalBusy = false;
+function setBusy(flag){ globalBusy = !!flag;
+try{
+[emailNext, pwdNext, s2Back].forEach(b=> b?.toggleAttribute('disabled', globalBusy));
+[emailBox, pwdBox].forEach(r=> r && r.setAttribute('aria-busy', globalBusy ? 'true' : 'false'));
+}catch(_){}
+}
+function pulseEmail(){
+emailBox.style.transition = 'box-shadow 180ms ease';
+const prev = emailBox.style.boxShadow;
+emailBox.style.boxShadow = '0 0 0 2px rgba(214,52,71,.45), inset 0 1px 0 rgba(255,255,255,.95), inset 0 2px 4px rgba(0,0,0,.06), inset 0 8px 16px rgba(255,255,255,.22)';
+setTimeout(()=>{ emailBox.style.boxShadow = prev; }, 260);
+}
+const META_SEC = (()=>{ try{ const m=document.querySelector('meta[name="security-config"]'); return m && m.content ? JSON.parse(m.content) : null; }catch(e){ return null; }})();
+const SECURITY = (window.__SECURITY__ && typeof window.__SECURITY__==='object' && window.__SECURITY__) || META_SEC || {};
+const POLICY = SECURITY.policy || { windowMs: 600000, warmupTries: 2, maxTriesBeforeChallenge: 3, distinctEmailsBeforeChallenge: 3, throttleMs: 1200, humanPassTtlMs: 86400000 };
+const RISK_KEY = 'gg_risk_v1';
+let memRisk = { events:[], humanPassUntil:0, lastAt:0 };
+function loadRisk(){ try{ return JSON.parse(localStorage.getItem(RISK_KEY)) || {...memRisk}; }catch(_){ return {...memRisk}; } }
+function saveRisk(s){ memRisk = s; try{ localStorage.setItem(RISK_KEY, JSON.stringify(s)); }catch(_){ } }
+function riskNow(){ return Date.now(); }
+function riskPrune(s){
+const cutoff = riskNow() - POLICY.windowMs;
+s.events = (s.events||[]).filter(e=> (e && e.t && e.t >= cutoff));
+return s;
+}
+function riskRecord(action, meta){
+const s = riskPrune(loadRisk());
+s.events.push({ t:riskNow(), a:action, em:(meta?.email||''), dm:(meta?.domain||'') });
+s.lastAt = riskNow();
+saveRisk(s);
+return s;
+}
+function riskStats(action){
+const s = riskPrune(loadRisk());
+const list = s.events.filter(e=> !action || e.a===action);
+const all = s.events.slice();
+const distinctEmails = new Set(list.map(e=>e.em).filter(Boolean)).size;
+const recentCount = list.length;
+const totalCount = all.length;
+let lastDelta = Infinity;
+if (all.length>1) { const a = all[all.length-1], b = all[all.length-2]; lastDelta = a.t - b.t; }
+return { recentCount, totalCount, distinctEmails, lastDelta, humanPassUntil:s.humanPassUntil||0 };
+}
+function riskShouldChallenge(reason, meta){
+const now = riskNow();
+const s = riskPrune(loadRisk());
+if (s.humanPassUntil && now < s.humanPassUntil) return false;
+const { recentCount, totalCount, distinctEmails, lastDelta } = riskStats();
+if (totalCount <= POLICY.warmupTries) return false;
+if (lastDelta < POLICY.throttleMs && totalCount>=2) return true;
+if (totalCount >= POLICY.maxTriesBeforeChallenge) return true;
+if (distinctEmails >= POLICY.distinctEmailsBeforeChallenge) return true;
+if (reason === 'password_signup' && recentCount >= 1 && totalCount >= (POLICY.warmupTries+1)) return true;
+return false;
+}
+function riskNoteHumanPass(){ const s = riskPrune(loadRisk()); s.humanPassUntil = riskNow() + POLICY.humanPassTtlMs; saveRisk(s); }
+let humanProvider = null, humanWidgetId = null, humanReady = false;
+function initHuman(){
+const cfKey = SECURITY.turnstileSiteKey && SECURITY.turnstileSiteKey.trim();
+const hcKey = SECURITY.hcaptchaSiteKey && SECURITY.hcaptchaSiteKey.trim();
+if (cfKey && window.turnstile && typeof window.turnstile.render === 'function'){
+try{
+humanWidgetId = window.turnstile.render('#cf-turnstile', { sitekey: cfKey, theme: 'light', size: 'invisible', retry: 'auto', 'error-callback': ()=>{}, 'timeout-callback': ()=>{}, callback: ()=>{} });
+humanProvider = 'turnstile'; humanReady = true; return;
+}catch(_){}
+}
+if (hcKey && window.hcaptcha && typeof window.hcaptcha.render === 'function'){
+try{
+humanWidgetId = window.hcaptcha.render('hcaptcha', { sitekey: hcKey, size: 'invisible', theme: 'light', callback: ()=>{} });
+humanProvider = 'hcaptcha'; humanReady = true; return;
+}catch(_){}
+}
+humanProvider = null; humanReady = false;
+}
+function resetHuman(){
+try{
+if(humanProvider === 'turnstile' && window.turnstile && humanWidgetId){ window.turnstile.reset(humanWidgetId); }
+if(humanProvider === 'hcaptcha' && window.hcaptcha && humanWidgetId){ window.hcaptcha.reset(humanWidgetId); }
+}catch(_){}
+}
+async function getHumanTokenInternal(reason){
+if(!humanProvider || !humanReady) return { ok:false, provider:null, token:null, error:'provider_unavailable' };
+try{
+if(humanProvider === 'turnstile'){
+const token = await window.turnstile.execute(humanWidgetId, { action: reason || 'onboarding' });
+return { ok: !!token, provider:'turnstile', token };
+}
+if(humanProvider === 'hcaptcha'){
+const token = await window.hcaptcha.execute(humanWidgetId, { async: true });
+return { ok: !!token, provider:'hcaptcha', token };
+}
+}catch(e){ return { ok:false, provider:humanProvider, token:null, error:String(e?.message||e)||'execute_failed' }; }
+return { ok:false, provider:humanProvider, token:null, error:'unknown' };
+}
+async function verifyHumanServerSide(payload){
+const url = SECURITY.humanVerifyEndpoint && SECURITY.humanVerifyEndpoint.trim()
+if(!url) return { ok:true, skipped:true };
+try{
+const res = await withTimeout(fetch(url, {
+method: 'POST', headers: { 'Content-Type':'application/json' }, credentials: 'include', body: JSON.stringify(payload)
+}), TIMEOUTS.humanVerify, 'humanVerify');
+if(!res.ok) return { ok:false, status:res.status };
+const data = await res.json().catch(()=>({}));
+return { ok: data?.success !== false && data?.ok !== false, data };
+}catch(e){ return { ok:false, error: String(e?.message||e||'error') }; }
+}
+function humanFailMessage(ctx){
+const p = ctx?.provider || 'unavailable';
+const code = ctx?.error || (ctx?.status ? ('http_'+ctx.status) : 'no_token');
+return `Human check failed (${p}: ${code}). Disable blockers or try again.`;
+}
+async function performHumanCheck(reason, meta){
+riskRecord(reason+'_attempt', { email: meta?.email || '', domain: meta?.domain || '' });
+if (!riskShouldChallenge(reason, meta)) return { ok:true, skipped:true };
+if (!humanProvider || !humanReady) return { ok:true, skipped:true, reason:'no_provider' };
+const tok = await getHumanTokenInternal(reason);
+if(!tok.ok || !tok.token) return { ok:true, skipped:true, reason:'no_token' };
+const server = await verifyHumanServerSide({ provider: tok.provider, token: tok.token, action: reason });
+if(!server.ok) return { ok:true, skipped:true, reason:'no_server' };
+riskNoteHumanPass();
+return { ok:true, provider: tok.provider, token: tok.token };
+}
+window.addEventListener('load', ()=>{ try{ initHuman(); }catch(_){} });
+function domainFromEmail(email){ return extractHostFromEmail(email) || ''; }
+async function checkDomainBeforeSignup(domain, email){
+if(!db || !domain) return {state:'unknown'};
+try{
+const snap = await withTimeout(db.collection('domainClaims').doc(domain).get(), TIMEOUTS.domainCheck, 'domainCheck');
+if(!snap.exists) return {state:'free'};
+const data = snap.data() || {};
+const owner = (data.owner || data.claimedBy || '').toLowerCase();
+const status = String(data.status || 'verified').toLowerCase();
+const isSelf = owner && owner === (email||'').toLowerCase();
+if(status === 'verified'){
+return {state: isSelf ? 'claimed-verified-self' : 'claimed-verified-other', data};
+}
+return {state: isSelf ? 'pending-self' : 'pending-other', data};
+}catch(e){
+if(String(e?.message||'').startsWith('timeout')) return {state:'unavailable'};
+return {state:'unavailable'};
+}
+}
+async function claimDomainAfterSignup(domain, email, uid, status){
+if(!db || !domain) return {ok:true, skip:true};
+const claimedStatus = (status || 'pending').toLowerCase();
+try{
+const res = await withTimeout(
+db.runTransaction(async (tx)=>{
+const ref = db.collection('domainClaims').doc(domain);
+const snap = await tx.get(ref);
+if(snap.exists){
+const data = snap.data() || {};
+const owner = (data.owner || data.claimedBy || '').toLowerCase();
+if(owner && owner !== (email||'').toLowerCase()){
+return {ok:false, reason:'claimed-other', data};
+}
+const next = Object.assign({}, data);
+next.owner = email;
+if (uid) next.uid = uid;
+if ((next.status || 'pending').toLowerCase() !== 'verified' && claimedStatus === 'verified'){
+next.status = 'verified';
+next.verifiedAt = firebase.firestore.FieldValue.serverTimestamp();
+} else if (!next.status) {
+next.status = claimedStatus;
+}
+tx.set(ref, next, { merge:true });
+return {ok:true, already:true, data: next};
+}
+tx.set(ref, {
+owner: email,
+uid: uid || null,
+status: claimedStatus,
+createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+verifiedAt: claimedStatus === 'verified' ? firebase.firestore.FieldValue.serverTimestamp() : null
+});
+return {ok:true, claimed:true, status: claimedStatus};
+}),
+TIMEOUTS.claimAfter, 'claimAfter'
+);
+return res;
+}catch(e){
+if(String(e?.message||'').startsWith('timeout')) return {ok:false, reason:'registry-timeout'};
+return {ok:false, reason:'registry-unavailable'};
+}
+}
+async function finalizeClaim(domain, email){
+if(!db || !domain) return;
+try{
+await withTimeout(
+db.runTransaction(async (tx)=>{
+const ref = db.collection('domainClaims').doc(domain);
+const snap = await tx.get(ref);
+if(!snap.exists){
+tx.set(ref, {
+owner: email,
+uid: auth?.currentUser?.uid || null,
+status: 'verified',
+createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+verifiedAt: firebase.firestore.FieldValue.serverTimestamp()
+});
+return;
+}
+const data = snap.data() || {};
+const owner = (data.owner || data.claimedBy || '').toLowerCase();
+if(owner && owner !== (email||'').toLowerCase()) return;
+tx.set(ref, {
+owner: email,
+uid: auth?.currentUser?.uid || data.uid || null,
+status: 'verified',
+verifiedAt: firebase.firestore.FieldValue.serverTimestamp()
+}, { merge:true });
+}),
+TIMEOUTS.finalizeClaim, 'finalizeClaim'
+);
+}catch(_){ /* best-effort */ }
+}
+async function rollbackNewlyCreatedUser(){
+try{ await auth.currentUser?.delete(); }catch(_){}
+try{ await auth.signOut(); }catch(_){}
+}
+async function emailExists(email){
+try{
+const methods = await withTimeout(auth.fetchSignInMethodsForEmail(email), TIMEOUTS.emailExists, 'emailExists');
+return Array.isArray(methods) && methods.length > 0;
+}catch(_){ return 'timeout'; }
+}
+async function sendVerifyLink(){
+if(!auth?.currentUser) throw new Error('no_user');
+try{ auth.useDeviceLanguage(); }catch(_){}
+const url = new URL('/auth/bridge/', location.origin);
+await withTimeout(auth.currentUser.sendEmailVerification({ url: url.href, handleCodeInApp: false }), TIMEOUTS.sendVerify, 'sendVerify');
+try { localStorage.setItem(EMAIL_KEY, auth.currentUser.email || ''); } catch(_){}
+return true;
+}
+function toPasswordStage(){
+s2Or.hidden = true; s2TopStart.hidden = true; s2TopPass.hidden = false;
+verifyPanel.hidden = true;
+emailBox.classList.remove('show-cta'); emailNext.setAttribute('aria-hidden','true');
+play(s2TopPass.querySelector('.title-row h1'),'anim-title'); play(s2TopPass.querySelector('.title-row .subtitle'),'anim-sub');
+pwdWrap.hidden = false; play(pwdWrap,'anim-pwd'); updatePwdCTA(); pwdInput.focus({ preventScroll:true });
+syncSiteBadge(false);
+s2Stage = 'password';
+window.onboarding?.emailContinue?.(emailInput.value.trim());
+}
+emailNext.addEventListener('click', async ()=>{
+if(globalBusy) return;
+hideStatus();
+const email = emailInput.value.trim();
+if(!looksValidEmail(email) || !isBusinessEmail(email)){ pulseEmail(); showStatus("Use a valid work email to continue."); return; }
+if(!auth){ showStatus("Authentication isn't configured. Add Firebase keys."); return; }
+const domain = domainFromEmail(email);
+const human = await performHumanCheck('email_precheck', { email, domain });
+if(!human.ok){ showStatus(humanFailMessage(human)); resetHuman(); return; }
+setBusy(true); showStatus("Checking your email...");
+try{
+const exists = await emailExists(email);
+if(exists === true){ showStatusHTML(`<strong>Account exists.</strong> `); goLogin(email); setBusy(false); return; }
+if(exists === 'timeout'){ goLogin(email); setBusy(false); return; }
+const d = await checkDomainBeforeSignup(domain, email);
+if(d.state === 'claimed-verified-other' || d.state === 'claimed-verified-self'){
+showStatusHTML(`<strong>Company already registered.</strong> `); goLogin(email); setBusy(false); return;
+}
+if(d.state === 'pending-self'){
+vEmail.textContent = email; verifyPanel.hidden = false; updateLoginLink(); hideStatus();
+setBusy(false); return;
+}
+hideStatus(); setBusy(false); toPasswordStage();
+}catch(_){ setBusy(false); } finally { resetHuman(); }
+});
+pwdNext?.addEventListener('click', async ()=>{
+if(globalBusy) return;
+hideStatus();
+const email = emailInput.value.trim(); const pwd = pwdInput.value;
+if (!looksValidEmail(email)) { showStatus("Enter a valid work email first."); pulseEmail(); return; }
+if (!isBusinessEmail(email)){ pulseEmail(); showStatus("Use a work email (not a personal domain)."); return; }
+if (pwd.length < 6) { showStatus("Password is too short."); return; }
+if(!auth){ showStatus("Authentication isn't configured. Add Firebase keys."); return; }
+const domain = domainFromEmail(email);
+const human = await performHumanCheck('password_signup', { email, domain });
+if(!human.ok){ showStatus(humanFailMessage(human)); resetHuman(); return; }
+setBusy(true); showStatus("Creating your account...");
+try{
+const exists = await emailExists(email);
+if(exists === true){ showStatusHTML(`<strong>Account exists.</strong> `); goLogin(email); setBusy(false); return; }
+if(exists === 'timeout'){ goLogin(email); setBusy(false); return; }
+let cred;
+try{
+cred = await withTimeout(auth.createUserWithEmailAndPassword(email, pwd), TIMEOUTS.createUser, 'createUser');
+}catch(e){
+setBusy(false);
+if(String(e?.message||'').startsWith('timeout')){ showStatus("It's taking too long to create the account. Check your connection and try again."); return; }
+if(e?.code === 'auth/email-already-in-use'){ showStatusHTML(`<strong>Account exists.</strong> `); goLogin(email); return; }
+if(e?.code === 'auth/operation-not-allowed'){ showStatus("Password sign-up is disabled for this project."); return; }
+if(e?.code === 'auth/weak-password'){ showStatus("Password is too weak."); return; }
+if(e?.code === 'auth/network-request-failed'){ showStatus("Network problem. Try again."); return; }
+if(e?.code === 'auth/too-many-requests'){ showStatus("Too many attempts. Try later."); return; }
+showStatus("We couldn't create your account. Please try again."); return;
+}
+const user = cred.user;
+showStatus("Reserving your company...");
+const claim = await claimDomainAfterSignup(domain, email, user?.uid, 'pending');
+if(!claim.ok && claim.reason === 'claimed-other'){
+await rollbackNewlyCreatedUser();
+showStatusHTML(`<strong>Company already registered.</strong> `); goLogin(email); setBusy(false); return;
+}
+try{ await user.reload(); }catch(_){}
+if(user.emailVerified){
+sessionStorage.setItem(VERIFIED_KEY,'1');
+try{ await finalizeClaim(domain, email); }catch(_){}
+setBusy(false); goToBridge('password'); return;
+}
+showStatus("Sending verification link...");
+try{
+await sendVerifyLink();
+verifyPanel.hidden = false; vEmail.textContent = user.email || email;
+localStorage.setItem(EMAIL_KEY, user.email || email);
+updateLoginLink();
+hideStatus();
+}catch(_){ showStatus("We couldn't send the verification email. Try resending."); }
+finally{ setBusy(false); }
+}catch(_){
+setBusy(false); showStatus("We couldn't continue. Please try again.");
+}finally{ resetHuman(); }
+});
+resendLink.addEventListener('click', async (e)=>{
+e.preventDefault(); if(globalBusy) return; hideStatus(); setBusy(true);
+try{ await sendVerifyLink(); showStatus("Verification email resent."); }catch(_){ showStatus("We couldn't resend right now. Try again later."); }
+setBusy(false);
+});
+changeEmail.addEventListener('click', (e)=>{ e.preventDefault(); verifyPanel.hidden = true; emailInput.focus(); });
+if(step2.classList.contains('active')) syncSiteBadge(true);
+const googleBtn = document.getElementById('googleBtn');
+googleBtn?.addEventListener('click', async (e) => {
+e.preventDefault(); if(globalBusy) return; hideStatus();
+if (!auth) { showStatus("Google sign-in isn't configured. Add Firebase keys."); return; }
+const emailHost = extractHostFromEmail(emailInput.value||'') || '';
+const human = await performHumanCheck('google_signin', { email: (emailInput.value||''), domain: emailHost });
+if(!human.ok){ showStatus(humanFailMessage(human)); resetHuman(); return; }
+setBusy(true); showStatus("Opening Google...");
+try {
+const provider = new firebase.auth.GoogleAuthProvider();
+provider.setCustomParameters({ prompt: 'select_account' });
+const cred = await auth.signInWithPopup(provider);
+const user = cred.user;
+const email = user?.email || "";
+const domain = (email.split("@")[1] || "").toLowerCase();
+const isNew = cred?.additionalUserInfo?.isNewUser === true;
+if (!email || PERSONAL.has(domain)) {
+try { await auth.signOut(); } catch {}
+setBusy(false); showStatus("Please use a work Google account (no personal Gmail)."); pulseEmail(); return;
+}
+if(!isNew){
+try { await auth.signOut(); } catch {}
+setBusy(false); showStatusHTML(`<strong>Account exists.</strong> `); goLogin(email); return;
+}
+showStatus("Verifying your company...");
+const claim = await claimDomainAfterSignup(domain, email, user?.uid, 'verified');
+if(!claim.ok){
+try{ await auth.currentUser?.delete(); }catch(_){}
+try{ await auth.signOut(); }catch(_){}
+if(claim.reason === 'claimed-other'){ setBusy(false); showStatusHTML(`<strong>Company already registered.</strong> `); goLogin(email); return; }
+setBusy(false); showStatus("We couldn't verify your company right now. Try again later."); return;
+}
+emailInput.value = email; updateEmailCTA?.(); setBusy(false); goToBridge('google');
+} catch (err) {
+setBusy(false);
+if (err?.code === 'auth/popup-closed-by-user') return;
+if (err?.code === 'auth/account-exists-with-different-credential') { showStatus("This website already exists with a different sign-in method. Use email + password to log in."); return; }
+if (err?.code === 'auth/network-request-failed'){ showStatus("Network problem. Try again."); return; }
+if (err?.code === 'auth/operation-not-allowed'){ showStatus("Google sign-in is disabled for this project."); return; }
+showStatus("We couldn't complete Google sign-in. Try again.");
+} finally { resetHuman(); }
+});
+async function handleVerifyOnLoad(){
+if(!auth) return;
+const p = new URLSearchParams(location.search);
+const mode = p.get('mode'); const oob = p.get('oobCode');
+if(mode === 'verifyEmail' && oob){
+try{
+await auth.applyActionCode(oob);
+try{ await auth.currentUser?.reload(); }catch(_){}
+history.replaceState({}, "", location.pathname);
+sessionStorage.setItem(VERIFIED_KEY, '1');
+const em = localStorage.getItem(EMAIL_KEY) || auth.currentUser?.email || "";
+if (em && emailInput) { emailInput.value = em; updateEmailCTA?.(); }
+const domain = extractHostFromEmail(em);
+try{ await finalizeClaim(domain, em); }catch(_){}
+goToBridge('email');
+}catch(e){ showStatus("That verification link is invalid or expired. Resend and try again."); }
+}
+}
+handleVerifyOnLoad();
+</script>
+<style>
+.site-header .brand, .topbar .brand{ display:flex; align-items:center; --icon-w: 36px; --brand-gap: 4px; gap: var(--brand-gap); }
+.brand-icon{ --gg-gap-x: 10px; --left-dim: 0.65; --stroke-w: 3.0; }
+.brand-icon svg{ width:var(--icon-w); height:var(--icon-w); display:block; }
+.brand-word{ font:800 22px/1 "Plus Jakarta Sans", Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+background:linear-gradient(180deg,#1a2332,#3a4a5c); -webkit-background-clip:text; background-clip:text; color:transparent; letter-spacing:.2px; white-space:nowrap; }
+.brand-icon .stroke{ vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+.brand-icon .piece{ transform-box: view-box; transform-origin: 50% 50%; }
+</style>
+<script>
+(function(){
+const brand = document.querySelector('.topbar .brand') || document.querySelector('.site-header .brand');
+if(!brand) return;
+const icon = `
+<svg viewBox="0 0 64 64" aria-label="Galactly double G" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<symbol id="gSym" viewBox="0 0 320 860" overflow="visible">
+<path id="gPath" d="M 209.5 474.25 H 261.5 C 261.667 524.583 262 630.45 262 651.25 C 262 677.25 242.5 718.75 235.5 730.25 C 228.5 741.75 208.5 760.25 193 770.25 C 177.5 780.25 161 786.25 149.5 786.25 C 140.3 786.25 131.667 779.916 128.5 776.75 C 122.5 771.916 105.6 755.85 86.0003 730.25 C 66.4003 704.65 60.5003 662.583 60.0003 644.75 V 221.25 C 59.667 209.583 61.7003 177.25 72.5003 141.25 C 81.5253 111.166 104.214 87.8332 119.5 75.9188 C 131.5 65.7496 150.57 68.3373 156.5 69.2496 C 163 70.2496 173.834 73.2496 178 74.7496 C 184.834 77.083 195.3 82.5496 206.5 91.7496 C 220.5 103.25 227 113.75 230 119.75 C 236 124.15 248.5 161.25 254 179.25 L 264 247.25 L 269.5 259.25 C 273.834 263.75 285 272.45 295 271.25 C 307.5 269.75 310.5 258.25 314 251.25 C 312 159.25 295 102.75 253.5 51.2496 C 220.3 10.0496 176.667 2.08297 159 3.24964 C 143.5 1.4163 101.8 8.84964 59.0003 53.2496 C 16.2003 97.6496 3.83366 179.416 3.00033 214.75 L 7.00033 649.75 C 7.33366 667.75 12.9003 713.55 32.5003 752.75 C 57.0003 801.75 108.5 847.25 166 847.25 C 211.6 846.45 254.334 803.25 270 781.75 C 292.8 752.55 313.392 681.75 313.5 642.25 C 313.667 581.583 313.9 456.65 313.5 442.25 C 313.1 427.85 304.667 416.916 300.5 413.25 H 204.5 C 198 416.083 185 426.35 185 444.75 C 185 463.15 201.334 472.083 209.5 474.25 Z"/>
+</symbol>
+<linearGradient id="ggFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a3542"/><stop offset="0.55" stop-color="#3e4f62"/><stop offset="1" stop-color="#506178"/></linearGradient>
+<linearGradient id="ggShimmer" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a5a6e"/><stop offset="1" stop-color="#2f3e50"/></linearGradient>
+<radialGradient id="ggHalo" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#6ba3d8" stop-opacity="0.22"/><stop offset="1" stop-color="#6ba3d8" stop-opacity="0"/></radialGradient>
+<linearGradient id="ggSheen" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="64" y2="64">
+<stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/><stop offset="0.46" stop-color="#FFFFFF" stop-opacity="0"/><stop offset="0.54" stop-color="#FFFFFF" stop-opacity="0.28"/><stop offset="0.62" stop-color="#FFFFFF" stop-opacity="0"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+</linearGradient>
+<filter id="ggSoftGlow" x="-30%" y="-30%" width="160%" height="160%">
+<feDropShadow dx="0" dy="1" stdDeviation="1.1" flood-color="#000" flood-opacity="0.15"/>
+<feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="#5a8fc7" flood-opacity="0.12"/>
+</filter>
+</defs>
+<g pointer-events="none"><circle cx="32" cy="33" r="21" fill="url(#ggHalo)"/></g>
+<g class="piece" style="transform: translateX(calc(var(--gg-gap-x)/2)); filter:url(#ggSoftGlow);">
+<use href="#gSym" width="64" height="64" fill="url(#ggFill)"/>
+<use href="#gSym" width="64" height="64" class="stroke" stroke="url(#ggShimmer)" stroke-width="var(--stroke-w)" fill="none"/>
+<use href="#gSym" width="64" height="64" fill="url(#ggSheen)"/>
+</g>
+<g class="piece" style="transform: translateX(calc(-1 * var(--gg-gap-x)/2)) scaleX(-1); filter:url(#ggSoftGlow); opacity: var(--left-dim);">
+<use href="#gSym" width="64" height="64" fill="url(#ggFill)"/>
+<use href="#gSym" width="64" height="64" class="stroke" stroke="url(#ggShimmer)" stroke-width="var(--stroke-w)" fill="none"/>
+<use href="#gSym" width="64" height="64" fill="url(#ggSheen)"/>
+</g>
+</svg>`;
+const word = brand.querySelector('.brand-word')?.outerHTML || '<span class="brand-word">Galactly</span>';
+brand.innerHTML = `<span class="brand-icon" aria-hidden="true">${icon}</span>${word}`;
+brand.setAttribute('aria-label','Galactly');
+})();
+</script>
+<script>
+(function(){
+const p = new URLSearchParams(location.search);
+const err = p.get('err'); const msg = p.get('msg');
+if(err || msg){
+const el = document.getElementById('inlineStatus');
+if(el){ el.textContent = msg || 'There was a problem. Please try again.'; el.hidden = false; }
+}
+})();
+</script>
+<script>
+function goToBridge(from){
+const email = (document.getElementById('email')?.value || '').trim();
+const hostFromEmail = (email.match(/@([^@\s>]+)/)?.[ 1] || '').toLowerCase();
+const urlParams = new URLSearchParams({
+from: from || 'unknown',
+role: (window.onboarding?.getRole?.() || window.role || '') || '',
+email,
+site: hostFromEmail || (localStorage.getItem('preWebsite') || sessionStorage.getItem('preWebsite') || '')
+});
+document.body.classList.add('leaving');
+setTimeout(()=>{ location.href = `/auth/bridge/?${urlParams}`; }, 1500);
+}
+</script>
+<script>
+(function(){
+function captureNext(){
+const p = new URLSearchParams(location.search);
+let next = p.get('next') || sessionStorage.getItem('gg_next') || '';
+if (!next) return '';
+try { next = decodeURIComponent(next); } catch(_){}
+if (/^https?:/i.test(next)) {
+try { const u = new URL(next, location.origin); next = (u.origin === location.origin) ? (u.pathname + u.search + u.hash) : ''; }
+catch(_) { next = ''; }
+}
+if (next && !next.startsWith('/')) next = '';
+if (next) sessionStorage.setItem('gg_next', next);
+return next;
+}
+captureNext();
+(function prefillEmail(){
+const p = new URLSearchParams(location.search);
+const em = (p.get('email') || '').trim();
+if (!em) return;
+const inp = document.getElementById('email');
+if (inp) { inp.value = em; try { inp.dispatchEvent(new Event('input', { bubbles:true })); } catch(_){ } }
+try {
+p.delete('email');
+const newUrl = location.pathname + (p.toString() ? '?' + p.toString() : '') + location.hash;
+history.replaceState({}, '', newUrl);
+} catch(_){}
+})();
+(function canonicalize(){
+const map = new Map([ ['login.html','/auth/login/'], ['/login','/auth/login/'], ['index.html','/auth/signup/'], ['/auth/signup','/auth/signup/'] ]);
+const norm = v => (v||'').replace(/^https?:\/\/[^/]+/i,'').replace(/^\.\//,'');
+const split = v => { const m=String(v||'').match(/^([^?#]*)(.*)$/); return [m?m[1]:'',m?m[2]:'']; };
+document.querySelectorAll('a[href], form[action]').forEach(el=>{
+const attr = el.tagName==='FORM' ? 'action' : 'href';
+const raw = el.getAttribute(attr); if(!raw) return;
+if (attr==='href' && /^#/.test(raw)) return;
+const [path, rest] = split(norm(raw));
+if (map.has(path)) el.setAttribute(attr, map.get(path) + rest);
+});
+})();
+const origGoToBridge = window.goToBridge;
+window.goToBridge = function(from){
+const email = (document.getElementById('email')?.value || '').trim();
+const hostFromEmail = (email.match(/@([^@\s>]+)/)?.[ 1] || '').toLowerCase();
+const params = new URLSearchParams({
+from: from || 'unknown',
+role: (window.onboarding?.getRole?.() || window.role || '') || '',
+email,
+site: hostFromEmail || (localStorage.getItem('preWebsite') || sessionStorage.getItem('preWebsite') || '')
+});
+const nx = sessionStorage.getItem('gg_next') || '';
+if (nx) params.set('next', nx);
+document.body.classList.add('leaving');
+setTimeout(()=>{ location.href = `/auth/bridge/?${params}`; }, 1500);
+};
+if (typeof window.sendVerifyLink === 'function') {
+const wrapSendVerify = async function(){
+try{
+if (!firebase?.auth || !firebase.auth()?.currentUser) throw new Error('no_auth');
+const nx = sessionStorage.getItem('gg_next') || '';
+const url = new URL('/auth/bridge/', location.origin);
+if (nx) url.searchParams.set('next', nx);
+await firebase.auth().currentUser.sendEmailVerification({ url: url.href, handleCodeInApp: false });
+try { localStorage.setItem('gg_pending_email', firebase.auth().currentUser.email || ''); } catch(_){}
+return true;
+}catch(_){ return window.sendVerifyLink(); }
+};
+window.sendVerifyLink = wrapSendVerify;
+}
+try { if (typeof window.firebase === 'undefined') window.firebase = undefined; } catch(_){}
+})();
+</script>
+</body>
+</html>

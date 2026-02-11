@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Galactly — Login</title>
+
+  <!-- Jakarta for headings -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --content-w: min(460px, 92vw);
+      --title-fs: clamp(28px, 5.6vw, 42px);
+      --safe-top: env(safe-area-inset-top);
+      --safe-bottom: env(safe-area-inset-bottom);
+      
+      /* Whitish background system */
+      --bg: #f8f9fa;
+      --fg: #1a1a1a;
+      --muted: #6b7280;
+      --border: rgba(0,0,0,.08);
+      --input-bg: #ffffff;
+      --input-border: rgba(0,0,0,.12);
+      --input-focus: #3b82f6;
+      --button-bg: #1a1a1a;
+      --button-hover: #2d2d2d;
+      --button-text: #ffffff;
+      --link-color: #3b82f6;
+      
+      --ctl-h: 46px;
+      --ctl-r: 10px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,.04);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,.06);
+      --shadow-focus: 0 0 0 3px rgba(59,130,246,.12);
+    }
+
+    html,body{height:100%;margin:0; background:#f8f9fa;}
+    body{
+      color:var(--fg);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      overflow-y: auto;
+    }
+
+    .wrap{ 
+      min-height:100dvh; 
+      display:grid; 
+      place-items:center;
+      padding: calc(20px + var(--safe-top)) 16px calc(20px + var(--safe-bottom)); 
+    }
+    
+    .stage{ 
+      width:var(--content-w); 
+      background: white;
+      border-radius: 16px;
+      padding: 48px 32px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.06);
+    }
+
+    h1{ 
+      font:800 var(--title-fs)/1.1 "Plus Jakarta Sans", Inter, system-ui; 
+      margin:0 0 8px 0; 
+      text-align:center;
+      color: var(--fg);
+    }
+    
+    .subtitle{ 
+      color:var(--muted); 
+      margin:0 0 32px 0; 
+      text-align:center;
+      font-size: 15px;
+    }
+
+    .field-wrap{ 
+      margin-bottom: 16px;
+    }
+    
+    .form-label{
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--fg);
+    }
+    
+    .field-input{
+      width: 100%;
+      height: var(--ctl-h);
+      padding: 0 14px;
+      border: 1.5px solid var(--input-border);
+      border-radius: var(--ctl-r);
+      background: var(--input-bg);
+      color: var(--fg);
+      font-size: 15px;
+      transition: border-color .2s ease, box-shadow .2s ease;
+      box-sizing: border-box;
+    }
+    
+    .field-input:focus{
+      outline: none;
+      border-color: var(--input-focus);
+      box-shadow: var(--shadow-focus);
+    }
+    
+    .field-input::placeholder{
+      color: var(--muted);
+      opacity: .6;
+    }
+
+    .btn-primary{
+      width: 100%;
+      height: 48px;
+      background: var(--button-bg);
+      color: var(--button-text);
+      border: none;
+      border-radius: var(--ctl-r);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s ease, transform .1s ease;
+      margin-top: 8px;
+    }
+    
+    .btn-primary:hover{
+      background: var(--button-hover);
+    }
+    
+    .btn-primary:active{
+      transform: scale(.98);
+    }
+    
+    .btn-primary:disabled{
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    .hr{ 
+      height:1px; 
+      margin:24px 0; 
+      background: var(--border);
+    }
+
+    .footer-links{
+      text-align: center;
+      font-size: 14px;
+      margin-top: 24px;
+      color: var(--muted);
+    }
+    
+    .footer-links a{
+      color: var(--link-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .footer-links a:hover{
+      text-decoration: underline;
+    }
+
+    .inline-error{
+      margin-bottom: 16px;
+      padding: 12px 14px;
+      border-radius: var(--ctl-r);
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+      font-size: 14px;
+      display: none;
+    }
+    
+    .inline-error.show{
+      display: block;
+    }
+
+    @media (max-width: 520px){
+      .stage{
+        padding: 36px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="wrap">
+    <div class="stage">
+      <h1>Welcome back</h1>
+      <p class="subtitle">Sign in to your account</p>
+
+      <div id="errorBox" class="inline-error" role="alert"></div>
+
+      <form id="loginForm">
+        <div class="field-wrap">
+          <label class="form-label" for="email">Email</label>
+          <input 
+            id="email" 
+            class="field-input"
+            type="email" 
+            inputmode="email" 
+            autocomplete="email" 
+            placeholder="you@company.com"
+            required
+          />
+        </div>
+
+        <div class="field-wrap">
+          <label class="form-label" for="password">Password</label>
+          <input 
+            id="password" 
+            class="field-input"
+            type="password" 
+            autocomplete="current-password" 
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn-primary" id="loginBtn">
+          Sign in
+        </button>
+      </form>
+
+      <div class="hr"></div>
+
+      <div class="footer-links">
+        Don't have an account? <a href="/auth/signup/">Sign up</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('loginBtn');
+    const errorBox = document.getElementById('errorBox');
+
+    // Pre-fill email from query if present
+    const params = new URLSearchParams(location.search);
+    const emailParam = params.get('email');
+    if(emailParam) emailInput.value = emailParam;
+
+    function showError(msg){
+      errorBox.textContent = msg;
+      errorBox.classList.add('show');
+    }
+
+    function hideError(){
+      errorBox.classList.remove('show');
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideError();
+
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      if(!email || !password){
+        showError('Please enter both email and password.');
+        return;
+      }
+
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Signing in...';
+
+      try{
+        // Add your Firebase/auth logic here
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // On success, redirect to dashboard or wherever
+        window.location.href = '/dashboard/';
+        
+      } catch(err) {
+        showError(err.message || 'Sign in failed. Please try again.');
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Sign in';
+      }
+    });
+  </script>
+</body>
+</html>

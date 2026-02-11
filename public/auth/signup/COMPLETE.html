@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Complete with Verification</title>
+    
+    <script>
+        window.__FIREBASE_CONFIG__ = {
+            apiKey: "AIzaSyDk7vVnSiMfYJPJ38gbw21fzqsBTu1PbC8",
+            authDomain: "warlord-1cbe3.firebaseapp.com",
+            projectId: "warlord-1cbe3",
+            storageBucket: "warlord-1cbe3.firebasestorage.app",
+            messagingSenderId: "212906032385",
+            appId: "1:212906032385:web:441058c2ed0c88ace16f00"
+        };
+    </script>
+    
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 { font-size: 28px; margin-bottom: 8px; text-align: center; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 24px; font-size: 14px; }
+        
+        .form-step { display: none; }
+        .form-step.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .input-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 14px; }
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-primary:hover:not(:disabled) { background: #5568d3; transform: translateY(-2px); }
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .btn-google {
+            background: white;
+            color: #333;
+            border: 2px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .btn-google:hover { background: #f5f5f5; }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .divider span {
+            padding: 0 10px;
+            color: #999;
+            font-size: 13px;
+        }
+        
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-top: 12px;
+            display: none;
+        }
+        .error.show { display: block; animation: shake 0.3s; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        .back-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 12px;
+        }
+        .back-link:hover { text-decoration: underline; }
+        
+        .verification-panel {
+            background: #f0fdf4;
+            border: 2px solid #86efac;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: none;
+        }
+        .verification-panel.show { display: block; animation: fadeIn 0.4s; }
+        .verification-panel h3 { color: #16a34a; margin-bottom: 12px; font-size: 18px; }
+        .verification-panel p { color: #15803d; font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
+        .verification-panel .email-highlight {
+            font-weight: 700;
+            color: #15803d;
+        }
+        .verification-actions {
+            display: flex;
+            gap: 12px;
+            font-size: 13px;
+            margin-top: 16px;
+        }
+        .verification-actions a {
+            color: #667eea;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .verification-actions a:hover { text-decoration: underline; }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .login-link a:hover { text-decoration: underline; }
+        
+        .domain-badge {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #0369a1;
+            margin: 12px 0;
+            display: none;
+        }
+        .domain-badge.show { display: block; }
+        .domain-badge strong { color: #075985; }
+        
+        .spinner {
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            width: 20px;
+            height: 20px;
+            animation: spin 0.8s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="main-heading">Get Started</h1>
+        <p class="subtitle" id="subtitle">Create your account</p>
+        
+        <!-- Verification Panel -->
+        <div class="verification-panel" id="verification-panel">
+            <h3>✅ Verification Email Sent!</h3>
+            <p>
+                We sent a verification link to <span class="email-highlight" id="verify-email">—</span>.
+                Open it on this device to verify your email, then 
+                <a href="/auth/login/" id="login-from-verify">log in</a>.
+            </p>
+            <div class="verification-actions">
+                <a id="resend-link">Resend email</a>
+                <span>•</span>
+                <a id="change-email-link">Use different email</a>
+            </div>
+        </div>
+        
+        <form id="signup-form">
+            <!-- Step 1: Email -->
+            <div class="form-step active" id="step-email">
+                <button type="button" class="btn btn-google" id="google-login">
+                    <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707 0-.591.102-1.168.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.293C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+                    Continue with Google
+                </button>
+                
+                <div class="divider"><span>OR</span></div>
+                
+                <div class="domain-badge" id="domain-badge">
+                    We'll use <strong id="domain-name">—</strong> as your company domain
+                </div>
+                
+                <div class="input-group">
+                    <label for="email-input">Business Email</label>
+                    <input type="email" id="email-input" placeholder="you@company.com" autocomplete="email" required>
+                </div>
+                
+                <button type="button" class="btn btn-primary" id="email-next" disabled>Continue</button>
+                
+                <div class="error" id="email-error"></div>
+            </div>
+            
+            <!-- Step 2: Password -->
+            <div class="form-step" id="step-password">
+                <div class="input-group">
+                    <label for="password-input">Create Password</label>
+                    <input type="password" id="password-input" placeholder="Minimum 6 characters" autocomplete="new-password" required>
+                </div>
+                
+                <button type="button" class="btn btn-primary" id="password-next" disabled>Continue</button>
+                
+                <a href="#" class="back-link" id="password-back">← Back</a>
+                <div class="error" id="password-error"></div>
+            </div>
+            
+            <!-- Step 3: Confirm Password -->
+            <div class="form-step" id="step-confirm">
+                <div class="input-group">
+                    <label for="confirm-input">Confirm Password</label>
+                    <input type="password" id="confirm-input" placeholder="Re-enter your password" autocomplete="new-password" required>
+                </div>
+                
+                <button type="button" class="btn btn-primary" id="confirm-next" disabled>Create Account</button>
+                
+                <a href="#" class="back-link" id="confirm-back">← Back</a>
+                <div class="error" id="confirm-error"></div>
+            </div>
+        </form>
+        
+        <div class="login-link">
+            Already have an account? <a href="/auth/login/" id="login-link">Log in</a>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize Firebase
+        firebase.initializeApp(window.__FIREBASE_CONFIG__);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        
+        const PERSONAL_DOMAINS = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'aol.com', 'icloud.com', 'mail.com', 'protonmail.com', 'yandex.com', 'zoho.com', 'live.com', 'msn.com', 'me.com', 'mac.com'];
+        
+        // State
+        let currentEmail = '';
+        let currentPassword = '';
+        let currentStep = 1;
+        
+        // Helpers
+        function extractDomain(email) {
+            const match = email.match(/@([^@\\s]+)$/);
+            return match ? match[1].toLowerCase() : null;
+        }
+        
+        function isBusinessEmail(email) {
+            const domain = extractDomain(email);
+            return domain && !PERSONAL_DOMAINS.includes(domain);
+        }
+        
+        function showError(id, msg) {
+            const el = document.getElementById(id);
+            el.innerHTML = msg;
+            el.classList.add('show');
+        }
+        
+        function hideError(id) {
+            document.getElementById(id).classList.remove('show');
+        }
+        
+        function setLoading(btn, loading) {
+            if (loading) {
+                btn.dataset.text = btn.innerHTML;
+                btn.innerHTML = '<span class="spinner"></span>';
+                btn.disabled = true;
+            } else {
+                btn.innerHTML = btn.dataset.text || 'Continue';
+                btn.disabled = false;
+            }
+        }
+        
+        function goToStep(step) {
+            document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`step-${step}`).classList.add('active');
+            currentStep = step === 'email' ? 1 : step === 'password' ? 2 : 3;
+            
+            const headings = { email: 'Get Started', password: 'Create Password', confirm: 'Confirm Password' };
+            const subtitles = { email: 'Create your account', password: 'Choose a secure password (min 6 chars)', confirm: 'Re-enter your password' };
+            document.getElementById('main-heading').textContent = headings[step];
+            document.getElementById('subtitle').textContent = subtitles[step];
+        }
+        
+        // Domain claim functions
+        async function checkDomainClaim(domain, email) {
+            if (!db || !domain) return { state: 'unknown' };
+            try {
+                const snap = await db.collection('domainClaims').doc(domain).get();
+                if (!snap.exists) return { state: 'free' };
+                
+                const data = snap.data() || {};
+                const owner = (data.owner || '').toLowerCase();
+                const status = (data.status || 'verified').toLowerCase();
+                const isSelf = owner === email.toLowerCase();
+                
+                if (status === 'verified') {
+                    return { state: isSelf ? 'claimed-verified-self' : 'claimed-verified-other', data };
+                }
+                return { state: isSelf ? 'pending-self' : 'pending-other', data };
+            } catch (e) {
+                console.error('Domain check error:', e);
+                return { state: 'unavailable' };
+            }
+        }
+        
+        async function claimDomain(domain, email, uid, status = 'pending') {
+            if (!db || !domain) return { ok: true, skip: true };
+            try {
+                const res = await db.runTransaction(async (tx) => {
+                    const ref = db.collection('domainClaims').doc(domain);
+                    const snap = await tx.get(ref);
+                    
+                    if (snap.exists) {
+                        const data = snap.data() || {};
+                        const owner = (data.owner || '').toLowerCase();
+                        if (owner && owner !== email.toLowerCase()) {
+                            return { ok: false, reason: 'claimed-other', data };
+                        }
+                        tx.set(ref, {
+                            owner: email,
+                            uid: uid || data.uid,
+                            status: status === 'verified' || data.status === 'verified' ? 'verified' : status,
+                            verifiedAt: status === 'verified' ? firebase.firestore.FieldValue.serverTimestamp() : data.verifiedAt
+                        }, { merge: true });
+                        return { ok: true, already: true };
+                    }
+                    
+                    tx.set(ref, {
+                        owner: email,
+                        uid: uid || null,
+                        status: status,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        verifiedAt: status === 'verified' ? firebase.firestore.FieldValue.serverTimestamp() : null
+                    });
+                    return { ok: true, claimed: true };
+                });
+                return res;
+            } catch (e) {
+                console.error('Domain claim error:', e);
+                return { ok: false, reason: 'registry-unavailable' };
+            }
+        }
+        
+        async function sendVerificationEmail() {
+            if (!auth.currentUser) throw new Error('no_user');
+            await auth.currentUser.sendEmailVerification({
+                url: window.location.origin + '/auth/bridge/',
+                handleCodeInApp: false
+            });
+            localStorage.setItem('gg_pending_email', auth.currentUser.email || '');
+        }
+        
+        function showVerificationPanel(email) {
+            document.getElementById('verify-email').textContent = email;
+            document.getElementById('verification-panel').classList.add('show');
+            document.getElementById('signup-form').style.display = 'none';
+            
+            const loginLink = document.getElementById('login-link');
+            loginLink.href = `/auth/login/?email=${encodeURIComponent(email)}`;
+            document.getElementById('login-from-verify').href = loginLink.href;
+        }
+        
+        // Email Step
+        const emailInput = document.getElementById('email-input');
+        const emailNext = document.getElementById('email-next');
+        const domainBadge = document.getElementById('domain-badge');
+        const domainName = document.getElementById('domain-name');
+        
+        emailInput.addEventListener('input', () => {
+            const email = emailInput.value.trim();
+            const valid = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);
+            emailNext.disabled = !valid;
+            hideError('email-error');
+            
+            if (email.includes('@')) {
+                const domain = extractDomain(email);
+                if (domain && !PERSONAL_DOMAINS.includes(domain)) {
+                    domainName.textContent = domain;
+                    domainBadge.classList.add('show');
+                } else {
+                    domainBadge.classList.remove('show');
+                }
+            } else {
+                domainBadge.classList.remove('show');
+            }
+            
+            // Update login link
+            const loginLink = document.getElementById('login-link');
+            if (valid) {
+                loginLink.href = `/auth/login/?email=${encodeURIComponent(email)}`;
+            } else {
+                loginLink.href = '/auth/login/';
+            }
+        });
+        
+        emailNext.addEventListener('click', async () => {
+            const email = emailInput.value.trim();
+            
+            if (!isBusinessEmail(email)) {
+                showError('email-error', '🚫 Please use a business email. Personal emails are not allowed.');
+                return;
+            }
+            
+            currentEmail = email;
+            goToStep('password');
+            document.getElementById('password-input').focus();
+        });
+        
+        // Password Step
+        const passwordInput = document.getElementById('password-input');
+        const passwordNext = document.getElementById('password-next');
+        const passwordBack = document.getElementById('password-back');
+        
+        passwordInput.addEventListener('input', () => {
+            passwordNext.disabled = passwordInput.value.length < 6;
+            hideError('password-error');
+        });
+        
+        passwordNext.addEventListener('click', () => {
+            currentPassword = passwordInput.value;
+            goToStep('confirm');
+            document.getElementById('confirm-input').focus();
+        });
+        
+        passwordBack.addEventListener('click', (e) => {
+            e.preventDefault();
+            goToStep('email');
+        });
+        
+        // Confirm Password Step
+        const confirmInput = document.getElementById('confirm-input');
+        const confirmNext = document.getElementById('confirm-next');
+        const confirmBack = document.getElementById('confirm-back');
+        
+        confirmInput.addEventListener('input', () => {
+            confirmNext.disabled = confirmInput.value.length < 6;
+            hideError('confirm-error');
+        });
+        
+        confirmNext.addEventListener('click', async () => {
+            if (confirmInput.value !== currentPassword) {
+                showError('confirm-error', '❌ Passwords do not match');
+                return;
+            }
+            
+            setLoading(confirmNext, true);
+            hideError('confirm-error');
+            
+            try {
+                const domain = extractDomain(currentEmail);
+                
+                // Check if domain is already claimed by another email
+                const domainCheck = await checkDomainClaim(domain, currentEmail);
+                if (domainCheck.state === 'claimed-verified-other') {
+                    setLoading(confirmNext, false);
+                    showError('confirm-error', `❌ Company already registered. <a href="/auth/login/?email=${encodeURIComponent(currentEmail)}" style="color:#c33;text-decoration:underline;">Log in</a>`);
+                    return;
+                }
+                
+                // Create user
+                const userCredential = await auth.createUserWithEmailAndPassword(currentEmail, currentPassword);
+                const user = userCredential.user;
+                
+                // Claim domain (pending status)
+                const claim = await claimDomain(domain, currentEmail, user.uid, 'pending');
+                if (!claim.ok && claim.reason === 'claimed-other') {
+                    await user.delete();
+                    await auth.signOut();
+                    setLoading(confirmNext, false);
+                    showError('confirm-error', `❌ Company already registered. <a href="/auth/login/?email=${encodeURIComponent(currentEmail)}" style="color:#c33;text-decoration:underline;">Log in</a>`);
+                    return;
+                }
+                
+                // Send verification email
+                await sendVerificationEmail();
+                
+                // Show verification panel
+                showVerificationPanel(currentEmail);
+                
+            } catch (error) {
+                console.error('Signup error:', error);
+                setLoading(confirmNext, false);
+                
+                if (error.code === 'auth/email-already-in-use') {
+                    showError('confirm-error', `❌ Email already registered. <a href="/auth/login/?email=${encodeURIComponent(currentEmail)}" style="color:#c33;text-decoration:underline;">Log in</a>`);
+                } else if (error.code === 'auth/weak-password') {
+                    showError('confirm-error', '❌ Password is too weak');
+                } else {
+                    showError('confirm-error', '❌ An error occurred. Please try again.');
+                }
+            }
+        });
+        
+        confirmBack.addEventListener('click', (e) => {
+            e.preventDefault();
+            goToStep('password');
+        });
+        
+        // Google Sign-In
+        document.getElementById('google-login').addEventListener('click', async () => {
+            const btn = document.getElementById('google-login');
+            setLoading(btn, true);
+            hideError('email-error');
+            
+            try {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                provider.setCustomParameters({ prompt: 'select_account' });
+                
+                const result = await auth.signInWithPopup(provider);
+                const email = result.user.email;
+                const isNew = result.additionalUserInfo?.isNewUser === true;
+                
+                if (!isBusinessEmail(email)) {
+                    await auth.signOut();
+                    setLoading(btn, false);
+                    showError('email-error', '🚫 Please use a business email. Personal emails (Gmail, Yahoo, etc.) are not allowed.');
+                    return;
+                }
+                
+                if (!isNew) {
+                    await auth.signOut();
+                    setLoading(btn, false);
+                    showError('email-error', `❌ Account exists. <a href="/auth/login/?email=${encodeURIComponent(email)}" style="color:#c33;text-decoration:underline;">Log in</a>`);
+                    return;
+                }
+                
+                // Claim domain (verified status for Google)
+                const domain = extractDomain(email);
+                const claim = await claimDomain(domain, email, result.user.uid, 'verified');
+                
+                if (!claim.ok) {
+                    await result.user.delete();
+                    await auth.signOut();
+                    setLoading(btn, false);
+                    if (claim.reason === 'claimed-other') {
+                        showError('email-error', `❌ Company already registered. <a href="/auth/login/?email=${encodeURIComponent(email)}" style="color:#c33;text-decoration:underline;">Log in</a>`);
+                    } else {
+                        showError('email-error', '❌ Unable to verify company. Try again later.');
+                    }
+                    return;
+                }
+                
+                // Success
+                window.location.href = '/auth/verified';
+                
+            } catch (error) {
+                console.error('Google sign-in error:', error);
+                setLoading(btn, false);
+                
+                if (error.code === 'auth/popup-closed-by-user') {
+                    showError('email-error', 'Sign-in cancelled.');
+                } else if (error.code === 'auth/popup-blocked') {
+                    showError('email-error', 'Pop-up blocked. Please allow pop-ups.');
+                } else {
+                    showError('email-error', 'An error occurred. Please try again.');
+                }
+            }
+        });
+        
+        // Verification Panel Actions
+        document.getElementById('resend-link').addEventListener('click', async (e) => {
+            e.preventDefault();
+            if (!auth.currentUser) return;
+            
+            try {
+                await sendVerificationEmail();
+                e.target.textContent = 'Sent!';
+                setTimeout(() => e.target.textContent = 'Resend email', 2000);
+            } catch (error) {
+                alert('Failed to resend. Please try again.');
+            }
+        });
+        
+        document.getElementById('change-email-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            location.reload();
+        });
+        
+        // Enter key shortcuts
+        emailInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !emailNext.disabled) emailNext.click();
+        });
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !passwordNext.disabled) passwordNext.click();
+        });
+        confirmInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !confirmNext.disabled) confirmNext.click();
+        });
+    </script>
+</body>
+</html>

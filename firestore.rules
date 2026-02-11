@@ -1,0 +1,89 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    
+    function isEmailVerified() {
+      return request.auth.token.email_verified == true;
+    }
+    
+    // Users collection
+    match /users/{userId} {
+      allow read: if isAuthenticated() && isOwner(userId);
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && isOwner(userId);
+      allow delete: if false;
+    }
+    
+    // Companies collection
+    match /companies/{companyId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && 
+        (isOwner(resource.data.ownerId) || 
+         request.auth.uid in resource.data.members);
+      allow delete: if isAuthenticated() && isOwner(resource.data.ownerId);
+    }
+    
+    // Suppliers collection
+    match /suppliers/{supplierId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+    
+    // Verified domains collection
+    match /verified_domains/{domainId} {
+      // Anyone can read to check if a domain is verified
+      allow read: if true;
+      
+      // Only verified authenticated users can create domain records
+      allow create: if isAuthenticated() && isEmailVerified();
+      
+      // No updates or deletes (domains are permanent once verified)
+      allow update, delete: if false;
+    }
+    
+    // Domain claims collection (for checking domain availability during signup)
+    match /domainClaims/{domain} {
+      // Anyone can read to check if domain is already claimed
+      allow read: if true;
+      
+      // Only authenticated users can create/update domain claims
+      allow create, update: if isAuthenticated();
+      
+      // No deletes
+      allow delete: if false;
+    }
+    
+    // Pending verifications collection (for email verification before account creation)
+    match /pendingVerifications/{email} {
+      // Allow anyone to create (needed for signup flow)
+      allow create: if true;
+      
+      // Allow anyone to read their own verification record
+      allow read: if true;
+      
+      // Allow updates for resending verification
+      allow update: if true;
+      
+      // Allow deletes after verification is complete
+      allow delete: if true;
+    }
+    
+    // Cost tracking (read-only for users)
+    match /cost_tracking/{operation}/logs/{logId} {
+      allow read: if isAuthenticated();
+      allow write: if false; // Only Cloud Functions can write
+    }
+  }
+}
