@@ -238,10 +238,23 @@
         firebase.initializeApp(window.__FIREBASE_CONFIG__);
         const auth = firebase.auth();
         const db = firebase.firestore();
+
+        const PERSONAL_DOMAINS = new Set([
+            'gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com',
+            'aol.com', 'icloud.com', 'mail.com', 'protonmail.com',
+            'yandex.com', 'zoho.com', 'gmx.com', 'inbox.com',
+            'googlemail.com', 'ymail.com', 'live.com', 'msn.com',
+            'me.com', 'mac.com', 'pm.me', 'fastmail.com', 'hey.com'
+        ]);
         
         function extractDomain(email) {
             const match = email.match(/@([^@\s]+)$/);
             return match ? match[1].toLowerCase() : null;
+        }
+
+        function isBusinessEmail(email) {
+            const domain = extractDomain(email);
+            return domain && !PERSONAL_DOMAINS.has(domain);
         }
         
         function showCard(cardId) {
@@ -260,14 +273,16 @@
                 
                 console.log('Ensuring domain claim for:', domain);
                 
-                // Use domainClaims as source of truth
-                await db.collection('domainClaims').doc(domain).set({
-                    domain: domain,
-                    claimedBy: user.uid,
-                    claimedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    status: 'verified'
-                }, { merge: true });
-                
+                // Use domainClaims as source of truth - ONLY for business emails
+                if (isBusinessEmail(user.email)) {
+                    await db.collection('domainClaims').doc(domain).set({
+                        domain: domain,
+                        claimedBy: user.uid,
+                        claimedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        status: 'verified'
+                    }, { merge: true });
+                }
+
                 // Also create user profile if it doesn't exist
                 await db.collection('users').doc(user.uid).set({
                     email: user.email,

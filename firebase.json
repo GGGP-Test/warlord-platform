@@ -20,6 +20,10 @@
         "destination": "/auth/signup/TEST.html"
       },
       {
+        "source": "/auth/verify",
+        "destination": "/auth/verify.html"
+      },
+      {
         "source": "/auth/login",
         "destination": "/auth/login/index.html"
       },

@@ -1,16 +1,25 @@
 import { Resend } from 'resend';
 import * as functions from 'firebase-functions';
 
-// API key: env (local / GCP env) or Firebase config (set by GitHub Actions before deploy)
-function getResendApiKey(): string | undefined {
-  return process.env.RESEND_API_KEY || (functions.config().resend?.api_key as string | undefined);
+// Cache for Resend client to avoid re-initialization on every call
+let resendClient: Resend | null = null;
+
+function getResendClient(): { resend: Resend | null, apiKey: string | undefined } {
+  const apiKey = process.env.RESEND_API_KEY || (functions.config().resend?.api_key as string | undefined);
+
+  if (!apiKey) {
+    return { resend: null, apiKey: undefined };
+  }
+
+  if (!resendClient) {
+    resendClient = new Resend(apiKey);
+  }
+
+  return { resend: resendClient, apiKey };
 }
 
-const apiKey = getResendApiKey();
 const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 const fromName = process.env.RESEND_FROM_NAME || 'WARLORD';
-
-const resend = apiKey ? new Resend(apiKey) : null;
 
 /**
  * Build the standard verification email HTML (shared by magic link and signup verification).
@@ -66,9 +75,11 @@ function verificationEmailHtml(verificationLink: string) {
  * Uses Resend with RESEND_API_KEY.
  */
 export async function sendMagicLink(to: string, magicLink: string): Promise<void> {
+  const { resend, apiKey } = getResendClient();
+
   if (!resend || !apiKey) {
     console.warn('Resend API key not configured - email not sent');
-    throw new Error('Email service not configured');
+    throw new Error('Email service not configured (RESEND_API_KEY missing)');
   }
 
   const { error } = await resend.emails.send({
@@ -91,9 +102,11 @@ export async function sendMagicLink(to: string, magicLink: string): Promise<void
  * Uses Resend with RESEND_API_KEY.
  */
 export async function sendVerificationEmail(to: string, verificationLink: string): Promise<void> {
+  const { resend, apiKey } = getResendClient();
+
   if (!resend || !apiKey) {
     console.warn('Resend API key not configured - email not sent');
-    throw new Error('Email service not configured');
+    throw new Error('Email service not configured (RESEND_API_KEY missing)');
   }
 
   const { error } = await resend.emails.send({
