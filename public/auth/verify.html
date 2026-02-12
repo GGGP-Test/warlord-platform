@@ -277,10 +277,12 @@
 
                 console.log('Verification valid, checking domain status...');
                 const domain = extractDomain(email);
-                const domainClaimDoc = await db.collection('domainClaims').doc(domain).get();
-                if (domainClaimDoc.exists && domainClaimDoc.data().status === 'verified') {
-                    showError('This domain is already registered.', 'Another user from your company has already registered.');
-                    return;
+                if (isBusinessEmail(email)) {
+                    const domainClaimDoc = await db.collection('domainClaims').doc(domain).get();
+                    if (domainClaimDoc.exists && domainClaimDoc.data().status === 'verified') {
+                        showError('This domain is already registered.', 'Another user from your company has already registered.');
+                        return;
+                    }
                 }
 
                 console.log('Domain clear, creating Firebase account...');

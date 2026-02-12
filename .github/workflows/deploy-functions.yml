@@ -26,6 +26,10 @@ jobs:
         working-directory: ./functions
         run: npm install
 
+      - name: Build functions
+        working-directory: ./functions
+        run: npm run build
+
       - name: Setup Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
         with:

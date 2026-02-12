@@ -8,12 +8,27 @@ import { sendVerificationEmail as sendVerificationEmailMail } from './utils/emai
  */
 export const sendVerificationEmail = functions.https.onCall(
   async (data, context) => {
-    const { email, verificationLink } = data ?? {};
+    let { email, verificationLink, verificationCode } = data ?? {};
 
-    if (!email || typeof email !== 'string' || !verificationLink || typeof verificationLink !== 'string') {
+    console.log(`sendVerificationEmail called for ${email}`);
+
+    // Support both verificationLink and verificationCode for backward compatibility
+    if (!verificationLink && verificationCode) {
+      console.log('Using verificationCode to build verificationLink');
+      verificationLink = `https://warlord-1cbe3.web.app/auth/verify.html?code=${verificationCode}&email=${encodeURIComponent(email)}`;
+    }
+
+    if (!email || typeof email !== 'string') {
       throw new functions.https.HttpsError(
         'invalid-argument',
-        'Missing or invalid email or verificationLink'
+        'Missing or invalid email'
+      );
+    }
+
+    if (!verificationLink || typeof verificationLink !== 'string') {
+      throw new functions.https.HttpsError(
+        'invalid-argument',
+        'Missing or invalid verificationLink'
       );
     }
 
