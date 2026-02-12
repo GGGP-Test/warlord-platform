@@ -1956,7 +1956,7 @@
                     expiresAt: expiresAt
                 });
                 
-                const verificationLink = `${window.location.origin}/auth/verify?code=${verificationCode}&email=${encodeURIComponent(email)}`;
+                const verificationLink = `${window.location.origin}/auth/verify.html?code=${verificationCode}&email=${encodeURIComponent(email)}`;
                 
                 // Call backend to send email via Resend (fire-and-forget; show UI immediately)
                 const verificationErrorEl = document.getElementById('verification-email-error');
@@ -1998,7 +1998,7 @@
                     await auth.signOut();
                     showError('email-error', '🚫 Please use your business email. Personal emails (Gmail, Yahoo, etc.) are not allowed.');
                     setButtonLoading(btn, false);
-                    btn.querySelector('.glass-button-text').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-6 h-6"><g fill-rule="evenodd" fill="none"><g fill-rule="nonzero" transform="translate(3, 2)"><path fill="#4285F4" d="M57.8123233,30.1515267 C57.8123233,27.7263183 57.6155321,25.9565533 57.1896408,24.1212666 L29.4960833,24.1212666 L29.4960833,35.0674653 L45.7515771,35.0674653 C45.4239683,37.7877475 43.6542033,41.8844383 39.7213169,44.6372555 L39.6661883,45.0037254 L48.4223791,51.7870338 L49.0290201,51.8475849 C54.6004021,46.7020943 57.8123233,39.1313952 57.8123233,30.1515267"></path><path fill="#34A853" d="M29.4960833,58.9921667 C37.4599129,58.9921667 44.1456164,56.3701671 49.0290201,51.8475849 L39.7213169,44.6372555 C37.2305867,46.3742596 33.887622,47.5868638 29.4960833,47.5868638 C21.6960582,47.5868638 15.0758763,42.4415066 12.7159637,35.3297017 L12.3700541,35.3591173 L3.26524241,42.4054015 L3.14617358,42.736208 C8.00797941,52.3681151 17.9571433,58.9921667 29.4960833,58.9921667"></path><path fill="#FBBC04" d="M12.7159637,35.3297017 C12.0932012,33.4944667 11.7329116,31.5279215 11.7329116,29.4960833 C11.7329116,27.4642451 12.0932012,25.4977 12.6832591,23.6624649 L12.6667965,23.2860305 L3.44584714,16.1208332 L3.14617358,16.2559585 C1.14106496,20.2315967 0,24.7456833 0,29.4960833 C0,34.2464833 1.14106496,38.76057 3.14617358,42.736208 L12.7159637,35.3297017"></path><path fill="#EA4335" d="M29.4960833,11.4050769 C35.0347044,11.4050769 38.7707997,13.7975244 40.9011602,15.7867415 L49.2255853,7.66898166 C44.1130815,2.91855167 37.4599129,0 29.4960833,0 C17.9571433,0 8.00797941,6.62405167 3.14617358,16.2559585 L12.6832591,23.6624649 C15.0758763,16.5506601 21.6960582,11.4050769 29.4960833,11.4050769"></path></g></g></svg><span>Google</span>';
+                    btn.querySelector('.glass-button-text').innerHTML = '...'; // Reset icon
                     return;
                 }
 
@@ -2006,35 +2006,25 @@
                 const domainVerified = await checkDomainVerified(domain);
                 if (domainVerified) {
                     await auth.signOut();
-                    showInlineError(`This domain is already registered, <a href="/auth/login/?email=${encodeURIComponent(email)}">Login?</a>`);
+                    showInlineError(`Company already registered, <a href="/auth/login/?email=${encodeURIComponent(email)}">login?</a>`);
                     setButtonLoading(btn, false);
-                    btn.querySelector('.glass-button-text').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-6 h-6"><g fill-rule="evenodd" fill="none"><g fill-rule="nonzero" transform="translate(3, 2)"><path fill="#4285F4" d="M57.8123233,30.1515267 C57.8123233,27.7263183 57.6155321,25.9565533 57.1896408,24.1212666 L29.4960833,24.1212666 L29.4960833,35.0674653 L45.7515771,35.0674653 C45.4239683,37.7877475 43.6542033,41.8844383 39.7213169,44.6372555 L39.6661883,45.0037254 L48.4223791,51.7870338 L49.0290201,51.8475849 C54.6004021,46.7020943 57.8123233,39.1313952 57.8123233,30.1515267"></path><path fill="#34A853" d="M29.4960833,58.9921667 C37.4599129,58.9921667 44.1456164,56.3701671 49.0290201,51.8475849 L39.7213169,44.6372555 C37.2305867,46.3742596 33.887622,47.5868638 29.4960833,47.5868638 C21.6960582,47.5868638 15.0758763,42.4415066 12.7159637,35.3297017 L12.3700541,35.3591173 L3.26524241,42.4054015 L3.14617358,42.736208 C8.00797941,52.3681151 17.9571433,58.9921667 29.4960833,58.9921667"></path><path fill="#FBBC04" d="M12.7159637,35.3297017 C12.0932012,33.4944667 11.7329116,31.5279215 11.7329116,29.4960833 C11.7329116,27.4642451 12.0932012,25.4977 12.6832591,23.6624649 L12.6667965,23.2860305 L3.44584714,16.1208332 L3.14617358,16.2559585 C1.14106496,20.2315967 0,24.7456833 0,29.4960833 C0,34.2464833 1.14106496,38.76057 3.14617358,42.736208 L12.7159637,35.3297017"></path><path fill="#EA4335" d="M29.4960833,11.4050769 C35.0347044,11.4050769 38.7707997,13.7975244 40.9011602,15.7867415 L49.2255853,7.66898166 C44.1130815,2.91855167 37.4599129,0 29.4960833,0 C17.9571433,0 8.00797941,6.62405167 3.14617358,16.2559585 L12.6832591,23.6624649 C15.0758763,16.5506601 21.6960582,11.4050769 29.4960833,11.4050769"></path></g></g></svg><span>Google</span>';
+                    btn.querySelector('.glass-button-text').innerHTML = '...'; // Reset icon
                     return;
                 }
 
-                // Create user profile and claim domain immediately for Google users
-                await db.collection('users').doc(user.uid).set({
-                    email: email,
-                    domain: domain,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    emailVerified: true,
-                    onboardingCompleted: false
-                }, { merge: true });
-
-                await db.collection('domainClaims').doc(domain).set({
-                    domain: domain,
-                    claimedBy: user.uid,
-                    claimedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    status: 'verified'
-                }, { merge: true });
-
-                // User successfully signed up
-                window.location.href = '/auth/verified';
+                // If domain not verified, they need to verify via email
+                // For Google, we can still send a verification email or auto-verify if email is verified.
+                // Requirement said: "Meaning that they have to have clicked on the link inside the email we send them... then AFTER that we would consider them as registered"
+                const sent = await sendVerificationEmail(email, 'GOOGLE_AUTH');
+                if (sent) {
+                    await auth.signOut();
+                    showVerificationPanel(email);
+                }
                 
             } catch (error) {
                 console.error('Google sign-in error:', error);
                 setButtonLoading(btn, false);
-                btn.querySelector('.glass-button-text').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-6 h-6"><g fill-rule="evenodd" fill="none"><g fill-rule="nonzero" transform="translate(3, 2)"><path fill="#4285F4" d="M57.8123233,30.1515267 C57.8123233,27.7263183 57.6155321,25.9565533 57.1896408,24.1212666 L29.4960833,24.1212666 L29.4960833,35.0674653 L45.7515771,35.0674653 C45.4239683,37.7877475 43.6542033,41.8844383 39.7213169,44.6372555 L39.6661883,45.0037254 L48.4223791,51.7870338 L49.0290201,51.8475849 C54.6004021,46.7020943 57.8123233,39.1313952 57.8123233,30.1515267"></path><path fill="#34A853" d="M29.4960833,58.9921667 C37.4599129,58.9921667 44.1456164,56.3701671 49.0290201,51.8475849 L39.7213169,44.6372555 C37.2305867,46.3742596 33.887622,47.5868638 29.4960833,47.5868638 C21.6960582,47.5868638 15.0758763,42.4415066 12.7159637,35.3297017 L12.3700541,35.3591173 L3.26524241,42.4054015 L3.14617358,42.736208 C8.00797941,52.3681151 17.9571433,58.9921667 29.4960833,58.9921667"></path><path fill="#FBBC04" d="M12.7159637,35.3297017 C12.0932012,33.4944667 11.7329116,31.5279215 11.7329116,29.4960833 C11.7329116,27.4642451 12.0932012,25.4977 12.6832591,23.6624649 L12.6667965,23.2860305 L3.44584714,16.1208332 L3.14617358,16.2559585 C1.14106496,20.2315967 0,24.7456833 0,29.4960833 C0,34.2464833 1.14106496,38.76057 3.14617358,42.736208 L12.7159637,35.3297017"></path><path fill="#EA4335" d="M29.4960833,11.4050769 C35.0347044,11.4050769 38.7707997,13.7975244 40.9011602,15.7867415 L49.2255853,7.66898166 C44.1130815,2.91855167 37.4599129,0 29.4960833,0 C17.9571433,0 8.00797941,6.62405167 3.14617358,16.2559585 L12.6832591,23.6624649 C15.0758763,16.5506601 21.6960582,11.4050769 29.4960833,11.4050769"></path></g></g></svg><span>Google</span>';
+                btn.querySelector('.glass-button-text').innerHTML = '...';
                 
                 if (error.code === 'auth/popup-closed-by-user') {
                     showError('email-error', 'Sign-in cancelled. Please try again.');
@@ -2134,14 +2124,14 @@
                         const domainVerified = await checkDomainVerified(domain);
                         if (domainVerified) {
                             setButtonLoading(btn, false);
-                            btn.querySelector('.glass-button-text').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>';
-                            showInlineError(`This domain is already registered, <a href="/auth/login/?email=${encodeURIComponent(email)}">Login?</a>`);
+                            btn.querySelector('.glass-button-text').innerHTML = '...';
+                            showInlineError(`Company already registered, <a href="/auth/login/?email=${encodeURIComponent(email)}">login?</a>`);
                             return;
                         }
                         
                         // Domain not verified, proceed to password step
                         setButtonLoading(btn, false);
-                        btn.querySelector('.glass-button-text').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>';
+                        btn.querySelector('.glass-button-text').innerHTML = '...';
                         
                         currentStep = 'password';
                         emailNextBtnContainer.classList.remove('show');
@@ -2170,7 +2160,7 @@
                     } catch (error) {
                         console.error('Domain check failed:', error);
                         setButtonLoading(btn, false);
-                        btn.querySelector('.glass-button-text').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>';
+                        btn.querySelector('.glass-button-text').innerHTML = '...';
                         showError('email-error', '❌ An error occurred. Please try again.');
                     }
                 }
@@ -2260,7 +2250,7 @@
                 } catch (error) {
                     console.error('Signup error:', error);
                     setButtonLoading(btn, false);
-                    btn.querySelector('.glass-button-text').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>';
+                    btn.querySelector('.glass-button-text').innerHTML = '...';
                     showError('confirm-password-error', '❌ An error occurred. Please try again.');
                 }
             });
