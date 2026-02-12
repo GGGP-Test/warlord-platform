@@ -1,7 +1,6 @@
 # Compiled JavaScript files
-# We allow dist/ because Firebase CLI needs it for deployment
-# if it is ignored here, it won't be uploaded to Cloud Functions.
-# dist/
+lib/
+dist/
 
 # TypeScript cache
 *.tsbuildinfo

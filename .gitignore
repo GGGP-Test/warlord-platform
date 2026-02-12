@@ -9,8 +9,6 @@ coverage/
 # Next.js
 .next/
 out/
-build/
-dist/
 
 # Production
 /build
@@ -60,3 +58,4 @@ functions/.env
 # OS
 .DS_Store
 Thumbs.db
+functions/dist/
