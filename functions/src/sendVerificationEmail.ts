@@ -10,8 +10,11 @@ export const sendVerificationEmail = functions.https.onCall(
   async (data, context) => {
     let { email, verificationLink, verificationCode } = data ?? {};
 
+    console.log(`sendVerificationEmail called for ${email}`);
+
     // Support both verificationLink and verificationCode for backward compatibility
     if (!verificationLink && verificationCode) {
+      console.log('Using verificationCode to build verificationLink');
       verificationLink = `https://warlord-1cbe3.web.app/auth/verify.html?code=${verificationCode}&email=${encodeURIComponent(email)}`;
     }
 

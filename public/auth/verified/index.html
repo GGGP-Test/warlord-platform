@@ -313,7 +313,11 @@
             // Reload user to get latest verification status
             await user.reload();
             
-            if (user.emailVerified) {
+            // Check Firestore first for custom verification flow
+            const userDoc = await db.collection('users').doc(user.uid).get();
+            const isVerifiedInFirestore = userDoc.exists && userDoc.data().emailVerified === true;
+
+            if (user.emailVerified || isVerifiedInFirestore) {
                 console.log('✅ Email verified!');
                 
                 // Store domain in Firestore
