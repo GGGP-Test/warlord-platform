@@ -12,7 +12,8 @@ const BLOCKED_PROVIDERS = [
 // Disposable email domains
 const DISPOSABLE_DOMAINS = [
   'tempmail.com', 'guerrillamail.com', 'mailinator.com',
-  '10minutemail.com', 'throwaway.email'
+  '10minutemail.com', 'throwaway.email', 'temp-mail.org',
+  'dispostable.com', 'yopmail.com', 'maildrop.cc'
 ];
 
 /**
