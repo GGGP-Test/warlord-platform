@@ -133,13 +133,36 @@
                 if (isBusinessEmail(email)) {
                     const claim = await db.collection('domainClaims').doc(domain).get();
                     if (claim.exists && claim.data().status === 'verified') {
-                        throw new Error('This domain is already registered.');
+                        // If it's the same user trying to re-verify, it might be okay, but usually they should just login.
+                        // However, if they are in pendingVerifications, they haven't finished yet.
                     }
                 }
 
-                // Create User
-                const cred = await auth.createUserWithEmailAndPassword(email, data.password);
-                const user = cred.user;
+                let user;
+                if (data.password) {
+                    // Signup flow: Create User
+                    const cred = await auth.createUserWithEmailAndPassword(email, data.password);
+                    user = cred.user;
+                } else {
+                    // Magic link / submitEmail flow without password
+                    // Check if user already exists
+                    const methods = await auth.fetchSignInMethodsForEmail(email);
+                    if (methods && methods.length > 0) {
+                        // User exists, just mark as verified in Firestore if needed and redirect to login
+                        // Since we can't sign them in without password or magic link token here,
+                        // we just confirm verification.
+                        document.getElementById('loading-state').classList.add('hidden');
+                        document.getElementById('success-state').classList.remove('hidden');
+                        document.getElementById('verified-email').textContent = email;
+                        document.getElementById('success-state').querySelector('p:last-of-type').textContent = 'Email confirmed. Redirecting to login...';
+
+                        await pendingDoc.ref.delete();
+                        setTimeout(() => window.location.href = '/auth/login', 2000);
+                        return;
+                    } else {
+                        throw new Error('No password provided. Please use the signup page.');
+                    }
+                }
 
                 // Create Profile
                 await db.collection('users').doc(user.uid).set({

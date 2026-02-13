@@ -22,6 +22,27 @@ const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 const fromName = process.env.RESEND_FROM_NAME || 'WARLORD';
 
 /**
+ * Get the base application URL for verification links.
+ */
+export function getAppUrl(): string {
+  if (process.env.APP_URL) return process.env.APP_URL;
+
+  const projectId = process.env.GCLOUD_PROJECT || 'warlord-1cbe3';
+  if (projectId === 'warlord-1cbe3') return 'https://warlord-1cbe3.web.app';
+  return `https://${projectId}.web.app`;
+}
+
+/**
+ * Get the sender email address, with a warning for onboarding domain.
+ */
+export function getSenderEmail(): string {
+  if (fromEmail === 'onboarding@resend.dev') {
+    console.warn('WARNING: Using Resend onboarding@resend.dev. This only works for authorized recipients.');
+  }
+  return `${fromName} <${fromEmail}>`;
+}
+
+/**
  * Build the standard verification email HTML (shared by magic link and signup verification).
  */
 function verificationEmailHtml(verificationLink: string) {
@@ -83,7 +104,7 @@ export async function sendMagicLink(to: string, magicLink: string): Promise<void
   }
 
   const { error } = await resend.emails.send({
-    from: `${fromName} <${fromEmail}>`,
+    from: getSenderEmail(),
     to: [to],
     subject: 'Verify your email - WARLORD',
     text: `Click this link to verify your email: ${magicLink}\n\nThis link expires in 24 hours.`,
@@ -110,7 +131,7 @@ export async function sendVerificationEmail(to: string, verificationLink: string
   }
 
   const { error } = await resend.emails.send({
-    from: `${fromName} <${fromEmail}>`,
+    from: getSenderEmail(),
     to: [to],
     subject: 'Verify your email - WARLORD',
     text: `Click this link to verify your email: ${verificationLink}\n\nThis link expires in 24 hours.`,

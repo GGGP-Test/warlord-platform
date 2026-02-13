@@ -1,5 +1,5 @@
 import * as functions from 'firebase-functions';
-import { sendVerificationEmail as sendVerificationEmailMail } from './utils/email';
+import { sendVerificationEmail as sendVerificationEmailMail, getAppUrl } from './utils/email';
 import { validateEmail, checkMXRecords } from './utils/emailValidation';
 import cors from 'cors';
 
@@ -18,7 +18,7 @@ export const sendVerificationEmail = functions.https.onRequest(async (req, res) 
       return;
     }
 
-    let { email, verificationLink, verificationCode } = req.body ?? {};
+    let { email, verificationCode } = req.body ?? {};
 
     console.log(`sendVerificationEmail called for ${email}`);
 
@@ -27,18 +27,13 @@ export const sendVerificationEmail = functions.https.onRequest(async (req, res) 
       return;
     }
 
-    // Support both verificationLink and verificationCode for backward compatibility
-    if (!verificationLink && verificationCode) {
-      console.log('Using verificationCode to build verificationLink');
-      const projectId = process.env.GCLOUD_PROJECT || 'warlord-1cbe3';
-      const domain = projectId === 'warlord-1cbe3' ? 'warlord-1cbe3.web.app' : `${projectId}.web.app`;
-      verificationLink = `https://${domain}/auth/verify.html?code=${verificationCode}&email=${encodeURIComponent(email)}`;
-    }
-
-    if (!verificationLink || typeof verificationLink !== 'string') {
-      res.status(400).json({ error: 'Missing or invalid verificationLink' });
+    if (!verificationCode || typeof verificationCode !== 'string') {
+      res.status(400).json({ error: 'Missing or invalid verificationCode' });
       return;
     }
+
+    // Construct verification link on backend for security
+    const verificationLink = `${getAppUrl()}/auth/verify?code=${verificationCode}&email=${encodeURIComponent(email)}`;
 
     // Validation cascade
     // 1. Format and provider check

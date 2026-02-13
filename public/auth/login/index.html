@@ -516,6 +516,8 @@
     const googleBtn = document.getElementById('googleBtn');
     const statusEl = document.getElementById('inlineStatus');
     const verifyPanel = document.getElementById('verifyPanel');
+    const resendLink = document.getElementById('resendLink');
+    const changeEmail = document.getElementById('changeEmail');
     const forgotLink = document.getElementById('forgotLink');
 
     let busy = false;
@@ -606,7 +608,15 @@
             showError('Use your configured sign-in method.');
           }
         } else {
-          showError('No account found. Create one instead.');
+          // Check if registration is pending
+          const pendingDoc = await db.collection('pendingVerifications').doc(email).get();
+          if (pendingDoc.exists) {
+            document.getElementById('vEmail').textContent = email;
+            verifyPanel.hidden = false;
+            showError('Please verify your email to complete registration.');
+          } else {
+            showError('No account found. Create one instead.');
+          }
         }
         busy = false;
       } catch (err) {
@@ -700,6 +710,46 @@
         }
         busy = false;
       }
+    });
+
+    // Resend verification
+    resendLink.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const email = emailInput.value.trim();
+      if (!email) return;
+
+      resendLink.textContent = 'Sending...';
+      try {
+        const pendingDoc = await db.collection('pendingVerifications').doc(email).get();
+        if (pendingDoc.exists) {
+          const data = pendingDoc.data();
+          const projectId = FIREBASE_CONFIG.projectId;
+          const functionUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? `http://127.0.0.1:5001/${projectId}/us-central1/sendVerificationEmail`
+            : `https://us-central1-${projectId}.cloudfunctions.net/sendVerificationEmail`;
+
+          await fetch(functionUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, verificationCode: data.verificationCode })
+          });
+
+          resendLink.textContent = '✓ Sent';
+          setTimeout(() => { resendLink.textContent = 'Resend'; }, 3000);
+        } else {
+          showError('Verification data expired. Please sign up again.');
+        }
+      } catch (err) {
+        console.error('Resend error:', err);
+        resendLink.textContent = 'Error';
+        setTimeout(() => { resendLink.textContent = 'Resend'; }, 3000);
+      }
+    });
+
+    changeEmail.addEventListener('click', (e) => {
+      e.preventDefault();
+      setEmailStage();
+      emailInput.focus();
     });
 
     // Forgot password

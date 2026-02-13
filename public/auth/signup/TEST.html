@@ -1963,8 +1963,6 @@
                     expiresAt: expiresAt
                 });
                 
-                const verificationLink = `${window.location.origin}/auth/verify.html?code=${verificationCode}&email=${encodeURIComponent(email)}`;
-                
                 // Call backend to send email via Resend (fire-and-forget; show UI immediately)
                 const verificationErrorEl = document.getElementById('verification-email-error');
                 if (verificationErrorEl) verificationErrorEl.style.display = 'none';
@@ -1978,7 +1976,7 @@
                 fetch(functionUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: email, verificationLink: verificationLink })
+                    body: JSON.stringify({ email: email, verificationCode: verificationCode })
                 })
                 .then(response => {
                     if (!response.ok) throw new Error('HTTP error ' + response.status);

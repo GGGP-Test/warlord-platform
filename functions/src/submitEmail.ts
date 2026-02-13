@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import { validateEmail, checkMXRecords, smtpHandshake } from './utils/emailValidation';
-import { sendMagicLink } from './utils/email';
+import { sendMagicLink, getAppUrl } from './utils/email';
 import { logCost } from './utils/costTracking';
 import * as crypto from 'crypto';
 
@@ -82,28 +82,22 @@ export const submitEmail = functions.https.onRequest(async (req, res) => {
       console.warn('SMTP check failed, proceeding to send', error);
     }
 
-    // Generate verification token
-    const token = crypto.randomBytes(32).toString('hex');
-    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+    // Generate verification code (consistent with signup flow)
+    const verificationCode = crypto.randomBytes(16).toString('hex');
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
 
-    // Create or update user document
-    const userRef = db.collection('users').doc();
-    await userRef.set({
+    // Use "Lazy Registration" - store in pendingVerifications instead of users
+    await db.collection('pendingVerifications').doc(email).set({
       email,
-      email_verified: false,
-      domain_verified: false,
-      created_at: admin.firestore.FieldValue.serverTimestamp(),
-      verification_token: {
-        token: hashedToken,
-        expires_at: expiresAt,
-        used: false,
-      },
+      verificationCode, // For submitEmail, we might not have a password yet (magic link style)
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      expiresAt: expiresAt,
+      source: 'submitEmail'
     });
 
     // TIER 4: EXPENSIVE - Send magic link via Resend
     // Cost: $0.001 | Success rate: ~100%
-    const magicLink = `${process.env.APP_URL || 'http://localhost:3000'}/verify-email?token=${token}`;
+    const magicLink = `${getAppUrl()}/auth/verify?code=${verificationCode}&email=${encodeURIComponent(email)}`;
     
     try {
       await sendMagicLink(email, magicLink);
@@ -112,7 +106,6 @@ export const submitEmail = functions.https.onRequest(async (req, res) => {
       res.status(200).json({
         success: true,
         message: 'Verification email sent',
-        userId: userRef.id,
         method: 'EXPENSIVE',
         cost: 0.001,
       });
