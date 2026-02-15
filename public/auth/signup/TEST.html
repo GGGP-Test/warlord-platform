@@ -15,13 +15,12 @@
             messagingSenderId: "212906032385",
             appId: "1:212906032385:web:441058c2ed0c88ace16f00"
         };
+        window.__API_BASE_URL__ = "https://site--warlord-platform--vz4ftkwrzdfs.code.run";
     </script>
     
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-functions-compat.js"></script>
     
     <!-- Plus Jakarta Sans for headings + Inter for body text -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1753,8 +1752,6 @@
         // Initialize Firebase
         firebase.initializeApp(window.__FIREBASE_CONFIG__);
         const auth = firebase.auth();
-        const db = firebase.firestore();
-        const functions = firebase.functions();
 
         const PERSONAL_DOMAINS = new Set([
             'gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 
@@ -1913,89 +1910,63 @@
             }
         }
 
-        function showVerificationPanel(email) {
+        let activePendingId = null;
+        let activeEmail = null;
+
+        const API_BASE = String(window.__API_BASE_URL__ || "").replace(/\/+$/, "");
+
+        async function postJson(path, body, { timeoutMs = 15000 } = {}) {
+            const ctrl = new AbortController();
+            const t = setTimeout(() => ctrl.abort(), timeoutMs);
+            try {
+                const res = await fetch(`${API_BASE}${path}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body || {}),
+                    signal: ctrl.signal,
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) return { ok: false, code: data.code || `HTTP_${res.status}`, message: data.message };
+                if (typeof data.ok === 'boolean') return data;
+                return { ok: true, ...data };
+            } catch (e) {
+                return { ok: false, code: 'NETWORK_ERROR', message: e?.message || 'Network error' };
+            } finally {
+                clearTimeout(t);
+            }
+        }
+
+        function showVerificationPanel(email, pendingId) {
             document.getElementById('verify-email').textContent = email;
             document.getElementById('verification-panel').classList.add('show');
             document.getElementById('signup-form').style.display = 'none';
             document.getElementById('main-heading').textContent = 'Almost There!';
             document.getElementById('subtitle').textContent = 'One more step to verify your email';
             hideInlineError();
-        }
 
-        // ✅ FIXED: Check domainClaims collection with status field
-        async function checkDomainVerified(domain) {
+            activePendingId = pendingId || null;
+            activeEmail = email || null;
+
             try {
-                const docRef = db.collection('domainClaims').doc(domain);
-                const docSnap = await docRef.get();
-                
-                if (!docSnap.exists) {
-                    return false; // Domain not claimed
-                }
-                
-                const data = docSnap.data();
-                const status = (data.status || '').toLowerCase();
-                
-                // Only block if status is 'verified'
-                return status === 'verified';
-            } catch (error) {
-                console.error('Domain check error:', error);
-                return false;
-            }
+                sessionStorage.setItem('warlord_pendingId', activePendingId || '');
+                sessionStorage.setItem('warlord_pendingEmail', activeEmail || '');
+            } catch {}
         }
 
-        // ✅ NEW: Generate random verification code
-        function generateVerificationCode() {
-            return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        async function checkDomainAllowed(email) {
+            return postJson('/checkDomain', { email });
         }
 
-        // ✅ Send verification email: save pending to Firestore, then call backend to send email via Resend
-        async function sendVerificationEmail(email, password) {
-            const verificationCode = generateVerificationCode();
-            const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
-            
-            try {
-                // Store pending verification in Firestore
-                await db.collection('pendingVerifications').doc(email).set({
-                    email: email,
-                    password: password, // Consider encrypting this in production
-                    verificationCode: verificationCode,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    expiresAt: expiresAt
-                });
-                
-                const verificationLink = `${window.location.origin}/auth/verify.html?code=${verificationCode}&email=${encodeURIComponent(email)}`;
-                
-                // Call backend to send email via Resend (fire-and-forget; show UI immediately)
-                const verificationErrorEl = document.getElementById('verification-email-error');
-                if (verificationErrorEl) verificationErrorEl.style.display = 'none';
+        async function startSignupEmailPassword(email, password) {
+            return postJson('/startSignup', { email, password });
+        }
 
-                // Call the HTTP endpoint instead of httpsCallable
-                const projectId = window.__FIREBASE_CONFIG__.projectId || 'warlord-1cbe3';
-                const functionUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-                    ? `http://127.0.0.1:5001/${projectId}/us-central1/sendVerificationEmail`
-                    : `https://us-central1-${projectId}.cloudfunctions.net/sendVerificationEmail`;
+        async function startSignupGoogle(email) {
+            return postJson('/startSignup', { email, provider: 'google' });
+        }
 
-                fetch(functionUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: email, verificationLink: verificationLink })
-                })
-                .then(response => {
-                    if (!response.ok) throw new Error('HTTP error ' + response.status);
-                    return response.json();
-                })
-                .catch(function(err) {
-                    console.error('Backend send verification email failed:', err);
-                    if (verificationErrorEl) {
-                        verificationErrorEl.style.display = 'block';
-                    }
-                });
-                
-                return true;
-            } catch (error) {
-                console.error('Failed to send verification:', error);
-                return false;
-            }
+        async function resendSignup(pendingId) {
+            return postJson('/resendSignup', { pendingId });
         }
 
         document.getElementById('google-login').addEventListener('click', async function() {
@@ -2014,7 +1985,6 @@
                 const result = await auth.signInWithPopup(provider);
                 const user = result.user;
                 const email = user.email;
-                const domain = extractDomain(email);
 
                 if (!isBusinessEmail(email)) {
                     await auth.signOut();
@@ -2023,23 +1993,17 @@
                     return;
                 }
 
-                // Check domain verification
-                const domainVerified = await checkDomainVerified(domain);
-                if (domainVerified) {
+                const start = await startSignupGoogle(email);
+                if (!start.ok) {
                     await auth.signOut();
                     showInlineError(`This domain is already registered, <a href="/auth/login/?email=${encodeURIComponent(email)}">Login?</a>`);
                     setButtonLoading(btn, false);
                     return;
                 }
 
-                // If domain not verified, they need to verify via email
-                // For Google, we can still send a verification email or auto-verify if email is verified.
-                // Requirement said: "Meaning that they have to have clicked on the link inside the email we send them... then AFTER that we would consider them as registered"
-                const sent = await sendVerificationEmail(email, 'GOOGLE_AUTH');
-                if (sent) {
-                    await auth.signOut();
-                    showVerificationPanel(email);
-                }
+                await auth.signOut();
+                showVerificationPanel(email, start.pendingId);
+                setButtonLoading(btn, false);
                 
             } catch (error) {
                 console.error('Google sign-in error:', error);
@@ -2128,8 +2092,7 @@
             emailNextBtn.addEventListener('click', async function(e) {
                 e.preventDefault();
                 const email = emailInput.value.trim();
-                const domain = extractDomain(email);
-                
+
                 if (!isBusinessEmail(email)) {
                     showError('email-error', '🚫 Please use your business email. Personal emails (Gmail, Yahoo, etc.) are not allowed.');
                     return;
@@ -2140,14 +2103,13 @@
                     setButtonLoading(btn, true);
                     
                     try {
-                        const domainVerified = await checkDomainVerified(domain);
-                        if (domainVerified) {
-                            setButtonLoading(btn, false);
+                        const check = await checkDomainAllowed(email);
+                        if (!check.ok) {
                             showInlineError(`This domain is already registered, <a href="/auth/login/?email=${encodeURIComponent(email)}">Login?</a>`);
+                            setButtonLoading(btn, false);
                             return;
                         }
-                        
-                        // Domain not verified, proceed to password step
+
                         setButtonLoading(btn, false);
                         
                         currentStep = 'password';
@@ -2253,16 +2215,13 @@
                 hideError('confirm-password-error');
                 
                 try {
-                    // ✅ DON'T create Firebase user yet!
-                    // Instead, send verification email first
-                    const sent = await sendVerificationEmail(email, password);
-                    
-                    if (!sent) {
-                        throw new Error('Failed to send verification email');
+                    const start = await startSignupEmailPassword(email, password);
+                    if (!start.ok) {
+                        setButtonLoading(btn, false);
+                        showError('confirm-password-error', '❌ An error occurred. Please try again.');
+                        return;
                     }
-                    
-                    // Show verification panel
-                    showVerificationPanel(email);
+                    showVerificationPanel(email, start.pendingId);
                     
                 } catch (error) {
                     console.error('Signup error:', error);
@@ -2348,29 +2307,46 @@
             updateLoginLink();
         })();
 
-        // ✅ Resend verification email
         document.getElementById('resend-link').addEventListener('click', async function(e) {
             e.preventDefault();
-            const email = document.getElementById('verify-email').textContent;
             const verificationErrorEl = document.getElementById('verification-email-error');
             if (verificationErrorEl) verificationErrorEl.style.display = 'none';
-            
-            try {
-                const doc = await db.collection('pendingVerifications').doc(email).get();
-                if (doc.exists) {
-                    const password = doc.data().password;
-                    await sendVerificationEmail(email, password);
-                    this.textContent = '✓ Sent!';
-                    setTimeout(() => this.textContent = 'Resend email', 2000);
+
+            const pendingId = activePendingId || (() => {
+                try {
+                    return sessionStorage.getItem('warlord_pendingId');
+                } catch {
+                    return null;
                 }
-            } catch (error) {
-                console.error('Resend failed:', error);
-                alert('Failed to resend. Please try again.');
+            })();
+
+            if (!pendingId) {
+                if (verificationErrorEl) verificationErrorEl.style.display = 'block';
+                return;
             }
+
+            const original = this.textContent;
+            this.textContent = 'Sending...';
+
+            const resp = await resendSignup(pendingId);
+            if (!resp.ok) {
+                if (verificationErrorEl) verificationErrorEl.style.display = 'block';
+                this.textContent = original;
+                return;
+            }
+
+            this.textContent = '✓ Sent!';
+            setTimeout(() => {
+                this.textContent = original;
+            }, 2000);
         });
 
         document.getElementById('change-email-link').addEventListener('click', function(e) {
             e.preventDefault();
+            try {
+                sessionStorage.removeItem('warlord_pendingId');
+                sessionStorage.removeItem('warlord_pendingEmail');
+            } catch {}
             location.reload();
         });
     </script>

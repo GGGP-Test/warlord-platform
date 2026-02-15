@@ -8,3 +8,5 @@ export { verifyEmail } from './verifyEmail';
 export { verifyDomain } from './verifyDomain';
 export { getCompanyProfile } from './getCompanyProfile';
 export { sendVerificationEmail } from './sendVerificationEmail';
+
+export { checkDomain, startSignup, resendSignup, verifySignup } from './signupFlow';
